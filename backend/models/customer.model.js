@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-// no order list as this could potentially get very large
-// lookup orders through orders collection by custID instead
 const CustomerSchema = new mongoose.Schema(
     {
         _id: {type: Number, required: true},

@@ -6,3 +6,5 @@
     in cust and rest. This is becuase both lists may potentially get too big
     - use .populate when making queries https://mongoosejs.com/docs/populate.html
 - pickup date/time formatting?
+
+- chose to lookup customer by phone number
