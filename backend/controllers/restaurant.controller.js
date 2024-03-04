@@ -4,7 +4,7 @@ export const addRestaurant = async (req, res, next) => {
     const { body } = req;
     try {
         const restCount = await countRestaurantsInRepo();
-        const restaurant = { _id: restCount, ...body};
+        const restaurant = { _id: restCount, ...body, active: true};
         console.log(restaurant);
         const addedRestaurant = await addRestaurantToRepo(restaurant);
 
@@ -25,7 +25,9 @@ export const addRestaurant = async (req, res, next) => {
     }
 }
 
-/* Get a SINGLE restaurant */
+/* Get a SINGLE restaurant 
+ * Can still GET a restaurant if it is inactive
+*/
 export const getRestaurant = async function (req, res) {
     try {
         const restaurant = await getRestaurantsFromRepository({_id: req.params});
@@ -46,10 +48,10 @@ export const getRestaurant = async function (req, res) {
     }
 }
 
-/* Get a LIST of Restaurants */
+/* Get a LIST of active Restaurants */
 export const getRestaurants = async function (req, res) {
     try {
-        const restaurants = await getRestaurantsFromRepository({});
+        const restaurants = await getRestaurantsFromRepository({active: true});
         if (restaurants) {
             return res.status(200).json({
                 status: 200,
@@ -90,7 +92,9 @@ export const updateRestaurant = async function (req, res) {
     }
 }
 
-/* Delete a restaurant */
+/* Delete a restaurant 
+ * Only sets active: false rather than fully deleting
+*/
 export const deleteRestaurant = async function (req, res) {
     const { _id } = req.params;
     try {
