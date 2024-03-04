@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 // pickup date/time can be a time or immediate, triggering the retaurant manager to set a time
 const OrderSchema = new mongoose.Schema(
     {
+        orderID: {type: Number, required: true},
         custID: {type: Number, ref: 'Customer', required: true},
         restID: {type: Number, ref: 'Restaurant', required: true},
         items: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],

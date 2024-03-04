@@ -2,6 +2,75 @@
     {
         "_id": 1,
         "fName": "BeastBoy",
-        "lName": ""
+        "lName": "",
+        "phone": "123-456-7890",
+        "__v": 0
+    },
+    {
+        "_id": 2,
+        "fName": "Raven",
+        "lName": "",
+        "phone": "111-111-1111",
+        "__v": 0
+    },
+    {
+        "_id": 3,
+        "fName": "Cyborg",
+        "lName": "",
+        "phone": "101-010-1010",
+        "__v": 0
+    },
+    {
+        "_id": 4,
+        "fName": "Starfire",
+        "lName": "",
+        "phone": "000-000-0000",
+        "__v": 0
+    },
+    {
+        "_id": 5,
+        "fName": "Robin",
+        "lName": "",
+        "phone": "481-383-9301",
+        "__v": 0
+    },
+    {
+        "_id": 6,
+        "fName": "Romel",
+        "lName": "Mendoza",
+        "phone": "780-351-5413",
+        "email": "romel@email.ca",
+        "__v": 0
+    },
+    {
+        "_id": 7,
+        "fName": "Collin",
+        "lName": "Adoma",
+        "phone": "841-922-7291",
+        "email": "collin@email.ca",
+        "__v": 0
+    },
+    {
+        "_id": 8,
+        "fName": "Charlene",
+        "lName": "Campbell",
+        "phone": "491-301-4920",
+        "email": "charlene@email.ca",
+        "__v": 0
+    },
+    {
+        "_id": 9,
+        "fName": "Matthew",
+        "lName": "Abada",
+        "phone": "852-247-2103",
+        "email": "matthew@email.ca",
+        "__v": 0
+    },
+    {
+        "_id": 10,
+        "fName": "TestUniquePhone",
+        "lName": "",
+        "phone": "123-456-7890",
+        "__v": 0
     }
 ]
