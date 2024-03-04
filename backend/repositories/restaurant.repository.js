@@ -27,3 +27,26 @@ export const getRestaurantsFromRepository = async function (query) {
         throw Error("Error while getting restaurant");
     }
 }
+
+export const updateRestaurantInRepository = async function (query, update) {
+    try {
+        const restaurant = await Restaurant.findOneAndUpdate(
+                { ...query},
+                { ...update},
+                { new: true}
+        ).lean();
+        return restaurant;
+    } catch (error) {
+        throw Error("Error while updating restaurant");
+    }
+}
+
+export const deleteRestaurantFromRepository = async function (query) {
+    try {
+        console.log(query);
+        const restaurant = await Restaurant.findOneAndDelete({ ...query });
+        return restaurant;
+    } catch (error) {
+        throw Error("Error while deleting restaurant");
+    }
+}
