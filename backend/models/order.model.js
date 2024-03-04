@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const OrderSchema = new mongoose.Schema(
     {
         orderID: {type: Number, required: true},
-        custID: {type: Number, ref: 'Customer', required: true},
+        custID: {type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true},
         restID: {type: Number, ref: 'Restaurant', required: true},
         items: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
         orderStatus: {type: String, required: true},
