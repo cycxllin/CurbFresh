@@ -6,7 +6,7 @@ export const getCustomerByPhone = async (req, res, next) => {
         const customer = await getCustomerByPhoneFromRepo(phone);
 
         if (customer) {
-            return res.status(204).json({
+            return res.status(200).json({
                 status: 200,
                 message: 'retrieved customer sucessfully',
                 data: customer

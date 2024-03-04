@@ -1,0 +1,203 @@
+[
+    {
+        "_id": 1,
+        "name": "A&W",
+        "phone": "381-324-1932",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 2,
+        "name": "Beans List",
+        "phone": "491-814-1589",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 3,
+        "name": "Tasty Tacos",
+        "phone": "592-735-9210",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 4,
+        "name": "Pizza Palace",
+        "phone": "684-327-5092",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 5,
+        "name": "Sushi Central",
+        "phone": "329-576-1843",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 6,
+        "name": "Burger Barn",
+        "phone": "817-652-3048",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 7,
+        "name": "Pasta Paradise",
+        "phone": "476-912-3856",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 8,
+        "name": "Wok Wonders",
+        "phone": "293-847-5612",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 9,
+        "name": "Submarine Sandwiches",
+        "phone": "742-195-6382",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 10,
+        "name": "Mediterranean Delights",
+        "phone": "618-453-9274",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 11,
+        "name": "Ice Cream Oasis",
+        "phone": "835-214-6093",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 12,
+        "name": "Authentic Indian Cuisine",
+        "phone": "359-812-4736",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 13,
+        "name": "BBQ Bonanza",
+        "phone": "572-394-1865",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 14,
+        "name": "Healthy Bowls",
+        "phone": "927-361-8450",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 15,
+        "name": "Bagel Haven",
+        "phone": "683-572-9014",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 16,
+        "name": "Vietnamese Pho House",
+        "phone": "475-928-3047",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 17,
+        "name": "Gourmet Grilled Cheese",
+        "phone": "216-739-5823",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 18,
+        "name": "Crepe Cafe",
+        "phone": "594-138-2750",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 19,
+        "name": "Hot Dog Hut",
+        "phone": "751-349-8206",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 20,
+        "name": "Tropical Smoothie Shack",
+        "phone": "836-592-1047",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 21,
+        "name": "French Bakery",
+        "phone": "482-715-9362",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 22,
+        "name": "Diner Delights",
+        "phone": "619-304-8257",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 23,
+        "name": "Thai Taste",
+        "phone": "293-857-1029",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 24,
+        "name": "Mexican Fiesta",
+        "phone": "749-281-5036",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    },
+    {
+        "_id": 25,
+        "name": "Panini Paradise",
+        "phone": "615-827-3940",
+        "menu": [],
+        "active": true,
+        "__v": 0
+    }
+
+]

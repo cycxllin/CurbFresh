@@ -115,3 +115,29 @@ export const deleteRestaurant = async function (req, res) {
         res.status(500).send(`failed to delete restaurant ${id}`);
     }
 }
+
+
+//TODO After menu and order have been implemented
+export const getRestaurantSaleInfo = async function (req, res) {
+    try{
+
+    } catch (error) {
+        res.status(500).send(`failed to get sale info for restaurant ${id}`);
+    }
+}
+
+export const getRestaurantBusiestTime = async function (req, res) {
+    try {
+
+    } catch (error) {
+        res.status(500).send(`failed to get busiest time for restaurant ${id}`);
+    }
+}
+
+export const getRestaurantMenuPopularity = async function (req, res) {
+    try{
+
+    } catch (error) {
+        res.status.send(`failed to get popular menu list`);
+    }
+}

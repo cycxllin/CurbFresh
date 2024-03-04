@@ -1,7 +1,82 @@
 [
     {
-        "_id": 1,
-        "fName": "BeastBoy",
-        "lName": ""
+        "_id" : "65e643a64f443fd5bd817b73",
+        "fName" : "Starfire",
+        "lName" : "Kori",
+        "phone" : "000-000-0000",
+        "__v" : 0,
+        "active" : true
+    },
+    {
+        "_id" : "65e6463a2c25233d55cd42a9",
+        "fName" : "BeastBoy",
+        "lName" : "Logan",
+        "phone" : "123-456-7890",
+        "active" : true,
+        "email" : "",
+        "__v" : 0
+    },
+    {
+        "_id" : "65e6465b2c25233d55cd42ac",
+        "fName" : "Raven",
+        "lName" : "Roth",
+        "phone" : "111-111-1111",
+        "active" : true,
+        "email" : "",
+        "__v" : 0
+    },
+    {
+        "_id" : "65e646662c25233d55cd42ae",
+        "fName" : "Cyborg",
+        "lName" : "Stone",
+        "phone" : "101-010-1010",
+        "active" : true,
+        "email" : "",
+        "__v" : 0
+    },
+    {
+        "_id" : "65e6467a2c25233d55cd42b2",
+        "fName" : "Robin",
+        "lName" : "Todd",
+        "phone" : "481-383-9301",
+        "active" : true,
+        "email" : "",
+        "__v" : 0
+    },
+    {
+        "_id" : "65e646852c25233d55cd42b4",
+        "fName" : "Romel",
+        "lName" : "Mendoza",
+        "phone" : "780-351-5413",
+        "active" : true,
+        "email" : "romel@email.ca",
+        "__v" : 0
+    },
+    {
+        "_id" : "65e6468e2c25233d55cd42b6",
+        "fName" : "Collin",
+        "lName" : "Adoma",
+        "phone" : "841-922-7291",
+        "active" : true,
+        "email" : "collin@email.ca",
+        "__v" : 0
+    },
+    {
+        "_id" : "65e646962c25233d55cd42b8",
+        "fName" : "Charlene",
+        "lName" : "Campbell",
+        "phone" : "491-301-4920",
+        "active" : true,
+        "email" : "charlene@email.ca",
+        "__v" : 0
+    },
+    {
+        "_id" : "65e6469f2c25233d55cd42ba",
+        "fName" : "Matthew",
+        "lName" : "Abada",
+        "phone" : "852-247-2103",
+        "active" : true,
+        "email" : "matthew@email.ca",
+        "__v" : 0
     }
 ]
