@@ -11,7 +11,7 @@ export const getCustomerByPhone = async (req, res, next) => {
             return res.status(200).json({
                 status: 200,
                 message: 'retrieved customer sucessfully',
-                data: student
+                data: customer
             });
         } else {
             return res.status(404).json({
