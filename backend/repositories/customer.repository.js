@@ -9,9 +9,9 @@ export const getCustomerByPhoneFromRepo = async (phone) => {
     }
 };
 
-export const addCustomerToRepo = async (customer) => {
+export const addCustomerToRepo = async (payload) => {
     try {
-        const addedCustomer = new Customer(customer);
+        const addedCustomer = new Customer(payload);
         const savedCustomer = await addedCustomer.save();
         return savedCustomer;
         } catch (error) {
@@ -45,5 +45,14 @@ export const updateCustomerInRepository = async function (query, update) {
         return customer;
     } catch (error) {
         throw Error("Error while updating customer");
+    }
+}
+
+export const getCustomersFromRepository = async function (query) {
+    try{
+         const customers = await Customer.find().sort({time: -1});
+         return customers;
+    } catch (error) {
+        throw Error("Error while getting customers");
     }
 }
