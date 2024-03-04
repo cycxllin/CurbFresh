@@ -41,10 +41,17 @@ export const updateRestaurantInRepository = async function (query, update) {
     }
 }
 
+/* Does not actually fully delete a restaurant from the database
+ * The restaurant is simply set as inactive and not parsed over anywhere else
+*/
 export const deleteRestaurantFromRepository = async function (query) {
     try {
         console.log(query);
-        const restaurant = await Restaurant.findOneAndDelete({ ...query });
+        const restaurant = await Restaurant.findOneAndUpdate(
+            { ...query},
+            { active: false},
+            { new: true}
+            ).lean();
         return restaurant;
     } catch (error) {
         throw Error("Error while deleting restaurant");
