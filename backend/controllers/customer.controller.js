@@ -1,10 +1,11 @@
 import Customer from '../models/customer.model.js'
-import { getCustomerByPhoneFromRepo } from "../repositories/customer.repository";
+import { getCustomerByPhoneFromRepo, addCustomerToRepo } from "../repositories/customer.repository.js";
 
 export const getCustomerByPhone = async (req, res, next) => {
     try {
-        const phone = Number(req.params.phone);
-        const customer = await getCustomerByPhoneFromRepo(id);
+        const phone = (req.params);
+        console.log("first: " + phone);
+        const customer = await getCustomerByPhoneFromRepo(phone);
 
         if (customer) {
             return res.status(200).json({
@@ -35,7 +36,7 @@ export const addCustomer = async (req, res, next) => {
             ...req.body
         };
     
-        const addedCustomer = await addCustomer(customer);
+        const addedCustomer = await addCustomerToRepo(customer);
 
         if (addedCustomer) {
             return res.status(200).json({
