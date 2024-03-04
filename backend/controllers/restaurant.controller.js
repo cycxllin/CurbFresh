@@ -4,7 +4,7 @@ export const addRestaurant = async (req, res, next) => {
     const { body } = req;
     try {
         const restCount = await countRestaurantsInRepo();
-        const restaurant = { _id: restCount, ...body, active: true};
+        const restaurant = { id: restCount, ...body, active: true};
         console.log(restaurant);
         const addedRestaurant = await addRestaurantToRepo(restaurant);
 
@@ -30,7 +30,7 @@ export const addRestaurant = async (req, res, next) => {
 */
 export const getRestaurant = async function (req, res) {
     try {
-        const restaurant = await getRestaurantsFromRepository({_id: req.params});
+        const restaurant = await getRestaurantsFromRepository({id: req.params});
         if (restaurant) {
             return res.status(200).json({
                 status: 200,
@@ -71,10 +71,10 @@ export const getRestaurants = async function (req, res) {
 
 /* Edit Restaurant Information */
 export const updateRestaurant = async function (req, res) {
-    const { _id } = req.params;
+    const { id } = req.params;
     const { body } = req;
     try {
-        const restaurant = await updateRestaurantInRepository({_id: _id}, body);
+        const restaurant = await updateRestaurantInRepository({_id: id}, body);
         if (restaurant){
             return res.status(200).json({
                 status: 200,
@@ -96,9 +96,9 @@ export const updateRestaurant = async function (req, res) {
  * Only sets active: false rather than fully deleting
 */
 export const deleteRestaurant = async function (req, res) {
-    const { _id } = req.params;
+    const { id } = req.params;
     try {
-        const restaurant = await deleteRestaurantFromRepository({_id: _id});
+        const restaurant = await deleteRestaurantFromRepository({id: id});
         if (restaurant){
             return res.status(204).json({
                 status: 204,

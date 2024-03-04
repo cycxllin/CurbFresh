@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.post('/', addRestaurant);          //Add new restaurant
 router.get("/", getRestaurants);          //List of Restaurants
-router.get("/:_id", getRestaurant);       //Singular Restaurant
-router.patch("/:_id", updateRestaurant);  //Update Restaurant Info
-router.delete("/:_id", deleteRestaurant); //Delete Restaurant
+router.get("/:id", getRestaurant);       //Singular Restaurant
+router.patch("/:id", updateRestaurant);  //Update Restaurant Info
+router.delete("/:id", deleteRestaurant); //Delete Restaurant
 
 //Restaurant Analytics
 router.get("/analytics/sales/:_id", getRestaurantSaleInfo);         //Get Sale info
