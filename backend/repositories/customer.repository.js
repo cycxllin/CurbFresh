@@ -5,7 +5,7 @@ export const getCustomerByPhoneFromRepo = async (phone) => {
         const customer = await Customer.findOne(phone);
         return customer;
     } catch (error) {
-        throw Error(`Error while retrieving customer with phone: ${phone.phone}`);
+        throw Error(`Error while retrieving customer with phone: ${phone}`);
     }
 };
 
