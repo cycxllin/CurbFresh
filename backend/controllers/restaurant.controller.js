@@ -1,12 +1,12 @@
-import { addRestaurantToRepo, countRestaurantsInRepo, getRestaurantsFromRepository, updateRestaurantInRepository, deleteRestaurantFromRepository } from "../repositories/restaurant.repository.js";
+import { addRestaurantToRepository, countRestaurantsInRepository, getRestaurantsFromRepository, getRestaurantMenuFromRepository, updateRestaurantInRepository, deleteRestaurantFromRepository } from "../repositories/restaurant.repository.js";
 
 export const addRestaurant = async (req, res, next) => {
     const { body } = req;
     try {
-        const restCount = await countRestaurantsInRepo();
+        const restCount = await countRestaurantsInRepository();
         const restaurant = { id: restCount, ...body, active: true};
         console.log(restaurant);
-        const addedRestaurant = await addRestaurantToRepo(restaurant);
+        const addedRestaurant = await addRestaurantToRepository(restaurant);
 
         if (addedRestaurant) {
             return res.status(200).json({
@@ -74,7 +74,7 @@ export const updateRestaurant = async function (req, res) {
     const { id } = req.params;
     const { body } = req;
     try {
-        const restaurant = await updateRestaurantInRepository({_id: id}, body);
+        const restaurant = await updateRestaurantInRepository({id: id}, body); 
         if (restaurant){
             return res.status(200).json({
                 status: 200,
@@ -113,6 +113,27 @@ export const deleteRestaurant = async function (req, res) {
         }
     } catch (error) {
         res.status(500).send(`failed to delete restaurant ${id}`);
+    }
+}
+
+export const  getRestaurantMenu = async function (req, res) {
+    try {
+        const restaurant = await getRestaurantsFromRepository({ id: req.params});
+        const resMenu = await getRestaurantMenuFromRepository({id: restaurant.id});
+        if (resMenu){
+            return res.status(200).json({
+                status: 200,
+                message: `Retrieved restaurant menu successfully`,
+                data: resMenu
+            });
+        } else {
+            return res.status(404).json({
+                status: 404,
+                message: `Error retrieving restaurant menu`
+            });
+        }
+    } catch (error) {
+        res.status(500).send(`failed to get restaurant menu`);
     }
 }
 
