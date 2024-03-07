@@ -138,7 +138,8 @@ export const  getRestaurantMenu = async function (req, res) {
 }
 
 
-//TODO After menu and order have been implemented
+//TODO After menu and order have been implemented 
+//Put in order controller !!
 export const getRestaurantSaleInfo = async function (req, res) {
     try{
 
