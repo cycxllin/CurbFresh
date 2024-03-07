@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
-const OrderSchema = new mongoose.Schema(
+const ItemSchema = new mongoose.Schema(
     {
         restID: {type: Number, ref: 'Restaurant', required: true},
         name: {type: String, required: true},
@@ -12,4 +12,6 @@ const OrderSchema = new mongoose.Schema(
       }
 );
 
-export default mongoose.model("Order", OrderSchema);
+const Item =  mongoose.model("Item", ItemSchema);
+
+export default Item;
