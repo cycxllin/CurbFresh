@@ -1,6 +1,6 @@
 import Restaurant from "../models/restaurant.model.js";
 
-export const addRestaurantToRepo = async function (payload) {
+export const addRestaurantToRepository = async function (payload) {
     try {
         const addedRestaurant = new Restaurant(payload);
         const savedRestaurant = await addedRestaurant.save();
@@ -10,7 +10,7 @@ export const addRestaurantToRepo = async function (payload) {
     }
 }
 
-export const countRestaurantsInRepo = async function () {
+export const countRestaurantsInRepository = async function () {
     try {
         let count = await Restaurant.countDocuments();
         return count+1;
@@ -55,5 +55,14 @@ export const deleteRestaurantFromRepository = async function (query) {
         return restaurant;
     } catch (error) {
         throw Error("Error while deleting restaurant");
+    }
+}
+
+export const getRestaurantMenuFromRepository = async function (query) {
+    try {
+        const menu = await Restaurant.populate("menu");
+        return menu;
+    } catch (error) {
+        throw Error("Error while retrieving restaurant menu");
     }
 }
