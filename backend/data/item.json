@@ -1,0 +1,56 @@
+[{
+    "_id": {
+      "$oid": "65eaa213a1c5e9a44ddccd35"
+    },
+    "id": 1,
+    "restID": 1,
+    "name": "Mama Burger",
+    "description": "Burger consisting of meat and a bun",
+    "image": "mamaburger.png",
+    "price": 5.99,
+    "soldOut": false,
+    "active": true,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65eaa213a1c5e9a44ddccd36"
+    },
+    "id": 2,
+    "restID": 1,
+    "name": "Papa Burger",
+    "description": "Burger consisting of meat and a bun",
+    "image": "papaaburger.png",
+    "price": 7.99,
+    "soldOut": false,
+    "active": true,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65eaa213a1c5e9a44ddccd37"
+    },
+    "id": 3,
+    "restID": 1,
+    "name": "Nana Burger",
+    "description": "Burger consisting of meat and a bun",
+    "image": "mamaburger.png",
+    "price": 4.99,
+    "soldOut": false,
+    "active": true,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65eaa213a1c5e9a44ddccd38"
+    },
+    "id": 1,
+    "restID": 2,
+    "name": "Coffee",
+    "description": "Contains coffee so students don't fail",
+    "image": "coffee.png",
+    "price": 2.99,
+    "soldOut": false,
+    "active": true,
+    "__v": 0
+  }]

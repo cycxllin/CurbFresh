@@ -69,16 +69,34 @@ export const addItem = async (req, res) => {
     }
 };
 
-//Would items have cascading errors similar to customer and restaurant?
+//Item Active status set to false to ensure there are no cascading errors
 export const deleteItem = async (req, res) => {
-    
+    const { id } = req.params;
+    try {
+        const item = await deleteItemFromRepo({id: id});
+        if (item){
+            return res.status(204).json({
+                status: 204,
+                message: `deleted item successfully`,
+                data: item
+            });
+        } else {
+            return res.status(404).json({
+                status: 404,
+                message: `Error deleting item`
+            });
+        }
+    } catch (error) {
+        res.status(500).send(`failed to delete item ${id}`);
+    }
 };
 
 export const updateItem = async (req, res) => {
     const { name } = req.params;
     const { body } = req;
     try {
-        const item = await updateItemInRepo({name: name}, body);
+        const item = await 
+        updateItemInRepo({name: name}, body);
         if (item){
             return res.status(200).json({
                 status: 200,
