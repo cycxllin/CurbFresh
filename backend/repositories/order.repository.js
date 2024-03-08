@@ -43,13 +43,14 @@ export const updateOrderInRepo = async function (query, update) {
 
 export const addItemToOrderInRepo = async function (query, payload) {
     try {
-        const updatedOrder = await Order.findByIdAndUpdate(
-            query._id,
-            { $push: {items: payload._id}},
+        const updatedOrder = await Order.findOneAndUpdate(
+            {id: query},
+            { $push: {items: payload}},
             { new: true, useFindAndModify: false},
         ).lean();
         return updatedOrder;
     } catch (error) {
+        console.log(error);
         throw Error("Error while adding item to order");
     }
 }

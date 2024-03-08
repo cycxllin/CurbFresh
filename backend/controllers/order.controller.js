@@ -117,8 +117,8 @@ export const addItemToOrder = async function (req, res) {
     try {
         const orderId = req.params.orderID;
         const item = await getItemFromRepo({id: req.params.itemID});
-        console.log(item);
-        const updatedOrder = await addItemToOrderInRepo(orderId, item);
+        console.log(item[0]._id);
+        const updatedOrder = await addItemToOrderInRepo(orderId, item[0]._id);
         if (updatedOrder) {
             return res.status(200).json({
                 status: 200,
@@ -132,6 +132,7 @@ export const addItemToOrder = async function (req, res) {
             });
         }
     } catch (error) {
+        console.log(error);
         res.status(500).send(`failed to add item to order`);
     }
 }
