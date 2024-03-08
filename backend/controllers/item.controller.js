@@ -1,10 +1,10 @@
-import {getItemByName, addItemToRepo, deleteItemFromRepo, updateItemInRepo, getItemsFromRepo, getItemsByRestID} from "../repositories/item.repository.js";
+import {getItemByNameFromRepo, addItemToRepo, deleteItemFromRepo, updateItemInRepo, getItemsFromRepo, getItemsByRestID} from "../repositories/item.repository.js";
 import { addItemToRestaurantMenuRepo } from "../repositories/restaurant.repository.js";
 
 export const getItemByName = async (req, res) => {
     try {
         const name = req.params.name;
-        const item = await getItemByName(name);
+        const item = await getItemByNameFromRepo(name);
 
         if (item){
             return res.status().json({

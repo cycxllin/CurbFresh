@@ -8,7 +8,7 @@ router.get("/", getOrders);                               // Get a list of ALL o
 router.get("/:id", getOrderById);                         //Get a single order by its ID
 router.get("/restaurant/:id", getOrdersFromRestaurantID); //Get a list of all orders from a restaurant
 router.patch("/:id", updateOrderStatus);                  //Updates an order status
-router.patch("/:orderID/itemID", addItemToOrder);         //Adds an item to an order
+router.patch("/:orderID/:itemID", addItemToOrder);         //Adds an item to an order
 router.delete("/:id", deleteOrder);                       //Deletes an order (When a user cancels?)
 
 export default router;

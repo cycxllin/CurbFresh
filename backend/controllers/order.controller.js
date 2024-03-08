@@ -1,5 +1,5 @@
 import { getItemFromRepo } from "../repositories/item.repository.js";
-import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, updateOrderStatus, deleteOrderFromRepo, addItemToOrderInRepo} from "../repositories/order.repository.js";
+import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, deleteOrderFromRepo, addItemToOrderInRepo} from "../repositories/order.repository.js";
 
 export const createOrder = async function (req, res) {
     try {
@@ -21,7 +21,7 @@ export const createOrder = async function (req, res) {
             });
         }
     } catch (error) {
-        res.status(500).send(`failed to create order`);
+        res.status(500).send(`failed to create order`, error);
     }
 }
 
@@ -50,7 +50,7 @@ export const getOrders = async function (req, res) {
 /*GET a single Order (active or non-active) */
 export const getOrderById = async function (req, res) {
     try {
-        const order = await getOrdersFromRepo({id: req.params});
+        const order = await getOrdersFromRepo({id: req.params.id});
         if (order) {
             return res.status(200).json({
                 status: 200,
@@ -64,7 +64,7 @@ export const getOrderById = async function (req, res) {
             });
         }
     } catch (error) {
-        res.status(500).send(`failed to get order ${req.params}`);
+        res.status(500).send(`failed to get order ${req.params.id}`);
     }
 }
 
@@ -117,6 +117,7 @@ export const addItemToOrder = async function (req, res) {
     try {
         const orderId = req.params.orderID;
         const item = await getItemFromRepo({id: req.params.itemID});
+        console.log(item);
         const updatedOrder = await addItemToOrderInRepo(orderId, item);
         if (updatedOrder) {
             return res.status(200).json({

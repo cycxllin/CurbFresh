@@ -48,7 +48,7 @@ export const updateCustomerInRepo = async function (query, update) {
     }
 }
 
-export const getCustomersFromRepository = async function (query) {
+export const getCustomersFromRepo = async function (query) {
     try{
          const customers = await Customer.find().sort({time: -1});
          return customers;
