@@ -1,4 +1,5 @@
-import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, updateOrderStatus, deleteOrderFromRepo} from "../repositories/order.repository.js";
+import { getItemFromRepo } from "../repositories/item.repository.js";
+import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, updateOrderStatus, deleteOrderFromRepo, addItemToOrderInRepo} from "../repositories/order.repository.js";
 
 export const createOrder = async function (req, res) {
     try {
@@ -111,6 +112,29 @@ export const updateOrderStatus = async function (req, res) {
     }
 }
 
+/* Adds an item to an order */
+export const addItemToOrder = async function (req, res) {
+    try {
+        const orderId = req.params.orderID;
+        const item = await getItemFromRepo({id: req.params.itemID});
+        const updatedOrder = await addItemToOrderInRepo(orderId, item);
+        if (updatedOrder) {
+            return res.status(200).json({
+                status: 200,
+                message: 'updated order sucessfully',
+                data: updatedOrder
+            });
+        } else {
+            return res.status(404).json({
+                status: 404,
+                message: `Error updating orders`,
+            });
+        }
+    } catch (error) {
+        res.status(500).send(`failed to add item to order`);
+    }
+}
+
 /* Does not fully delete?
  ATTN: WE NEED TO CONSIDER ITEM COUNTS IF ORDER IN PROGRESS BUT CANCELLED??
 */
@@ -138,7 +162,7 @@ export const  deleteOrder = async function (req, res) {
 //TODO After menu and order have been implemented 
 export const getRestaurantSaleInfo = async function (req, res) {
     try{
-        
+
     } catch (error) {
         res.status(500).send(`failed to get sale info for restaurant ${id}`);
     }

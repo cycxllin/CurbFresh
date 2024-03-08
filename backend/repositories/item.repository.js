@@ -54,6 +54,15 @@ export const getItemsFromRepo = async (query) => {
    }
 };
 
+export const getItemFromRepo = async (query) => {
+    try{
+        const item = await Item.find(query);
+        return item;
+   } catch (error) {
+       throw Error("Error while getting items from repository");
+   }
+};
+
 export const getItemsByRestID = async (restID) => {
     try{
         const items = await Item.find(restID).sort({time: -1});
