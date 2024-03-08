@@ -1,7 +1,5 @@
 [{
-    "_id": {
-      "$oid": "65eaa213a1c5e9a44ddccd35"
-    },
+    "_id": "65eaa213a1c5e9a44ddccd35",
     "id": 1,
     "restID": 1,
     "name": "Mama Burger",
@@ -13,9 +11,7 @@
     "__v": 0
   },
   {
-    "_id": {
-      "$oid": "65eaa213a1c5e9a44ddccd36"
-    },
+    "_id": "65eaa213a1c5e9a44ddccd36",
     "id": 2,
     "restID": 1,
     "name": "Papa Burger",
@@ -27,9 +23,7 @@
     "__v": 0
   },
   {
-    "_id": {
-      "$oid": "65eaa213a1c5e9a44ddccd37"
-    },
+    "_id": "65eaa213a1c5e9a44ddccd37",
     "id": 3,
     "restID": 1,
     "name": "Nana Burger",
@@ -41,10 +35,8 @@
     "__v": 0
   },
   {
-    "_id": {
-      "$oid": "65eaa213a1c5e9a44ddccd38"
-    },
-    "id": 1,
+    "_id": "65eaa213a1c5e9a44ddccd38",
+    "id": 4,
     "restID": 2,
     "name": "Coffee",
     "description": "Contains coffee so students don't fail",

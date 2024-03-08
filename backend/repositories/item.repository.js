@@ -1,6 +1,6 @@
 import Item from '../models/item.model.js';
 
-export const getItemByName = async (name) => {
+export const getItemByNameFromRepo = async (name) => {
     try {
         const item = await Item.findOne({name:name});
         return item;
