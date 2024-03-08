@@ -1,12 +1,12 @@
-import { addRestaurantToRepository, countRestaurantsInRepository, getRestaurantsFromRepository, getRestaurantMenuFromRepository, updateRestaurantInRepository, deleteRestaurantFromRepository } from "../repositories/restaurant.repository.js";
+import { addRestaurantToRepo, countRestaurantsInRepo, getRestaurantsFromRepo, getRestaurantMenuFromRepo, updateRestaurantInRepo, deleteRestaurantFromRepo } from "../repositories/restaurant.repository.js";
 
 export const addRestaurant = async (req, res, next) => {
     const { body } = req;
     try {
-        const restCount = await countRestaurantsInRepository();
+        const restCount = await countRestaurantsInRepo();
         const restaurant = { id: restCount, ...body, active: true};
-        console.log(restaurant);
-        const addedRestaurant = await addRestaurantToRepository(restaurant);
+        //console.log(restaurant);
+        const addedRestaurant = await addRestaurantToRepo(restaurant);
 
         if (addedRestaurant) {
             return res.status(200).json({
@@ -30,7 +30,7 @@ export const addRestaurant = async (req, res, next) => {
 */
 export const getRestaurant = async function (req, res) {
     try {
-        const restaurant = await getRestaurantsFromRepository({id: req.params});
+        const restaurant = await getRestaurantsFromRepo({id: req.params});
         if (restaurant) {
             return res.status(200).json({
                 status: 200,
@@ -51,7 +51,7 @@ export const getRestaurant = async function (req, res) {
 /* Get a LIST of active Restaurants */
 export const getRestaurants = async function (req, res) {
     try {
-        const restaurants = await getRestaurantsFromRepository({active: true});
+        const restaurants = await getRestaurantsFromRepo({active: true});
         if (restaurants) {
             return res.status(200).json({
                 status: 200,
@@ -74,7 +74,7 @@ export const updateRestaurant = async function (req, res) {
     const { id } = req.params;
     const { body } = req;
     try {
-        const restaurant = await updateRestaurantInRepository({id: id}, body); 
+        const restaurant = await updateRestaurantInRepo({id: id}, body); 
         if (restaurant){
             return res.status(200).json({
                 status: 200,
@@ -98,7 +98,7 @@ export const updateRestaurant = async function (req, res) {
 export const deleteRestaurant = async function (req, res) {
     const { id } = req.params;
     try {
-        const restaurant = await deleteRestaurantFromRepository({id: id});
+        const restaurant = await deleteRestaurantFromRepo({id: id});
         if (restaurant){
             return res.status(204).json({
                 status: 204,
@@ -118,8 +118,8 @@ export const deleteRestaurant = async function (req, res) {
 
 export const  getRestaurantMenu = async function (req, res) {
     try {
-        const restaurant = await getRestaurantsFromRepository({ id: req.params});
-        const resMenu = await getRestaurantMenuFromRepository({id: restaurant.id});
+        const restaurant = await getRestaurantsFromRepo({ id: req.params});
+        const resMenu = await getRestaurantMenuFromRepo({id: restaurant.id});
         if (resMenu){
             return res.status(200).json({
                 status: 200,
@@ -137,29 +137,3 @@ export const  getRestaurantMenu = async function (req, res) {
     }
 }
 
-
-//TODO After menu and order have been implemented 
-//Put in order controller !!
-export const getRestaurantSaleInfo = async function (req, res) {
-    try{
-
-    } catch (error) {
-        res.status(500).send(`failed to get sale info for restaurant ${id}`);
-    }
-}
-
-export const getRestaurantBusiestTime = async function (req, res) {
-    try {
-
-    } catch (error) {
-        res.status(500).send(`failed to get busiest time for restaurant ${id}`);
-    }
-}
-
-export const getRestaurantMenuPopularity = async function (req, res) {
-    try{
-
-    } catch (error) {
-        res.status.send(`failed to get popular menu list`);
-    }
-}

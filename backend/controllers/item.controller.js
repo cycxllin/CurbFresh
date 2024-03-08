@@ -1,4 +1,5 @@
 import {getItemByName, addItemToRepo, deleteItemFromRepo, updateItemInRepo, getItemsFromRepo, getItemsByRestID} from "../repositories/item.repository.js";
+import { addItemToRestaurantMenuRepo } from "../repositories/restaurant.repository.js";
 
 export const getItemByName = async (req, res) => {
     try {
@@ -47,6 +48,8 @@ export const addItem = async (req, res) => {
         }
 
      addedItem = await addItemToRepo(item);
+     //Add item to restaurant
+     await addItemToRestaurantMenuRepo(item);
 
      if (addedItem) {
         return res.status(200).json({

@@ -1,6 +1,6 @@
 import Restaurant from "../models/restaurant.model.js";
 
-export const addRestaurantToRepository = async function (payload) {
+export const addRestaurantToRepo = async function (payload) {
     try {
         const addedRestaurant = new Restaurant(payload);
         const savedRestaurant = await addedRestaurant.save();
@@ -10,7 +10,7 @@ export const addRestaurantToRepository = async function (payload) {
     }
 }
 
-export const countRestaurantsInRepository = async function () {
+export const countRestaurantsInRepo = async function () {
     try {
         let count = await Restaurant.countDocuments();
         return count+1;
@@ -19,7 +19,7 @@ export const countRestaurantsInRepository = async function () {
     }
 }
 
-export const getRestaurantsFromRepository = async function (query) {
+export const getRestaurantsFromRepo = async function (query) {
     try{
          const restaurants = await Restaurant.find(query).sort({time: -1});
          return restaurants;
@@ -28,7 +28,7 @@ export const getRestaurantsFromRepository = async function (query) {
     }
 }
 
-export const updateRestaurantInRepository = async function (query, update) {
+export const updateRestaurantInRepo = async function (query, update) {
     try {
         const restaurant = await Restaurant.findOneAndUpdate(
                 { ...query},
@@ -44,9 +44,9 @@ export const updateRestaurantInRepository = async function (query, update) {
 /* Does not actually fully delete a restaurant from the database
  * The restaurant is simply set as inactive and not parsed over anywhere else
 */
-export const deleteRestaurantFromRepository = async function (query) {
+export const deleteRestaurantFromRepo = async function (query) {
     try {
-        console.log(query);
+        //console.log(query);
         const restaurant = await Restaurant.findOneAndUpdate(
             { ...query},
             { active: false},
@@ -58,11 +58,24 @@ export const deleteRestaurantFromRepository = async function (query) {
     }
 }
 
-export const getRestaurantMenuFromRepository = async function (query) {
+export const getRestaurantMenuFromRepo = async function (query) {
     try {
         const menu = await Restaurant.populate("menu");
         return menu;
     } catch (error) {
         throw Error("Error while retrieving restaurant menu");
+    }
+}
+
+export const addItemToRestaurantMenuRepo = async function (query) {
+    try {
+        const updatedRestaurantMenu = await Restaurant.findByIdAndUpdate(
+            query.RestId,
+            { $push: {menu: query._id} },
+            { new: true}
+            );
+            return updatedRestaurantMenu;
+    } catch (error) {
+        throw Error("Error while adding item to restaurant menu");
     }
 }

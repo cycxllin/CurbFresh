@@ -10,6 +10,7 @@ const OrderSchema = new mongoose.Schema(
         orderStatus: {type: String, required: true},
         pickupTime: {type: String, required: true},
         price: Number,
+        active: {type: Boolean, required: true},
       }
 );
 

@@ -1,5 +1,5 @@
-import { getCustomerByPhoneFromRepo, addCustomerToRepo, updateCustomerInRepository, 
-    deleteCustomerFromRepository, getCustomersFromRepository } from "../repositories/customer.repository.js";
+import { getCustomerByPhoneFromRepo, addCustomerToRepo, updateCustomerInRepo, 
+    deleteCustomerFromRepo, getCustomersFromRepo } from "../repositories/customer.repository.js";
 
 export const getCustomerByPhone = async (req, res, next) => {
     try {
@@ -43,7 +43,7 @@ export const addCustomer = async (req, res, next) => {
                 active: true
             };
 
-            addedCustomer = await updateCustomerInRepository({phone: body.phone}, customer);
+            addedCustomer = await updateCustomerInRepo({phone: body.phone}, customer);
             }
             else {
                 // customer exists but is still active so reject adding
@@ -98,7 +98,7 @@ export const addCustomer = async (req, res, next) => {
 export const deleteCustomer = async function (req, res) {
     const { phone } = req.params;
     try {
-        const customer = await deleteCustomerFromRepository({phone: phone});
+        const customer = await deleteCustomerFromRepo({phone: phone});
 
         if (customer){
             return res.status(200).json({
@@ -122,7 +122,7 @@ export const updateCustomer = async function (req, res) {
     const { phone } = req.params;
     const { body } = req;
     try {
-        const customer = await updateCustomerInRepository({phone: phone}, body);
+        const customer = await updateCustomerInRepo({phone: phone}, body);
         if (customer){
             return res.status(200).json({
                 status: 200,
@@ -143,7 +143,7 @@ export const updateCustomer = async function (req, res) {
 /* Get a LIST of active Customers */
 export const getCustomers = async function (req, res) {
     try {
-        const customers = await getCustomersFromRepository({active: true});
+        const customers = await getCustomersFromRepo({active: true});
         if (customers) {
             return res.status(200).json({
                 status: 200,

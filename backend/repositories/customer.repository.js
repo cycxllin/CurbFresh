@@ -22,7 +22,7 @@ export const addCustomerToRepo = async (payload) => {
 /* Does not actually fully delete a customer from the database
  * The customer is simply set as inactive and not parsed over anywhere else
 */
-export const deleteCustomerFromRepository = async function (query) {
+export const deleteCustomerFromRepo = async function (query) {
     try {
         const customer = await Customer.findOneAndUpdate(
             { ...query},
@@ -35,7 +35,7 @@ export const deleteCustomerFromRepository = async function (query) {
     }
 }
 
-export const updateCustomerInRepository = async function (query, update) {
+export const updateCustomerInRepo = async function (query, update) {
     try {
         const customer = await Customer.findOneAndUpdate(
                 { ...query},
