@@ -15,9 +15,19 @@ export const addItemToRepo = async (payload) => {
         const savedItem = await addedItem.save();
         return savedItem;
         } catch (error) {
+            console.log(error);
         throw Error("Error while adding the item");
         }
 };
+
+export const countItemsInRepo = async function () {
+    try {
+        let count = await Item.countDocuments();
+        return count+1;
+    } catch (error) {
+        throw Error("Error while counting items in database");
+    }
+}
 
 export const deleteItemFromRepo = async (query) => {
     try {

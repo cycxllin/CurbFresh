@@ -1,4 +1,5 @@
-import {getItemByNameFromRepo, addItemToRepo, deleteItemFromRepo, updateItemInRepo, getItemsFromRepo, getItemsByRestID} from "../repositories/item.repository.js";
+import {getItemByNameFromRepo, addItemToRepo, deleteItemFromRepo, updateItemInRepo, 
+    getItemsFromRepo, countItemsInRepo, getItemsByRestID} from "../repositories/item.repository.js";
 import { addItemToRestaurantMenuRepo } from "../repositories/restaurant.repository.js";
 
 export const getItemByName = async (req, res) => {
@@ -31,38 +32,26 @@ export const addItem = async (req, res) => {
     try {
         const { body } = req;
 
-        let item = await getItemByName(body.name);
-        let addedItem = {};
+        const itemCount = await countItemsInRepo();
+        const item = { _id: `I${itemCount}`, ...body, active: true};
 
-        //The item exists already
-        if (item) {
-            return res.status(400).json({
-                status: 400,
-                message: `Item with the name ${body.name} already exists`
+        const addedItem = await addItemToRepo(item);
+        //Add item to restaurant menu
+        // TODO: add check to make sure it added to menu
+        await addItemToRestaurantMenuRepo(item);
+
+        if (addedItem) {
+            return res.status(200).json({
+                status: 200,
+                message: 'added item sucessfully',
+                data: addedItem
             });
         } else {
-            item = {
-                ...body,
-                active: true
-            };
+            return res.status(404).json({
+                status: 404,
+                message: `Error adding item ${body.name}`,
+            });
         }
-
-     addedItem = await addItemToRepo(item);
-     //Add item to restaurant
-     await addItemToRestaurantMenuRepo(item);
-
-     if (addedItem) {
-        return res.status(200).json({
-            status: 200,
-            message: 'added item sucessfully',
-            data: addedItem
-        });
-    } else {
-        return res.status(404).json({
-            status: 404,
-            message: `Error adding item ${body.name}`,
-        });
-    }
 
     } catch (error) {
         res.status(500).json({
@@ -76,7 +65,7 @@ export const addItem = async (req, res) => {
 export const deleteItem = async (req, res) => {
     const { id } = req.params;
     try {
-        const item = await deleteItemFromRepo({id: id});
+        const item = await deleteItemFromRepo({_id: id});
         if (item){
             return res.status(204).json({
                 status: 204,
@@ -117,6 +106,7 @@ export const updateItem = async (req, res) => {
     }
 };
 
+// get all items 
 export const getItems = async (req, res) => {
     try {
         const items = await getItemsFromRepo();

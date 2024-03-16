@@ -70,7 +70,7 @@ export const getRestaurantMenuFromRepo = async function (query) {
 export const addItemToRestaurantMenuRepo = async function (query) {
     try {
         const updatedRestaurantMenu = await Restaurant.findByIdAndUpdate(
-            query.RestId,
+            { _id: query.restID },
             { $push: {menu: query._id} },
             { new: true}
             );

@@ -1,12 +1,12 @@
-- need to generate unique ID's for restaurant and customer - not using DB given IDs
-    for ease of use in customer/restaurant referencing.
-    - use db generated id for items as item number will not be referenced as often IRL
-        restaurants would likely use the item name
-    - use phone number to lookup customer and then the _id for
-    other queries
+  example for constructing data to send to backend:
+        data = {
+            user: {   }, // current user object; used to check permissions
+            query: {   } // whatever data you want to send
+        }
+
+        const { result } = await axios.post(url, data);
+
+
 - orders are identified with custID and restID so no need to store those as lists
     in cust and rest. This is becuase both lists may potentially get too big
     - use .populate when making queries https://mongoosejs.com/docs/populate.html
-- pickup date/time formatting?
-
-- chose to lookup customer by phone number

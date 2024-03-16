@@ -4,8 +4,8 @@ export const addRestaurant = async (req, res, next) => {
     const { body } = req;
     try {
         const restCount = await countRestaurantsInRepo();
-        const restaurant = { id: restCount, ...body, active: true};
-        //console.log(restaurant);
+        const restaurant = { _id: `R${restCount}`, ...body, active: true};
+
         const addedRestaurant = await addRestaurantToRepo(restaurant);
 
         if (addedRestaurant) {

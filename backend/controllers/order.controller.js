@@ -5,7 +5,12 @@ export const createOrder = async function (req, res) {
     try {
         const { body } = req;
         const orderCount = await countOrdersInRepo();
-        const order = { id: orderCount, ...body, active: true};
+        const order = { 
+            _id: `O${orderCount}`, 
+            ...body, 
+            active: true, 
+            created: new Date()
+        };
         const addedOrder = await addOrderToRepo(order);
 
         if (addedOrder) {

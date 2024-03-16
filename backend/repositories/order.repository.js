@@ -44,7 +44,7 @@ export const updateOrderInRepo = async function (query, update) {
 export const addItemToOrderInRepo = async function (query, payload) {
     try {
         const updatedOrder = await Order.findOneAndUpdate(
-            {id: query},
+            { _id: query},
             { $push: {items: payload}},
             { new: true, useFindAndModify: false},
         ).lean();
