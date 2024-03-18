@@ -1,13 +1,15 @@
 import { getItemFromRepo } from "../repositories/item.repository.js";
-import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, deleteOrderFromRepo, addItemToOrderInRepo} from "../repositories/order.repository.js";
+import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, 
+    deleteOrderFromRepo, addItemToOrderInRepo} from "../repositories/order.repository.js";
 
 export const createOrder = async function (req, res) {
     try {
-        const { body } = req;
+        const body = req.body.query;
         const orderCount = await countOrdersInRepo();
         const order = { 
             _id: `O${orderCount}`, 
             ...body, 
+            orderStatus: 'placed',
             active: true, 
             created: new Date()
         };
@@ -26,7 +28,10 @@ export const createOrder = async function (req, res) {
             });
         }
     } catch (error) {
-        res.status(500).send(`failed to create order`, error);
+        return res.status(500).json({
+            status: 500,
+            message: `failed to create order due to ${error}`
+        });
     }
 }
 
@@ -48,14 +53,17 @@ export const getOrders = async function (req, res) {
             });
         }
     } catch (error) {
-        res.status(500).send(`failed to get all orders`);
+        return res.status(500).json({
+            status: 500,
+            message: `failed to find order due to ${error}`
+        });
     }
 }
 
 /*GET a single Order (active or non-active) */
 export const getOrderById = async function (req, res) {
     try {
-        const order = await getOrdersFromRepo({id: req.params.id});
+        const order = await getOrdersFromRepo({_id: req.params.id});
         if (order) {
             return res.status(200).json({
                 status: 200,
@@ -69,14 +77,17 @@ export const getOrderById = async function (req, res) {
             });
         }
     } catch (error) {
-        res.status(500).send(`failed to get order ${req.params.id}`);
+        return res.status(500).json({
+            status: 500,
+            message: `failed to get order due to ${error}`
+        });
     }
 }
 
 /* GET a list of orders from a single restaurant*/
 export const getOrdersFromRestaurantID = async function (req, res) {
     try {
-        const restaurantOrders = await getOrdersFromRepo({restId: req.params});
+        const restaurantOrders = await getOrdersFromRepo({restId: req.params.id});
         if (restaurantOrders) {
             return res.status(200).json({
                 status: 200,
@@ -90,16 +101,43 @@ export const getOrdersFromRestaurantID = async function (req, res) {
             });
         }
     } catch {
-        res.status(500).send(`failed to get orders from restaurant ${req.params}`);
+        return res.status(500).json({
+            status: 500,
+            message: `failed to get order from restaurant due to ${error}`
+        });
     }
 }
 
-/* Updates an orders status */
-export const updateOrderStatus = async function (req, res) {
+/* GET a list of orders from a single customer*/
+export const getOrdersFromCustomerID = async function (req, res) {
     try {
-        const { id } = req.params;
-        const { body } = req;
-        const order = await updateOrderInRepo({id: id}, body);
+        const customersOrders = await getOrdersFromRepo({custId: req.params.id});
+        if (customersOrders) {
+            return res.status(200).json({
+                status: 200,
+                message: 'found orders from customer sucessfully',
+                data: customersOrders
+            });
+        } else {
+            return res.status(404).json({
+                status: 404,
+                message: `Error finding orders from customer`,
+            });
+        }
+    } catch {
+        return res.status(500).json({
+            status: 500,
+            message: `failed to get orders for customer due to ${error}`
+        });
+    }
+}
+
+/* Updates an orders */
+export const updateOrder = async function (req, res) {
+    try {
+        const id = req.params.id;
+        const body = req.body.query;
+        const order = await updateOrderInRepo({_id: id}, body);
         if (order) {
             return res.status(200).json({
                 status: 200,
@@ -117,11 +155,12 @@ export const updateOrderStatus = async function (req, res) {
     }
 }
 
-/* Adds an item to an order */
+/* DO NOT USE use update order instead 
+Adds an item to an order */
 export const addItemToOrder = async function (req, res) {
     try {
         const orderId = req.params.orderID;
-        const item = await getItemFromRepo({id: req.params.itemID});
+        const item = await getItemFromRepo({_id: req.params.itemID});
         console.log(item[0]._id);
         const updatedOrder = await addItemToOrderInRepo(orderId, item[0]._id);
         if (updatedOrder) {
@@ -142,13 +181,13 @@ export const addItemToOrder = async function (req, res) {
     }
 }
 
-/* Does not fully delete?
- ATTN: WE NEED TO CONSIDER ITEM COUNTS IF ORDER IN PROGRESS BUT CANCELLED??
+/* 
+    Does not fully delete, only sets to inactive
 */
 export const  deleteOrder = async function (req, res) {
     try {
         const { id } = req.params;
-        const order = await deleteOrderFromRepo({id: id});
+        const order = await deleteOrderFromRepo({_id: id});
         if (order) {
             return res.status(204).json({
                 status: 204,
@@ -162,7 +201,10 @@ export const  deleteOrder = async function (req, res) {
             });
         }
     } catch (error) {
-        res.status(500).send(`failed to delete order ${id}`);
+        return res.status(500).json({
+            status: 500,
+            message: `failed to delete order due to ${error}`
+        });
     }
 }
 

@@ -41,6 +41,7 @@ export const updateOrderInRepo = async function (query, update) {
     }
 }
 
+// do not use; use updateOrderInRepo
 export const addItemToOrderInRepo = async function (query, payload) {
     try {
         const updatedOrder = await Order.findOneAndUpdate(

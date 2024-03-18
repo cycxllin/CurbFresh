@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// see enumObjects.js for the accepted values for orderstatus
 // pickup time can be asap or a 24hr time as HH:MM
 const OrderSchema = new mongoose.Schema(
     {
@@ -16,7 +15,7 @@ const OrderSchema = new mongoose.Schema(
       orderStatus: {
         type: String, 
         required: true,
-        enum: ["ordered", "in-progress", "awaiting-pickup", "completed", "canceled"]
+        enum: ["placed", "in progress", "awaiting pickup", "completed", "canceled"]
       },
       pickupTime: {type: String, required: true},
       price: {type: Number},

@@ -1,14 +1,21 @@
 import express from "express";
-import {createOrder, deleteOrder, getOrderById, updateOrderStatus, getOrdersFromRestaurantID, getOrders, addItemToOrder } from "../controllers/order.controller.js";
+import {createOrder, deleteOrder, getOrderById, updateOrder, getOrdersFromRestaurantID, 
+    getOrders, getOrdersFromCustomerID } from "../controllers/order.controller.js";
+import { checkValidCustomer, checkValidUser, checkValidItems } from "../middleware/middleware.js";
 
 const router = express.Router();
 
-router.post('/', createOrder);                            // Create a new order 
-router.get("/", getOrders);                               // Get a list of ALL orders
-router.get("/:id", getOrderById);                         //Get a single order by its ID
-router.get("/restaurant/:id", getOrdersFromRestaurantID); //Get a list of all orders from a restaurant
-router.patch("/:id", updateOrderStatus);                  //Updates an order status
-router.patch("/:orderID/:itemID", addItemToOrder);         //Adds an item to an order
-router.delete("/:id", deleteOrder);                       //Deletes an order (When a user cancels?)
+router.get("/", getOrders);
+
+// Only customers can create orders 
+router.post('/', checkValidCustomer, checkValidItems, createOrder);
+router.get("/restaurant/:id", getOrdersFromRestaurantID); 
+router.get("/customer/:id", getOrdersFromCustomerID); 
+router.get("/:id", getOrderById);
+router.patch("/:id", checkValidUser, checkValidItems, updateOrder);  // Updates an order
+//router.patch("/:orderID/:itemID", addItemToOrder);  // use update order
+
+//changes active to false
+router.delete("/:id", deleteOrder);
 
 export default router;
