@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
-// pickup date/time can be a time or immediate, triggering the retaurant manager to set a time
+// see enumObjects.js for the accepted values for orderstatus
+// pickup time can be asap or a 24hr time as HH:MM
 const OrderSchema = new mongoose.Schema(
     {
       _id: {type: String, required: true},
@@ -12,11 +13,15 @@ const OrderSchema = new mongoose.Schema(
           quantity: {type: Number, required: true}
         }
       ],
-      orderStatus: {type: String, required: true},
-      pickupTime: {type: String, required: true}, //HH:MM or "asap"
+      orderStatus: {
+        type: String, 
+        required: true,
+        enum: ["ordered", "in-progress", "awaiting-pickup", "completed", "canceled"]
+      },
+      pickupTime: {type: String, required: true},
       price: {type: Number},
       active: {type: Boolean, required: true},
-      notes: {type: String},
+      notes: {type: String, maxlength: 256},
       created: {type: Date, required: true},
       }
   );

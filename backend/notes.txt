@@ -6,7 +6,8 @@
 
         const { result } = await axios.post(url, data);
 
-Item categories are enum; see data>categories.js
-Order status is enum; see data>orderStatus.js
+Item categories are enum in schema
+Order status is enum in schema
+Order notes length is 256 char (can change in order schema)
 
 Restaurant menu contains active items only

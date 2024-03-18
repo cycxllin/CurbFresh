@@ -10,7 +10,12 @@ const ItemSchema = new mongoose.Schema(
       price: {type: Number, required: true},
       soldOut: {type: Boolean, required: true},
       active: {type: Boolean, required: true},
-      category: {type: String, required: true}
+      category: {
+        type: String, 
+        required: true, 
+        enum: ["Starters", "Specials", "Salads", "Soups", "Handhelds", "Mains",
+            "Sides", "Desserts", "Drinks", "Other"]
+      }
     }
   );
 

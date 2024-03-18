@@ -1,8 +1,7 @@
 import {getItemByIdFromRepo, addItemToRepo, deleteItemFromRepo, updateItemInRepo, 
     getItemsFromRepo, countItemsInRepo, getItemsByListFromRepo} from "../repositories/item.repository.js";
 import { addItemToRestaurantMenuRepo, removeItemFromRestaurantMenuRepo} from "../repositories/restaurant.repository.js";
-import { categories } from "../data/enumObjects.js";
-import { checkPropertyIsValidEnum, checkValidManager } from "../services/services.js";
+import { checkValidManager } from "../middleware/middleware.js";
 
 export const getItemById = async (req, res) => {
     try {
@@ -39,10 +38,6 @@ export const addItem = async (req, res) => {
             throw Error('You are not authorized to perform this action');
         }
         
-        if (!body.category || !checkPropertyIsValidEnum(categories, body.category)) {
-            throw Error('Item category is invalid');
-        }
-
         const itemCount = await countItemsInRepo();
         const item = { _id: `I${itemCount}`, ...body, active: true, soldOut: false};
 
@@ -108,10 +103,6 @@ export const updateItem = async (req, res) => {
     if (!checkValidManager(manager, body)) {
         throw Error('You are not authorized to perform this action');
     }
-    
-    if (body.category && !checkPropertyIsValidEnum(categories, body.category)) {
-        throw Error('Item category is invalid');
-    }
 
     try {
         const item = await 
@@ -155,7 +146,7 @@ export const getItems = async (req, res) => {
 };
 
 // get all items by list, ignores active state 
-// send list in query url: localhost:65500/items/list?menu=I2,I3
+// send list in query url like: localhost:65500/items/list?menu=I2,I3
 export const getItemsByList = async (req, res) => {
     try {
         const menuString = req.query.menu;

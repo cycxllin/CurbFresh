@@ -1,22 +1,4 @@
 /*
-    Given an enum object and string (value), checks if string is a valid value
-    Returns: bool
-*/
-export const checkPropertyIsValidEnum = (enumObject, value) => {
-    const values = Object.values(enumObject);
-    
-    try {
-        if (values.includes(value)) {
-            return true;
-        }
-    } catch (error) {
-        throw Error(error);
-    }
-
-    return false;
-};
- 
-/*
     Checks to see if the given manager object is allowed to act on the target object
     Manager and target must have restID field
     Returns bool
