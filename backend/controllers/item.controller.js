@@ -1,7 +1,6 @@
 import {getItemByIdFromRepo, addItemToRepo, deleteItemFromRepo, updateItemInRepo, 
     getItemsFromRepo, countItemsInRepo, getItemsByListFromRepo} from "../repositories/item.repository.js";
 import { addItemToRestaurantMenuRepo, removeItemFromRestaurantMenuRepo} from "../repositories/restaurant.repository.js";
-import { checkValidManager } from "../middleware/middleware.js";
 
 export const getItemById = async (req, res) => {
     try {
@@ -31,13 +30,7 @@ export const getItemById = async (req, res) => {
 
 export const addItem = async (req, res) => {
     try {
-        const manager = req.body.user;
-        const body = req.body.query;
-
-        if (!checkValidManager(manager, body)) {
-            throw Error('You are not authorized to perform this action');
-        }
-        
+        const body = req.body.query;       
         const itemCount = await countItemsInRepo();
         const item = { _id: `I${itemCount}`, ...body, active: true, soldOut: false};
 
@@ -69,20 +62,13 @@ export const addItem = async (req, res) => {
 export const deleteItem = async (req, res) => {
     try {
         const { id } = req.params;
-        const manager = req.body.user;
-        const body = req.body.query;
-    
-        if (!checkValidManager(manager, body)) {
-            throw Error('You are not authorized to perform this action');
-        }
         const item = await deleteItemFromRepo({_id: id});
 
         if (item){
             await removeItemFromRestaurantMenuRepo(item);
-            return res.status(204).json({
-                status: 204,
-                message: `deleted item successfully`,
-                data: item
+            return res.status(200).json({
+                status: 200,
+                message: `deleted item ${id} successfully`,
             });
         } else {
             return res.status(404).json({
@@ -97,13 +83,8 @@ export const deleteItem = async (req, res) => {
 
 export const updateItem = async (req, res) => {
     const { id } = req.params;
-    const manager = req.body.user;
     const body = req.body.query;
-
-    if (!checkValidManager(manager, body)) {
-        throw Error('You are not authorized to perform this action');
-    }
-
+    
     try {
         const item = await 
         updateItemInRepo({_id: id}, body);

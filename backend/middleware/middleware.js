@@ -1,33 +1,47 @@
 /*
     Checks to see if the given manager object is allowed to act on the target object
     Manager and target must have restID field
-    Returns bool
 */ 
-export const checkValidManager = (manager, target) => {
+export const checkValidManager = (req, res, next) => {
     try {
+        const manager = req.body.user;
+        const target = req.body.query;
+
         if (manager._id.includes('M') && manager.restID === target.restID) {
-            return true;
+            next();
+        } else {
+            return res
+            .status(404)
+            .json({
+              status: 404,
+              message: "You are not authorized to perform this action",
+            });
         }
     } catch (error) {
         throw Error(error);
     }
-
-    return false;
 };
 
 /*
     Checks to see if the given customer object is allowed to act on the target object
     Target must have custID field
-    Returns bool
 */ 
-export const checkValidCustomer = (customer, target) => {
+export const checkValidCustomer = (req, res, next) => {
     try {
+        const customer = req.body.user;
+        const target = req.body.query;
+
         if (customer._id.includes('C') && customer._id === target.custID) {
-            return true;
+            next();
+        } else {
+            return res
+            .status(404)
+            .json({
+              status: 404,
+              message: "You are not authorized to perform this action",
+            });
         }
     } catch (error) {
         throw Error(error);
     }
-
-    return false;
 };

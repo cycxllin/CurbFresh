@@ -16,7 +16,7 @@ export const addItemToRepo = async (payload) => {
         return savedItem;
         } catch (error) {
             console.log(error);
-        throw Error("Error while adding the item");
+            throw Error("Error while adding the item: " + error);
         }
 };
 
