@@ -1,4 +1,4 @@
-  example for constructing data to send to backend:
+  example for adding, updating, deleting orders/items to send to backend:
         data = {
             user: {   }, // current user object; used to check permissions
             query: {   } // whatever data you want to send
@@ -6,7 +6,7 @@
 
         const { result } = await axios.post(url, data);
 
+Item categories are enum; see data>categories.js
+Order status is enum; see data>orderStatus.js
 
-- orders are identified with custID and restID so no need to store those as lists
-    in cust and rest. This is becuase both lists may potentially get too big
-    - use .populate when making queries https://mongoosejs.com/docs/populate.html
+Restaurant menu contains active items only

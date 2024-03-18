@@ -79,3 +79,16 @@ export const addItemToRestaurantMenuRepo = async function (query) {
         throw Error("Error while adding item to restaurant menu");
     }
 }
+
+export const removeItemFromRestaurantMenuRepo = async function (query) {
+    try {
+        const updatedRestaurantMenu = await Restaurant.findByIdAndUpdate(
+            { _id: query.restID },
+            { $pull: {menu: query._id} },
+            { new: true}
+            );
+            return updatedRestaurantMenu;
+    } catch (error) {
+        throw Error("Error while adding item to restaurant menu");
+    }
+}

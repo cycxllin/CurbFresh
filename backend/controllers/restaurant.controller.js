@@ -30,7 +30,7 @@ export const addRestaurant = async (req, res, next) => {
 */
 export const getRestaurant = async function (req, res) {
     try {
-        const restaurant = await getRestaurantsFromRepo({id: req.params});
+        const restaurant = await getRestaurantsFromRepo({_id: req.params});
         if (restaurant) {
             return res.status(200).json({
                 status: 200,
@@ -74,7 +74,7 @@ export const updateRestaurant = async function (req, res) {
     const { id } = req.params;
     const { body } = req;
     try {
-        const restaurant = await updateRestaurantInRepo({id: id}, body); 
+        const restaurant = await updateRestaurantInRepo({_id: id}, body); 
         if (restaurant){
             return res.status(200).json({
                 status: 200,
@@ -98,7 +98,7 @@ export const updateRestaurant = async function (req, res) {
 export const deleteRestaurant = async function (req, res) {
     const { id } = req.params;
     try {
-        const restaurant = await deleteRestaurantFromRepo({id: id});
+        const restaurant = await deleteRestaurantFromRepo({_id: id});
         if (restaurant){
             return res.status(204).json({
                 status: 204,
@@ -118,8 +118,8 @@ export const deleteRestaurant = async function (req, res) {
 
 export const  getRestaurantMenu = async function (req, res) {
     try {
-        const restaurant = await getRestaurantsFromRepo({ id: req.params});
-        const resMenu = await getRestaurantMenuFromRepo({id: restaurant.id});
+        const restaurant = await getRestaurantsFromRepo({ _id: req.params});
+        const resMenu = await getRestaurantMenuFromRepo({_id: restaurant._id});
         if (resMenu){
             return res.status(200).json({
                 status: 200,

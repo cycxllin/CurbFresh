@@ -1,11 +1,11 @@
 import Item from '../models/item.model.js';
 
-export const getItemByNameFromRepo = async (name) => {
+export const getItemByIdFromRepo = async (id) => {
     try {
-        const item = await Item.findOne({name:name});
+        const item = await Item.findOne({_id:id});
         return item;
     } catch (error) {
-        throw Error(`Error while retrieving the item called: ${name}`);
+        throw Error(`Error while retrieving the item called: ${id}`);
     }
 };
 
@@ -73,11 +73,22 @@ export const getItemFromRepo = async (query) => {
    }
 };
 
-export const getItemsByRestID = async (restID) => {
+// gets all items by restaurant including inactive ones
+export const getItemsByRestIDFromRepo = async (restID) => {
     try{
         const items = await Item.find(restID).sort({time: -1});
         return items;
    } catch (error) {
-       throw Error("Error while getting items with ID " + restID);
+       throw Error("Error while getting items for restaurant " + restID);
+   }
+};
+
+// gets all items by list
+export const getItemsByListFromRepo = async (list) => {
+    try{
+        const items = await Item.find({_id:{$in: list}}).sort({time: -1});
+        return items;
+   } catch (error) {
+       throw Error("Error while getting items");
    }
 };

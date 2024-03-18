@@ -1,11 +1,13 @@
-import {getItemByNameFromRepo, addItemToRepo, deleteItemFromRepo, updateItemInRepo, 
-    getItemsFromRepo, countItemsInRepo, getItemsByRestID} from "../repositories/item.repository.js";
-import { addItemToRestaurantMenuRepo } from "../repositories/restaurant.repository.js";
+import {getItemByIdFromRepo, addItemToRepo, deleteItemFromRepo, updateItemInRepo, 
+    getItemsFromRepo, countItemsInRepo, getItemsByListFromRepo} from "../repositories/item.repository.js";
+import { addItemToRestaurantMenuRepo, removeItemFromRestaurantMenuRepo} from "../repositories/restaurant.repository.js";
+import { categories } from "../data/enumObjects.js";
+import { checkPropertyIsValidEnum, checkValidManager } from "../services/services.js";
 
-export const getItemByName = async (req, res) => {
+export const getItemById = async (req, res) => {
     try {
-        const name = req.params.name;
-        const item = await getItemByNameFromRepo(name);
+        const id = req.params.id;
+        const item = await getItemByIdFromRepo(id);
 
         if (item){
             return res.status().json({
@@ -16,7 +18,7 @@ export const getItemByName = async (req, res) => {
         } else {
             return res.status().json({
                 status: 404,
-                message: `No item with the name ${name} was found`,
+                message: `No item with the name ${id} was found`,
             });
         }
 
@@ -30,17 +32,24 @@ export const getItemByName = async (req, res) => {
 
 export const addItem = async (req, res) => {
     try {
-        const { body } = req;
+        const manager = req.body.user;
+        const body = req.body.query;
+
+        if (!checkValidManager(manager, body)) {
+            throw Error('You are not authorized to perform this action');
+        }
+        
+        if (!body.category || !checkPropertyIsValidEnum(categories, body.category)) {
+            throw Error('Item category is invalid');
+        }
 
         const itemCount = await countItemsInRepo();
-        const item = { _id: `I${itemCount}`, ...body, active: true};
+        const item = { _id: `I${itemCount}`, ...body, active: true, soldOut: false};
 
         const addedItem = await addItemToRepo(item);
-        //Add item to restaurant menu
-        // TODO: add check to make sure it added to menu
-        await addItemToRestaurantMenuRepo(item);
 
         if (addedItem) {
+            await addItemToRestaurantMenuRepo(item);
             return res.status(200).json({
                 status: 200,
                 message: 'added item sucessfully',
@@ -63,10 +72,18 @@ export const addItem = async (req, res) => {
 
 //Item Active status set to false to ensure there are no cascading errors
 export const deleteItem = async (req, res) => {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
+        const manager = req.body.user;
+        const body = req.body.query;
+    
+        if (!checkValidManager(manager, body)) {
+            throw Error('You are not authorized to perform this action');
+        }
         const item = await deleteItemFromRepo({_id: id});
+
         if (item){
+            await removeItemFromRestaurantMenuRepo(item);
             return res.status(204).json({
                 status: 204,
                 message: `deleted item successfully`,
@@ -84,11 +101,21 @@ export const deleteItem = async (req, res) => {
 };
 
 export const updateItem = async (req, res) => {
-    const { name } = req.params;
-    const { body } = req;
+    const { id } = req.params;
+    const manager = req.body.user;
+    const body = req.body.query;
+
+    if (!checkValidManager(manager, body)) {
+        throw Error('You are not authorized to perform this action');
+    }
+    
+    if (body.category && !checkPropertyIsValidEnum(categories, body.category)) {
+        throw Error('Item category is invalid');
+    }
+
     try {
         const item = await 
-        updateItemInRepo({name: name}, body);
+        updateItemInRepo({_id: id}, body);
         if (item){
             return res.status(200).json({
                 status: 200,
@@ -127,3 +154,25 @@ export const getItems = async (req, res) => {
     }
 };
 
+// get all items by list
+export const getItemsByList = async (req, res) => {
+    try {
+        const menu = req.query;
+
+        const items = await getItemsByListFromRepo(menu);
+        if (items) {
+            return res.status(200).json({
+                status: 200,
+                message: 'found items sucessfully',
+                data: items
+            });
+        } else {
+            return res.status(404).json({
+                status: 404,
+                message: `Error finding items`,
+            });
+        }
+    }catch (error) {
+        res.status(500).send(`failed to get items`);
+    }
+};

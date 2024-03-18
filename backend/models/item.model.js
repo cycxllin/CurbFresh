@@ -10,7 +10,7 @@ const ItemSchema = new mongoose.Schema(
       price: {type: Number, required: true},
       soldOut: {type: Boolean, required: true},
       active: {type: Boolean, required: true},
-      category: {type: String}
+      category: {type: String, required: true}
     }
   );
 
