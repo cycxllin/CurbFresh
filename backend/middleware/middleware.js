@@ -8,7 +8,7 @@ export const checkValidManager = (req, res, next) => {
         const target = req.body.query;
 
         if (manager._id.includes('M') && manager.restID === target.restID) {
-            next();
+            return next();
         } else {
             return res
             .status(404)
@@ -32,7 +32,7 @@ export const checkValidCustomer = (req, res, next) => {
         const target = req.body.query;
 
         if (customer._id.includes('C') && customer._id === target.custID) {
-            next();
+            return next();
         } else {
             return res
             .status(404)
