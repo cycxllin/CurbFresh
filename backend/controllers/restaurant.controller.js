@@ -30,7 +30,7 @@ export const addRestaurant = async (req, res, next) => {
 */
 export const getRestaurant = async function (req, res) {
     try {
-        const restaurant = await getRestaurantsFromRepo({_id: req.params});
+        const restaurant = await getRestaurantsFromRepo({_id: req.params.id});
         if (restaurant) {
             return res.status(200).json({
                 status: 200,
@@ -44,7 +44,7 @@ export const getRestaurant = async function (req, res) {
             });
         }
     }catch (error) {
-        res.status(500).send(`failed to get restaurant ${req.params}`);
+        res.status(500).send(`failed to get restaurant ${req.params.id}`);
     }
 }
 

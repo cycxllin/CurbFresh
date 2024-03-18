@@ -10,13 +10,13 @@ export const getItemById = async (req, res) => {
         const item = await getItemByIdFromRepo(id);
 
         if (item){
-            return res.status().json({
+            return res.status(200).json({
                 status: 200,
                 message: "retrieved the item successfully",
                 data: item,
             });
         } else {
-            return res.status().json({
+            return res.status(404).json({
                 status: 404,
                 message: `No item with the name ${id} was found`,
             });
@@ -133,7 +133,7 @@ export const updateItem = async (req, res) => {
     }
 };
 
-// get all items 
+// get all items, ignores active state
 export const getItems = async (req, res) => {
     try {
         const items = await getItemsFromRepo();
@@ -154,10 +154,12 @@ export const getItems = async (req, res) => {
     }
 };
 
-// get all items by list
+// get all items by list, ignores active state 
+// send list in query url: localhost:65500/items/list?menu=I2,I3
 export const getItemsByList = async (req, res) => {
     try {
-        const menu = req.query;
+        const menuString = req.query.menu;
+        const menu = menuString.split(",");
 
         const items = await getItemsByListFromRepo(menu);
         if (items) {

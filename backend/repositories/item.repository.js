@@ -5,7 +5,7 @@ export const getItemByIdFromRepo = async (id) => {
         const item = await Item.findOne({_id:id});
         return item;
     } catch (error) {
-        throw Error(`Error while retrieving the item called: ${id}`);
+        throw Error(`Error while retrieving the item ${id}`);
     }
 };
 
