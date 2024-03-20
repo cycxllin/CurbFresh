@@ -9,6 +9,7 @@ const RestaurantSchema = new mongoose.Schema(
       phone: {type: String, required: true},
       menu: [{type: String, ref: 'Item'}],
       active: {type: Boolean, required: true},
+      image: {type: String},
     }
   );
 
