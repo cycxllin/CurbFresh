@@ -1,21 +1,22 @@
-import {getItemByNameFromRepo, addItemToRepo, deleteItemFromRepo, updateItemInRepo, getItemsFromRepo, getItemsByRestID} from "../repositories/item.repository.js";
-import { addItemToRestaurantMenuRepo } from "../repositories/restaurant.repository.js";
+import {getItemByIdFromRepo, addItemToRepo, deleteItemFromRepo, updateItemInRepo, 
+    getItemsFromRepo, countItemsInRepo, getItemsByListFromRepo} from "../repositories/item.repository.js";
+import { addItemToRestaurantMenuRepo, removeItemFromRestaurantMenuRepo} from "../repositories/restaurant.repository.js";
 
-export const getItemByName = async (req, res) => {
+export const getItemById = async (req, res) => {
     try {
-        const name = req.params.name;
-        const item = await getItemByNameFromRepo(name);
+        const id = req.params.id;
+        const item = await getItemByIdFromRepo(id);
 
         if (item){
-            return res.status().json({
+            return res.status(200).json({
                 status: 200,
                 message: "retrieved the item successfully",
                 data: item,
             });
         } else {
-            return res.status().json({
+            return res.status(404).json({
                 status: 404,
-                message: `No item with the name ${name} was found`,
+                message: `No item with the name ${id} was found`,
             });
         }
 
@@ -29,40 +30,25 @@ export const getItemByName = async (req, res) => {
 
 export const addItem = async (req, res) => {
     try {
-        const { body } = req;
+        const body = req.body.query;       
+        const itemCount = await countItemsInRepo();
+        const item = { _id: `I${itemCount}`, ...body, active: true, soldOut: false};
 
-        let item = await getItemByName(body.name);
-        let addedItem = {};
+        const addedItem = await addItemToRepo(item);
 
-        //The item exists already
-        if (item) {
-            return res.status(400).json({
-                status: 400,
-                message: `Item with the name ${body.name} already exists`
+        if (addedItem) {
+            await addItemToRestaurantMenuRepo(item);
+            return res.status(200).json({
+                status: 200,
+                message: 'added item sucessfully',
+                data: addedItem
             });
         } else {
-            item = {
-                ...body,
-                active: true
-            };
+            return res.status(404).json({
+                status: 404,
+                message: `Error adding item ${body.name}`,
+            });
         }
-
-     addedItem = await addItemToRepo(item);
-     //Add item to restaurant
-     await addItemToRestaurantMenuRepo(item);
-
-     if (addedItem) {
-        return res.status(200).json({
-            status: 200,
-            message: 'added item sucessfully',
-            data: addedItem
-        });
-    } else {
-        return res.status(404).json({
-            status: 404,
-            message: `Error adding item ${body.name}`,
-        });
-    }
 
     } catch (error) {
         res.status(500).json({
@@ -74,14 +60,15 @@ export const addItem = async (req, res) => {
 
 //Item Active status set to false to ensure there are no cascading errors
 export const deleteItem = async (req, res) => {
-    const { id } = req.params;
     try {
-        const item = await deleteItemFromRepo({id: id});
+        const { id } = req.params;
+        const item = await deleteItemFromRepo({_id: id});
+
         if (item){
-            return res.status(204).json({
-                status: 204,
-                message: `deleted item successfully`,
-                data: item
+            await removeItemFromRestaurantMenuRepo(item);
+            return res.status(200).json({
+                status: 200,
+                message: `deleted item ${id} successfully`,
             });
         } else {
             return res.status(404).json({
@@ -95,11 +82,12 @@ export const deleteItem = async (req, res) => {
 };
 
 export const updateItem = async (req, res) => {
-    const { name } = req.params;
-    const { body } = req;
+    const { id } = req.params;
+    const body = req.body.query;
+    
     try {
         const item = await 
-        updateItemInRepo({name: name}, body);
+        updateItemInRepo({_id: id}, body);
         if (item){
             return res.status(200).json({
                 status: 200,
@@ -117,6 +105,7 @@ export const updateItem = async (req, res) => {
     }
 };
 
+// get all items, ignores active state
 export const getItems = async (req, res) => {
     try {
         const items = await getItemsFromRepo();
@@ -137,3 +126,27 @@ export const getItems = async (req, res) => {
     }
 };
 
+// get all items by list, ignores active state 
+// send list in query url like: localhost:65500/items/list?menu=I2,I3
+export const getItemsByList = async (req, res) => {
+    try {
+        const menuString = req.query.menu;
+        const menu = menuString.split(",");
+
+        const items = await getItemsByListFromRepo(menu);
+        if (items) {
+            return res.status(200).json({
+                status: 200,
+                message: 'found items sucessfully',
+                data: items
+            });
+        } else {
+            return res.status(404).json({
+                status: 404,
+                message: `Error finding items`,
+            });
+        }
+    }catch (error) {
+        res.status(500).send(`failed to get items`);
+    }
+};

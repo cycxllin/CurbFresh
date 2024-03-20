@@ -2,6 +2,7 @@
  * For loading data LOCALLY 
  * Used in developing controllers and route
  * Will eventually be removed when moving data to atlas
+ * Does not load managers, items, or orders
  */
 
 import fs from "fs";

@@ -1,0 +1,59 @@
+[
+    {
+        "_id" : "M1",
+        "restID": "R1",
+        "fName" : "Anna",
+        "lName" : "Ruiz",
+        "phone" : "000-000-0000",
+        "__v" : 0,
+        "active" : true
+    },
+    {
+        "_id" : "M2",
+        "restID": "R2",
+        "fName" : "Ada",
+        "lName" : "Perterson",
+        "phone" : "123-456-7890",
+        "active" : true,
+        "email" : "",
+        "__v" : 0
+    },
+    {
+        "_id" : "M3",
+        "restID": "R1",
+        "fName" : "Mingyao",
+        "lName" : "Lin",
+        "phone" : "111-111-1111",
+        "active" : true,
+        "email" : "",
+        "__v" : 0
+    },
+    {
+        "_id" : "M4",
+        "restID": "R4",
+        "fName" : "Joanna",
+        "lName" : "Lee",
+        "phone" : "101-010-1010",
+        "active" : true,
+        "email" : "",
+        "__v" : 0
+    },
+    {
+        "_id" : "M5",
+        "fName" : "Luna",
+        "lName" : "Navarro",
+        "phone" : "780-351-5413",
+        "active" : true,
+        "email" : "lunen@email.ca",
+        "__v" : 0
+    },
+    {
+        "_id" : "M6",
+        "fName" : "Sufyan",
+        "lName" : "Mata",
+        "phone" : "841-922-7291",
+        "active" : true,
+        "email" : "smata@email.ca",
+        "__v" : 0
+    }
+]

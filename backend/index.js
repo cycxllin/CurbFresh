@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import customerRoutes from "./routes/customer.route.js";
+import managerRoutes from "./routes/manager.route.js";
 import itemRoutes from "./routes/item.route.js";
 import orderRoutes from "./routes/order.route.js";
 import restaurantRoutes from "./routes/restaurant.route.js";
@@ -23,6 +24,7 @@ app.use(cors());
 
 // routes
 app.use("/customers", customerRoutes);
+app.use("/managers", managerRoutes);
 app.use("/items", itemRoutes);
 app.use("/orders", orderRoutes);
 app.use("/restaurants", restaurantRoutes);

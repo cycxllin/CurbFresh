@@ -1,25 +1,22 @@
 [
     {
-        "_id": "65e64dd0883155ae64f4cf62",
-        "id": 1,
+        "_id": "R1",
         "name": "A&W",
         "phone": "381-324-1932",
-        "menu": [],
+        "menu": ["I1","I2","I3"],
         "active": true,
         "__v": 0
     },
     {
-        "_id": "65e64ddc883155ae64f4cf65",
-        "id": 2,
+        "_id": "R2",
         "name": "Beans List",
         "phone": "491-814-1589",
-        "menu": [],
+        "menu": ["I4"],
         "active": true,
         "__v": 0
     },
     {
-        "_id": "65e64de7883155ae64f4cf68",
-        "id": 3,
+        "_id": "R3",
         "name": "Tasty Tacos",
         "phone": "592-735-9210",
         "menu": [],
@@ -27,8 +24,7 @@
         "__v": 0
     },
     {
-        "_id": "65e64dfe883155ae64f4cf6b",
-        "id": 4,
+        "_id": "R4",
         "name": "Pizza Palace",
         "phone": "684-327-5092",
         "menu": [],
@@ -36,8 +32,7 @@
         "__v": 0
     },
     {
-        "_id": "65e64e0a883155ae64f4cf6e",
-        "id": 5,
+        "_id": "R5",
         "name": "Sushi Central",
         "phone": "329-576-1843",
         "menu": [],
@@ -45,8 +40,7 @@
         "__v": 0
     },
     {
-        "_id": "65e64e12883155ae64f4cf71",
-        "id": 6,
+        "_id": "R6",
         "name": "Burger Barn",
         "phone": "817-652-3048",
         "menu": [],
@@ -54,172 +48,9 @@
         "__v": 0
     },
     {
-        "_id": "65e64e1a883155ae64f4cf74",
-        "id": 7,
+        "_id": "R7",
         "name": "Pasta Paradise",
         "phone": "476-912-3856",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e23883155ae64f4cf77",
-        "id": 8,
-        "name": "Wok Wonders",
-        "phone": "293-847-5612",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e2b883155ae64f4cf7a",
-        "id": 9,
-        "name": "Submarine Sandwiches",
-        "phone": "742-195-6382",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e34883155ae64f4cf7d",
-        "id": 10,
-        "name": "Mediterranean Delights",
-        "phone": "618-453-9274",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e3b883155ae64f4cf80",
-        "id": 11,
-        "name": "Ice Cream Oasis",
-        "phone": "835-214-6093",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e43883155ae64f4cf83",
-        "id": 12,
-        "name": "Authentic Indian Cuisine",
-        "phone": "359-812-4736",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e4b883155ae64f4cf86",
-        "id": 13,
-        "name": "BBQ Bonanza",
-        "phone": "572-394-1865",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e54883155ae64f4cf89",
-        "id": 14,
-        "name": "Healthy Bowls",
-        "phone": "927-361-8450",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e5c883155ae64f4cf8c",
-        "id": 15,
-        "name": "Bagel Haven",
-        "phone": "683-572-9014",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e64883155ae64f4cf8f",
-        "id": 16,
-        "name": "Vietnamese Pho House",
-        "phone": "475-928-3047",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e6f883155ae64f4cf92",
-        "id": 17,
-        "name": "Gourmet Grilled Cheese",
-        "phone": "216-739-5823",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e77883155ae64f4cf95",
-        "id": 18,
-        "name": "Crepe Cafe",
-        "phone": "594-138-2750",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e7e883155ae64f4cf98",
-        "id": 19,
-        "name": "Hot Dog Hut",
-        "phone": "751-349-8206",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e85883155ae64f4cf9b",
-        "id": 20,
-        "name": "Tropical Smoothie Shack",
-        "phone": "836-592-1047",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e8e883155ae64f4cf9e",
-        "id": 21,
-        "name": "French Bakery",
-        "phone": "482-715-9362",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e94883155ae64f4cfa1",
-        "id": 22,
-        "name": "Diner Delights",
-        "phone": "619-304-8257",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64e9c883155ae64f4cfa4",
-        "id": 23,
-        "name": "Thai Taste",
-        "phone": "293-857-1029",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64ea5883155ae64f4cfa7",
-        "id": 24,
-        "name": "Mexican Fiesta",
-        "phone": "749-281-5036",
-        "menu": [],
-        "active": true,
-        "__v": 0
-    },
-    {
-        "_id": "65e64ead883155ae64f4cfaa",
-        "id": 25,
-        "name": "Panini Paradise",
-        "phone": "615-827-3940",
         "menu": [],
         "active": true,
         "__v": 0

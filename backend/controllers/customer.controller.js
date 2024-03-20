@@ -1,5 +1,5 @@
 import { getCustomerByPhoneFromRepo, addCustomerToRepo, updateCustomerInRepo, 
-    deleteCustomerFromRepo, getCustomersFromRepo } from "../repositories/customer.repository.js";
+    deleteCustomerFromRepo, getCustomersFromRepo, countCustomersInRepo } from "../repositories/customer.repository.js";
 
 export const getCustomerByPhone = async (req, res, next) => {
     try {
@@ -44,8 +44,8 @@ export const addCustomer = async (req, res, next) => {
             };
 
             addedCustomer = await updateCustomerInRepo({phone: body.phone}, customer);
-            }
-            else {
+
+            } else {
                 // customer exists but is still active so reject adding
                 return res.status(400).json({
                     status: 400,
@@ -53,17 +53,21 @@ export const addCustomer = async (req, res, next) => {
                 });
             }
 
-
         } else {
+            // customer not in db
+            const custCount = await countCustomersInRepo();
+
             if (req.body.email) {
                 customer = {
+                    _id: `C${custCount}`,
                     ...body,
                     active: true
                 };
             } else {
                 customer = {
-                    email: '',
+                    _id: `C${custCount}`,
                     ...body,
+                    email: '',
                     active: true
                 };
             }

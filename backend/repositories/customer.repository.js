@@ -19,6 +19,15 @@ export const addCustomerToRepo = async (payload) => {
         }
 };
 
+export const countCustomersInRepo = async function () {
+    try {
+        let count = await Customer.countDocuments();
+        return count+1;
+    } catch (error) {
+        throw Error("Error while counting customers in database");
+    }
+}
+
 /* Does not actually fully delete a customer from the database
  * The customer is simply set as inactive and not parsed over anywhere else
 */

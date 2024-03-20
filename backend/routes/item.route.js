@@ -1,12 +1,14 @@
 import express from "express";
-import {addItem, deleteItem, getItemByName, updateItem, getItems } from "../controllers/item.controller.js";
+import {addItem, deleteItem, getItemById, updateItem, getItems, getItemsByList } from "../controllers/item.controller.js";
+import { checkValidManager } from "../middleware/middleware.js";
 
 const router = express.Router();
 
-router.post('/', addItem);
+router.post('/', checkValidManager, addItem);
 router.get("/", getItems);
-router.get("/:name", getItemByName);
-router.patch("/:name", updateItem);
-router.delete("/:name", deleteItem);
+router.get("/list", getItemsByList);
+router.get("/:id", getItemById);
+router.patch("/:id", checkValidManager, updateItem);
+router.delete("/:id", checkValidManager, deleteItem);
 
 export default router;
