@@ -1,29 +1,48 @@
-import React from 'react';
-import {useQuery} from "react-query";
-//import "./userDropdown.styles.css";
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import axios from "axios";
+import "./userDropdown.styles.css";
 
 const fetchManagers = async () => {
     const response = await axios.get("http://localhost:");
+    if (!response.ok){
+        throw new Error('failed to get');
+    }
+    return response.json();
+}
+
+const fetchCustomers = async () => {
+    const response = await axios.get("http://localhost:");
+    if (!response.ok){
+        throw new Error('failed to get');
+    }
+    return response.json();
 }
 
 function userDropdown ({ type, setSelectedUser}) {
+    let users;
+    //const data = { data: users, isLoading, isError};
     if (type === "Manager"){
-        const { data: managers, isLoading, isError} = useQuery('getManagers', fetchManagers);
+        //data = useQuery('getManagers', fetchManagers);
     } else if (type === "Customer") {
+        //data = useQuery('getCustomer', fetchCustomers);
+    }
 
+    //if (isLoading) return <p>Loading...</p>
+    //if (isError) return <p>Error!</p>
+
+    const handleChangeUser = (event) => {
+        const user = event.target.value;
+        setSelectedUser(user);
     }
 
     return (
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-            </button>
-            <ul class="dropdown-menu">
-                <li><button class="dropdown-item" type="button">Action</button></li>
-                <li><button class="dropdown-item" type="button">Another action</button></li>
-                <li><button class="dropdown-item" type="button">Something else here</button></li>
-            </ul>
-        </div>
+        <select class="form-select" aria-label="Default select example">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
     )
 }
 

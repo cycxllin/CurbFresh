@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
 import { QueryClient, QueryClientProvider } from 'react-query'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import userDropdown from "../components/userDropdown/userDropdown.component";
+//import UserDropdown from "../components/userDropdown/userDropdown.component";
+import ManagerHeader from "../components/managerHeader/managerHeader.component";
+import ManagerTabs from "../components/managerTabs/managerTabs.component";
 
 const queryClient = new QueryClient();
 
@@ -10,10 +12,10 @@ function Manager() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <div className="Manager">Manager
-                <userDropdown type="Manager" setSelectedUser={setSelectedManager}/>
+            <div className="Manager">
+                <ManagerHeader/>
+                <ManagerTabs/>
             </div>
-            
         </QueryClientProvider>
     )
 }
