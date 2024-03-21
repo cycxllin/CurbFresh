@@ -14,7 +14,7 @@ function TabContent ( {type, selectedManager}) {
     if (isError) return <p>Error!</p>
 
 
-    console.log(selectedManager);
+    //console.log(selectedManager);
 
     return (
         <div className="content">

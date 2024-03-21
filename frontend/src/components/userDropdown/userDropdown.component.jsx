@@ -41,9 +41,9 @@ function UserDropdown ({ type, setSelectedUser}) {
     if (isError) return <p>Error!</p>
 
     const handleChangeUser = (event) => {
-        const user = event.target.value;
+        const [userID, resID] = event.target.value;
         //console.log("test: " + user);
-        setSelectedUser(user);
+        setSelectedUser([userID, resID]);
     }
 
     return (
