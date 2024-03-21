@@ -11,7 +11,7 @@ function managerHeader ( {setSelectedUser} ) {
         <header className="mHeader">
             <h2>CurbFresh</h2> 
             <h2>Restaurant Name</h2>
-            <UserDropdown setSelectedUser={setSelectedUser} type="Manager"></UserDropdown>
+            <UserDropdown setSelectedUser={setSelectedUser} type="Managers"></UserDropdown>
         </header>
     )
 }
