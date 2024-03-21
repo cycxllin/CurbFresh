@@ -19,7 +19,7 @@ const fetchRestaurantName = async (user) => {
 function ManagerHeader ( { selectedUser, setSelectedUser} ) {
     let resName = "TEST";
     if (selectedUser != null) {
-        console.log("select: " + typeof selectedUser);
+        console.log("select: " + selectedUser[0]);
     }
     
     /*const {data: resName, isLoading, isError, refetch} = useQuery('resName', fetchRestaurantName(setSelectedUser));
