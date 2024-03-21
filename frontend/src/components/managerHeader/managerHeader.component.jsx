@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import axios from "axios";
-import UserDropdown from '../userDropdown/userDropdown.component';
+import UserDropdown from '../UserDropdown/UserDropdown.component';
 import "./managerHeader.styles.css";
-import Form from 'react-bootstrap/Form';
 
 
-function managerHeader () {
+function managerHeader ( {setSelectedUser} ) {
 
     return (
         <header className="mHeader">
             <h2>CurbFresh</h2> 
             <h2>Restaurant Name</h2>
-            <UserDropdown></UserDropdown>
+            <UserDropdown setSelectedUser={setSelectedUser} type="Manager"></UserDropdown>
         </header>
     )
 }
