@@ -40,6 +40,7 @@
     },
     {
         "_id" : "M5",
+        "restID": "R5",
         "fName" : "Luna",
         "lName" : "Navarro",
         "phone" : "780-351-5413",
@@ -49,6 +50,7 @@
     },
     {
         "_id" : "M6",
+        "restID": "R6",
         "fName" : "Sufyan",
         "lName" : "Mata",
         "phone" : "841-922-7291",
