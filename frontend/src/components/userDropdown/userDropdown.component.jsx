@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { useQuery } from "react-query";
 import axios from "axios";
+import Form from 'react-bootstrap/Form';
 import "./UserDropdown.styles.css";
 
 const fetchManagers = async () => {
+    //const link = await getLink(type);
+    //const url = `http://localhost:65500${link}`;
+    //console.log(url);
     const response = await fetch("http://localhost:65500/managers");
-    //console.log("OK: " + response.message);
     if (!response.ok) {
         throw new Error("failed to get");
     }
-    //console.log("data?: " + response.json().data);
-    //console.log("Response!: \n" + response.json());
     return response.json();
 }
 
@@ -22,25 +23,37 @@ const fetchCustomers = async () => {
     return response.json();
 }
 
+/*const getLink = async (type) => {
+    //To change based on Customer or Manager
+    if (type === "Managers") {
+        return "/managers";
+    }else if (type === "Customers"){
+        return "/customers";
+    }
+}*/
+
 function UserDropdown ({ type, setSelectedUser}) {
+
+    //Query to get array of users
     const {data: users, isLoading, isError} = useQuery(['users'], fetchManagers);
 
     if (isLoading) return <p>Loading...</p>
     if (isError) return <p>Error!</p>
 
     const handleChangeUser = (event) => {
-        const user = event.target.value;
-        setSelectedUser(user);
+        const [userID, resID] = event.target.value;
+        //console.log("test: " + user);
+        setSelectedUser([userID, resID]);
     }
 
     return (
-        <select className="form-select">
+        <Form.Select className="form-select" onChange={handleChangeUser}>
             <option defaultValue>Choose a manager</option>
             {users.data.map((user,index) => (
-            <option key = {index} value={user.id} >{user.fName}</option>
+            <option key = {index} value={[user._id, user.restID]} >{user.fName}</option>
         ))
         }
-        </select>
+        </Form.Select>
     )
 }
 
