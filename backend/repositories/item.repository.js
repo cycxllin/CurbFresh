@@ -86,7 +86,12 @@ export const getItemsByRestIDFromRepo = async (restID) => {
 // gets all items by list
 export const getItemsByListFromRepo = async (list) => {
     try{
-        const items = await Item.find({_id:{$in: list}}).sort({time: -1});
+        const items = await Item.find({
+            $and:[
+                {_id:{$in: list}},
+                {active: true}
+        ]
+    }).sort({time: -1});
         return items;
    } catch (error) {
        throw Error("Error while getting items");

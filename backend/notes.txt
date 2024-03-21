@@ -1,6 +1,6 @@
   example for adding, updating, deleting orders/items to send to backend:
         data = {
-            user: {   }, // current user object; used to check permissions
+            user: [ID, restID]   , // leave out restID if sending a cust
             query: {   } // whatever data you want to send
         }
 

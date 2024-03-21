@@ -7,9 +7,11 @@ import { getItemsByListFromRepo } from "../repositories/item.repository.js";
 export const checkValidManager = (req, res, next) => {
     try {
         const manager = req.body.user;
-        const target = req.body.query;
+        const target = req.body.query;  
 
-        if (manager._id.includes('M') && manager.restID === target.restID) {
+        console.log(manager);
+
+        if (manager.length === 2 && manager[0].includes('M') && manager[1] === target.restID) {
             return next();
         } else {
             return res
@@ -33,7 +35,7 @@ export const checkValidCustomer = (req, res, next) => {
         const customer = req.body.user;
         const target = req.body.query;
 
-        if (customer._id.includes('C') && customer._id === target.custID) {
+        if (customer[0].includes('C') && customer[0] === target.custID) {
             return next();
         } else {
             return res
