@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import axios from "axios";
-import "./managerHeader.styles.css";
+import "./ManagerHeader.styles.css";
 
 const fetchRestaurantName = async (rID) => {
     //console.log("ID: " + rID);

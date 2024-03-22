@@ -16,7 +16,7 @@ function TabContent ( {type, resInfo}) {
 
     return (
         <div className="content">
-           <p>{resInfo.menu}</p>
+           <CardList restaurants={resInfo.menu}/>
         </div>
     )
 }
