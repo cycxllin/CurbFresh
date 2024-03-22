@@ -116,7 +116,7 @@ function EditItemPopup ( {showEditModal, toggleEditModal, selectedManager, item}
                     <Form.Group className="position-relative mb-3">
                     <Form.Label>Item Image</Form.Label>
                     <Form.Control
-                    type="file"
+                    type="string"
                     /*required*/
                     name="image"
                     value={formData.image}
