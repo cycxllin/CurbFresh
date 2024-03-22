@@ -2,9 +2,14 @@ import React from "react";
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import CardList from '../components/restaurantList/cardList.component';
-//import {Dropdown, GridColumn} from "semantic-ui-react";
+import CustomerDropdown from "../components/CustomerDropdown/CustomerDropdown.component";
+import CustomerTabs from "../components/CustomerTabs/CustomerTabs.component";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 function Customer() {
+    const [selectedCustomer, setSelectedCustomer] = useState([]);
     const [restaurants, setRestaurants] = useState([]);
     useEffect(() => {
       const fetchRestaurants = async () => {
@@ -25,47 +30,35 @@ function Customer() {
       fetchCustomers();
     }, []);
 
-    //For dropdown list formatting, turning the fetched customers into an array with key values
-    const options = [];
-    for (let i = 0; i < customers.length; i++) {
-        const placeholder = {key:customers[i]._id, text:customers[i].fName + customers[i].lName, value:customers[i].fName}
-        options.push(placeholder);
-    }
-
     return (
-        <div>
-            <head>
-                <title>CurbFresh Customer Screen</title>
-            </head>
+        <QueryClientProvider client={queryClient}>
+            <div>
+                <head>
+                    <title>CurbFresh Customer Screen</title>
+                </head>
 
-            <header>
-                <div className="row sm-md">
-                    <div className="col sm-md">
-                        <h2>CurbFresh</h2>
+                <header>
+                    <div className="row sm-md">
+                        <div className="col sm-md">
+                            <h2>CurbFresh</h2>
+                        </div>
+                        <div className="col sm-md">
+                            <h2>Enter Your Address</h2>
+                        </div>
+                        <CustomerDropdown setSelectedUser={setSelectedCustomer}/>
                     </div>
-                    <div className="col sm-md">
-                        <h2>Enter Your Address</h2>
+                </header>
+                <body>
+                    <div className="row">
+                        <CustomerTabs selectedCustomer={selectedCustomer}/>
                     </div>
-                    {/* <div className="col sm-md">
-                        <Dropdown
-                            placeholder="Select Student Name"
-                            fluid
-                            selection
-                            options={options}
+                    {/* console.log({restaurants}); */}
+                    <CardList
+                        restaurants = {restaurants}
                         />
-                    </div> */}
-                </div>
-            </header>
-            <body>
-                <div className="row">
-
-                </div>
-                {/* console.log({restaurants}); */}
-                <CardList
-                    restaurants = {restaurants}
-                    />
-            </body>
-        </div>
+                </body>
+            </div>
+        </QueryClientProvider>
     )
 }
 

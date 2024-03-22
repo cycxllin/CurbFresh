@@ -5,7 +5,7 @@ import BootStrapCard from 'react-bootstrap/Card';
 
 const Card = ({ restaurant, handleClick}) => {
   let link = "/restaurant";
-  const {_id, name, phone, image} = restaurant;
+  const {_id, name, phone, image, menu} = restaurant;
 
   return (
     <BootStrapCard style={{ width: '18rem' }}>
