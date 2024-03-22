@@ -126,7 +126,7 @@ export const getItems = async (req, res) => {
     }
 };
 
-// get all items by list, ignores active state 
+// get all items by list
 // send list in query url like: localhost:65500/items/list?menu=I2,I3
 export const getItemsByList = async (req, res) => {
     try {
