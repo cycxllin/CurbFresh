@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import Customer from "./pages/customer";
 import Manager from "./pages/manager";
 import Restaurant from "./pages/restaurant";
+//import 'semantic-ui-css/semantic.min.css';
 
 import {
   createBrowserRouter,
