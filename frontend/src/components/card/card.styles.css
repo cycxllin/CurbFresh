@@ -1,9 +1,11 @@
 .card-container {
+    height: 16vw;
+    width: 16vw;
     display: flex;
     flex-direction: column;
     background-color: #95dada;
     border: 1px solid grey;
-    border-radius: 5px;
+    border-radius: 16px;
     padding: 16px;
     cursor: pointer;
     -moz-osx-font-smoothing: grayscale;
@@ -13,4 +15,50 @@
 }
 .card-container:hover {
     transform: scale(1.05);
+}
+
+p {
+    font-size: 1vw;
+}
+
+h1.add {
+    color: green;
+    font-size: 3vw;
+    position: fixed;
+    left: 12%;
+    top: 16%;
+}
+
+h2.O {
+    font-size: 8vw;
+    font-weight: 200;
+    color: green;
+    position: fixed;
+    top: 32%;
+    left: 33%;
+}
+
+h2.add {
+    color: green;
+    font-size: 3vw;
+    position: fixed;
+    top: 50%;
+    left: 45%;
+
+}
+
+Button.delete {
+    position: fixed;
+    bottom: 8%;
+    left: 8%;
+    width: 32%;
+    justify-content: center;
+}
+
+Button.edit {
+    position: fixed;
+    bottom: 8%;
+    right: 8%;
+    width: 32%;
+    justify-content: center;
 }
