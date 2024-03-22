@@ -15,15 +15,6 @@ const fetchManagers = async () => {
     return response.json();
 }
 
-const fetchCustomers = async () => {
-    const response = await axios.get("http://localhost:");
-    if (!response.ok){
-        throw new Error('failed to get');
-    }
-    const data = response.json();
-    return data;
-}
-
 /*const getLink = async (type) => {
     //To change based on Customer or Manager
     if (type === "Managers") {

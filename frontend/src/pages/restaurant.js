@@ -9,16 +9,17 @@ function Restaurant() {
     const [items, setItems] = useState([]);
     useEffect(() => {
       const fetchItems = async () => {
-        const url = "http://localhost:65500/items";
-        const config = {'restID': 'R1'};
-        const response = await axios.get(url, config);
+        const IdString = restaurant.menu.join(',');
+        const url = `http://localhost:65500/items/list?menu=${IdString}`;
+        const response = await axios.get(url);
         setItems(response.data.data);
       };
   
       fetchItems();
     }, []);
 
-    console.log(items);
+  console.log(items);
+
     return (
         <div>
             <head>
@@ -26,7 +27,12 @@ function Restaurant() {
             </head>
 
             <body>
-              <h1>Welcome to {restaurant.name}!!!</h1>
+              <center>
+              <h2>Welcome to {restaurant.name}!</h2>
+              <h3>Our Business hours are 9am - 10pm.</h3>
+              {restaurant.menu}
+              </center>
+
             <CardList
                     items = {items}
                     />
