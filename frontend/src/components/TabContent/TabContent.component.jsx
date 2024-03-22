@@ -2,23 +2,21 @@ import React, { useState } from 'react';
 import { useQuery } from "react-query";
 import CardList from "../cardList/cardList.component";
 
-const fetchMenuItems = async () => {
-    //const response = await fetch("https://localhost:65500/");
-}
 
-
-function TabContent ( {type, selectedManager}) {
-
-    const {data: menuItems, isLoading, isError} = useQuery(['menuItems'], fetchMenuItems);
-    if (isLoading) return <p>Loading...</p>
-    if (isError) return <p>Error!</p>
-
+function TabContent ( {type, resInfo}) {
+    //const [menuItems, setMenuItems] = useState([]);
+    if (resInfo === null) {
+        return <p>Select Manager to view restaurant menu!</p>
+    }
+    console.log(resInfo.menu);
+    //setMenuItems(resInfo.menu);
+    
 
     //console.log(selectedManager);
 
     return (
         <div className="content">
-            
+           <p>{resInfo.menu}</p>
         </div>
     )
 }
