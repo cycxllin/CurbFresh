@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
-import "./managerTabs.styles.css";
+import "./ManagerTabs.styles.css";
 import TabContent from "../TabContent/TabContent.component";
 
 
 //https://react-bootstrap.netlify.app/docs/components/navs/#/home
 
-function ManagerTabs ( {selectedManager} ) {
+function ManagerTabs ( {selectedManager, resInfo} ) {
     //State for selected tab
     const [selectedTab, setSelectedTab] = useState("link-0");
 
@@ -31,9 +31,9 @@ function ManagerTabs ( {selectedManager} ) {
             </Nav>
 
             {/* Render the content based on the selected tab */}
-            {selectedTab === "link-0" && <TabContent type="Menu Items" selectedManager={selectedManager} />}
-            {selectedTab === "link-1" && <TabContent type="Orders" selectedManager={selectedManager} />}
-            {selectedTab === "link-2" && <TabContent type="Analytics" selectedManager={selectedManager} />}
+            {selectedTab === "link-0" && <TabContent resInfo={resInfo} type="Menu Items" selectedManager={selectedManager} />}
+            {selectedTab === "link-1" && <TabContent resInfo={resInfo} type="Orders" selectedManager={selectedManager} />}
+            {selectedTab === "link-2" && <TabContent resInfo={resInfo} type="Analytics" selectedManager={selectedManager} />}
         </div>
     )
 }
