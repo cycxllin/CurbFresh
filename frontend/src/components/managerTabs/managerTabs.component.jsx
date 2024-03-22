@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
-import "./managerTabs.styles.css";
+import "./ManagerTabs.styles.css";
 import TabContent from "../TabContent/TabContent.component";
 
 

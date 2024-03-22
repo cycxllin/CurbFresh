@@ -35,13 +35,13 @@ function Customer() {
     return (
         <div>
             <head>
-                <title>ROPMS Customer Screen</title>
+                <title>CurbFresh Customer Screen</title>
             </head>
 
             <header>
                 <div className="row sm-md">
                     <div className="col sm-md">
-                        <h2>ROPMS</h2>
+                        <h2>CurbFresh</h2>
                     </div>
                     <div className="col sm-md">
                         <h2>Enter Your Address</h2>

@@ -62,6 +62,7 @@ export const addItem = async (req, res) => {
 export const deleteItem = async (req, res) => {
     try {
         const { id } = req.params;
+        console.log("here!" + req.params);
         const item = await deleteItemFromRepo({_id: id});
 
         if (item){
