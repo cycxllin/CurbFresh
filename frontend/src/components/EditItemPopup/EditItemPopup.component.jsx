@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import FormCheck from 'react-bootstrap/FormCheck'
 import Modal from 'react-bootstrap/Modal';
 
 function EditItemPopup ( {showEditModal, toggleEditModal, selectedManager, item} ) {
@@ -19,11 +20,14 @@ function EditItemPopup ( {showEditModal, toggleEditModal, selectedManager, item}
 
     //Change in whatever is inputted
     const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-    }));
+        const { name, value, checked } = event.target;
+        // Use a ternary operator to set the value based on the type of input
+        const updatedValue = event.target.type === 'checkbox' ? checked : value;
+        
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: updatedValue,
+        }));
     };
 
     const handleSubmit = async (event) => {
@@ -120,11 +124,12 @@ function EditItemPopup ( {showEditModal, toggleEditModal, selectedManager, item}
                     />
                     <Form.Control.Feedback></Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group>
+                <Form.Group className="mb-4">
                     <Form.Label>Item Category: </Form.Label>
                     <Form.Control 
                     as="select" 
-                    required name="category"
+                    required 
+                    name="category"
                     value={formData.category}
                     onChange={handleChange}
                     >
@@ -141,7 +146,16 @@ function EditItemPopup ( {showEditModal, toggleEditModal, selectedManager, item}
                     </Form.Control>
                     <Form.Control.Feedback type="invalid">Select a category</Form.Control.Feedback>
                 </Form.Group>
-                
+                <Form.Group className="mb-4">
+                    <Form.Label>Sold out</Form.Label>
+                    <Form.Check // prettier-ignore
+                        name="soldOut"
+                        type="switch"
+                        id="custom-switch"
+                        checked={formData.soldOut}
+                        onChange={handleChange}
+                    />
+                </Form.Group>
             </Form>
             </Modal.Body>
             <Modal.Footer>
