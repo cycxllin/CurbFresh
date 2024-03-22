@@ -1,5 +1,5 @@
 import {getItemByIdFromRepo, addItemToRepo, deleteItemFromRepo, updateItemInRepo, 
-    getItemsFromRepo, countItemsInRepo, getItemsByListFromRepo} from "../repositories/item.repository.js";
+    getItemsFromRepo,getItemsByRestIDFromRepo, countItemsInRepo, getItemsByListFromRepo} from "../repositories/item.repository.js";
 import { addItemToRestaurantMenuRepo, removeItemFromRestaurantMenuRepo} from "../repositories/restaurant.repository.js";
 
 export const getItemById = async (req, res) => {
@@ -113,6 +113,28 @@ export const getItems = async (req, res) => {
             return res.status(200).json({
                 status: 200,
                 message: 'found items sucessfully',
+                data: items
+            });
+        } else {
+            return res.status(404).json({
+                status: 404,
+                message: `Error finding items`,
+            });
+        }
+    }catch (error) {
+        res.status(500).send(`failed to get items`);
+    }
+};
+
+// get all items, ignores active state
+export const getItemsByrestID = async (req, res) => {
+    try {
+        const r_id = req.params.restID;
+        const items = await getItemsByRestIDFromRepo(r_id);
+        if (items) {
+            return res.status(200).json({
+                status: 200,
+                message: 'found items by restaurant ID sucessfully',
                 data: items
             });
         } else {
