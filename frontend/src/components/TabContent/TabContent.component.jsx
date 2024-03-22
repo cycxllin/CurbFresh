@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from "react-query";
 import CardList from "../cardList/cardList.component";
 //import SearchBar from '../searchbar/searchbar.component';
@@ -21,6 +21,9 @@ function TabContent ( {type, resInfo, selectedManager}) {
     //const [searchInput, setSearchInput] = useState("");
 
     const {data: menuItems, isLoading, isError, refetch} = useQuery('menuItems', () => fetchMenuItems(resInfo.menu));
+    /*useEffect(() =>{
+        refetch();
+    }, [selectedManager])*/
 
     if (resInfo === null) {
         return <p>Select Manager to view restaurant menu!</p>
