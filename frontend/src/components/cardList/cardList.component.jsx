@@ -2,10 +2,10 @@ import React from 'react';
 import Card from '../card/card.component';
 import "./cardList.styles.css";
 
-const CardList = ({ items }) => (
+const CardList = ({ restaurants, handleClick }) => (
     <div className="cardlist">
-        {items.map(item => (
-            <Card key={item.id} item={item} />
+        {restaurants.map(restaurant => (
+            <Card handleClick={handleClick} key={restaurant._id} restaurant={restaurant} />
         ))}
     </div>
 )
