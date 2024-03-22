@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import axios from "axios";
-import UserDropdown from '../UserDropdown/UserDropdown.component';
-import "./ManagerHeader.styles.css";
+import UserDropdown from '../userDropdown/userDropdown.component';
+import "./managerHeader.styles.css";
 
 const fetchRestaurantName = async (user) => {
     const id = user[1];
