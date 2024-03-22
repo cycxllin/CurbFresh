@@ -5,6 +5,7 @@
         "phone": "381-324-1932",
         "menu": ["I1","I2","I3"],
         "active": true,
+        "image": "aw.jpg",
         "__v": 0
     },
     {
@@ -13,6 +14,7 @@
         "phone": "491-814-1589",
         "menu": ["I4"],
         "active": true,
+        "image": "aw.jpg",
         "__v": 0
     },
     {
@@ -21,6 +23,7 @@
         "phone": "592-735-9210",
         "menu": [],
         "active": true,
+        "image": "aw.jpg",
         "__v": 0
     },
     {
@@ -29,6 +32,7 @@
         "phone": "684-327-5092",
         "menu": [],
         "active": true,
+        "image": "aw.jpg",
         "__v": 0
     },
     {
@@ -37,6 +41,7 @@
         "phone": "329-576-1843",
         "menu": [],
         "active": true,
+        "image": "aw.jpg",
         "__v": 0
     },
     {
@@ -45,6 +50,7 @@
         "phone": "817-652-3048",
         "menu": [],
         "active": true,
+        "image": "aw.jpg",
         "__v": 0
     },
     {
@@ -53,6 +59,7 @@
         "phone": "476-912-3856",
         "menu": [],
         "active": true,
+        "image": "aw.jpg",
         "__v": 0
     }
 ]
