@@ -1,5 +1,5 @@
 .card-container {
-    height: 20vw;
+    height: 16vw;
     width: 16vw;
     display: flex;
     flex-direction: column;
@@ -34,7 +34,7 @@ h2.O {
     font-weight: 200;
     color: green;
     position: fixed;
-    top: 36%;
+    top: 32%;
     left: 33%;
 }
 
