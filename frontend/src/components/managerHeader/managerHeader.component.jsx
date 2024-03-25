@@ -19,22 +19,22 @@ function ManagerHeader ( { selectedUser, setResInfo} ) {
     const {data: resInfo, isLoading, isError, refetch} = useQuery(
         ['resInfo'], 
         () => selectedUser && fetchRestaurantName(selectedUser[1]), {
-        enabled: !!selectedUser, //Run only if selectedUser is not null
         cacheTime: Infinity,
     });
 
     const [resName, setResName] = useState("Welcome!");
     
     useEffect(() => {
-        if (isLoading) { setResName("Loading..."); }
-        if (isError) { setResName("Error!");}
-        if (selectedUser === null || resInfo===undefined) {setResName("Select Manager!");}
-        else {
-            refetch();
-            //console.log("Hello?" + resInfo +  " Manager: " + selectedUser);
-            setResName(resInfo.data[0].name);
-            setResInfo(resInfo.data[0]);
-    }}, [isLoading, isError, resInfo, selectedUser]);
+    if (isLoading) { setResName("Loading..."); }
+    if (isError) { setResName("Error!");}
+    if (selectedUser === null) {setResName("Select Manager!");}
+    else {
+        
+        console.log(resInfo);
+        setResName(resInfo.data[0].name);
+        setResInfo(resInfo.data[0]);
+        refetch();
+    }}, [isLoading, isError, resInfo]);
 
     return (
         <header className="mHeader" >
