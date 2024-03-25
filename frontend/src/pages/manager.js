@@ -14,7 +14,7 @@ function Manager() {
     return (
         <QueryClientProvider client={queryClient}>
             <div className="Manager">
-                <UserDropdown setSelectedUser={setSelectedManager} setResInfo={setResInfo} />
+                <UserDropdown setSelectedUser={setSelectedManager} />
                 <ManagerHeader selectedUser={selectedManager} setResInfo={setResInfo} />
                 <ManagerTabs selectedManager={selectedManager} resInfo={resInfo}/>
             </div>
