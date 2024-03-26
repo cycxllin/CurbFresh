@@ -33,8 +33,8 @@ function ManagerHeader ( { selectedUser, setResInfo} ) {
         //console.log(resInfo);
         setResName(resInfo.data[0].name);
         setResInfo(resInfo.data[0]);
-        //refetch();
-    }}, [isLoading, isError, resInfo, selectedUser]);
+        refetch();
+    }}, [resInfo, selectedUser]);
 
     return (
         <header className="mHeader" >
