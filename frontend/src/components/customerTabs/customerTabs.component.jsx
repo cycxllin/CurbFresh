@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
-import "./CustomerTabs.styles.css";
+import "./customerTabs.styles.css";
 import TabContent from "../TabContent/TabContent.component";
 
 function CustomerTabs ( {selectedCustomer, resInfo} ) {

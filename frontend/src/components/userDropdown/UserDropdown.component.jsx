@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from "react-query";
 import axios from "axios";
 import Form from 'react-bootstrap/Form';
-import "./UserDropdown.styles.css";
+import "./userDropdown.styles.css";
 
 const fetchManagers = async () => {
     //const link = await getLink(type);
