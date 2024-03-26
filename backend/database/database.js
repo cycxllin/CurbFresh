@@ -5,7 +5,7 @@ mongoose.set('strictQuery', true);
 export const connectDB = async () => {
     try {
         mongoose.connect(process.env.DATABASE_URL || 
-            'mongodb://127.0.0.1/ROPMS'
+            'mongodb+srv://admin:admin@curbfresh.awht4ze.mongodb.net/CurbFresh?retryWrites=true&w=majority&appName=CurbFresh'
         );
         console.log('Database connected')
     } catch (error) {
