@@ -20,21 +20,21 @@ function ManagerHeader ( { selectedUser, setResInfo} ) {
         ['resInfo'], 
         () => selectedUser && fetchRestaurantName(selectedUser[1]), {
         cacheTime: Infinity,
+        enabled: !!selectedUser, //Run only if selectedUser is not null
     });
 
     const [resName, setResName] = useState("Welcome!");
     
     useEffect(() => {
-    if (isLoading) { setResName("Loading..."); }
-    if (isError) { setResName("Error!");}
-    if (selectedUser === null) {setResName("Select Manager!");}
-    else {
-        
-        console.log(resInfo);
+        if (isLoading) { setResName("Loading..."); }
+        if (isError) { setResName("Error!");}
+        if (selectedUser === null || resInfo===undefined) {setResName("Select Manager!");}
+        else {
+        //console.log(resInfo);
         setResName(resInfo.data[0].name);
         setResInfo(resInfo.data[0]);
         refetch();
-    }}, [isLoading, isError, resInfo]);
+    }}, [resInfo, selectedUser]);
 
     return (
         <header className="mHeader" >
