@@ -19,14 +19,31 @@ const fetchMenuItems = async (menuIDs) => {
 function TabContent ( {type, resInfo, selectedManager}) {
     //const [filteredItems, setFilteredItems] = useState([]);
     //const [searchInput, setSearchInput] = useState("");
+    const [menu, setMenuItems] = useState([]);
+    
+    const {data: menuItems, isLoading, isError, refetch } = useQuery(
+        'menuItems',
+         () => fetchMenuItems(resInfo.menu)
+        ,{
+        enabled: !!selectedManager || !!resInfo, //Run only if selectedUser or resInfo is not null,
+        cacheTime: Infinity,
+    });
+    useEffect(() =>{
 
-    const {data: menuItems, isLoading, isError, refetch} = useQuery('menuItems', () => fetchMenuItems(resInfo.menu));
-
-    if (resInfo === null) {
-        return <p>Select Manager to view restaurant menu!</p>
+        if (menuItems && selectedManager) {
+            refetch();
+            //console.log("type: " + typeof menuItems.data);
+            setMenuItems(menuItems.data);
+            //updateRefreshKey();
+            //console.log("Menu? " + menu );
+        }
+    }, [selectedManager]);
+    if (isLoading) {
+        return <p>Loading...</p>}
+    if (isError) {return console.log(isError);}
+    if (resInfo === null || selectedManager === null){
+        return <p>Select Manager to view restaurant menu!</p> 
     }
-    if (isError) {return <p>Error!</p>}
-    if (isLoading) {return <p>Loading...</p>}
     //console.log(resInfo.menu);
 
     //console.log(selectedManager);
@@ -36,7 +53,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
     if (type === "Menu Items"){
         return (
             <div className="content">
-                <CardList items={menuItems.data} selectedManager={selectedManager}/>
+                <CardList key={`${menu}-CardList`} items={menu} selectedManager={selectedManager}/>
             </div>
         )
     }

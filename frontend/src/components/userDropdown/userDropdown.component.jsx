@@ -27,7 +27,13 @@ const fetchManagers = async () => {
 function UserDropdown ({ type, setSelectedUser}) {
 
     //Query to get array of users
-    const {data: users, isLoading, isError, refetch} = useQuery(['users'], fetchManagers);
+    const {data: users, isLoading, isError, refetch} = useQuery(
+        ['users'], 
+        fetchManagers,
+        {
+            enabled: !!setSelectedUser,
+            cacheTime: Infinity,
+    });
 
     if (isLoading) return <p>Loading...</p>
     if (isError) return <p>Error!</p>
