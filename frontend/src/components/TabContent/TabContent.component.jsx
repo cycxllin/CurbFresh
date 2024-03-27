@@ -97,8 +97,12 @@ function TabContent ( {type, resInfo, selectedManager}) {
     //Handle filter searching
     const handleChange = (event) => {
         const filterCategory = event.target.value;
-        filteredI = menu.filter(item => 
-            item.category.includes(filterCategory));
+        if (filterCategory != "none") {
+            filteredI = menu.filter(item => 
+                item.category.includes(filterCategory));
+        } else {
+            filteredI = menu;
+        }
         setFilteredMenu(filteredI); 
         setFilterC(filterCategory);
     }
