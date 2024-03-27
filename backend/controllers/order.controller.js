@@ -1,11 +1,15 @@
-import { getItemFromRepo } from "../repositories/item.repository.js";
+import { getItemFromRepo, getItemByIdFromRepo } from "../repositories/item.repository.js";
 import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, 
     deleteOrderFromRepo, addItemToOrderInRepo, getOrdersByRestIdFromRepo} from "../repositories/order.repository.js";
 
 export const createOrder = async function (req, res) {
     try {
-        const body = req.body.query;
+        let body = req.body.query;
         const orderCount = await countOrdersInRepo();
+
+        // calculate total
+        body.price = await calculateTotal(body.items);
+
         const order = { 
             _id: `O${orderCount}`, 
             ...body, 
@@ -87,7 +91,6 @@ export const getOrderById = async function (req, res) {
 /* GET a list of orders from a single restaurant*/
 export const getOrdersFromRestaurantID = async function (req, res) {
     try {
-        console.log(req.params.id);
         const restaurantOrders = await getOrdersByRestIdFromRepo(req.params.id);
         if (restaurantOrders) {
             return res.status(200).json({
@@ -137,7 +140,11 @@ export const getOrdersFromCustomerID = async function (req, res) {
 export const updateOrder = async function (req, res) {
     try {
         const id = req.params.id;
-        const body = req.body.query;
+        let body = req.body.query;
+
+        // calculate total
+        body.price = await calculateTotal(body.items);
+
         const order = await updateOrderInRepo({_id: id}, body);
         if (order) {
             return res.status(200).json({
@@ -231,5 +238,20 @@ export const getRestaurantMenuPopularity = async function (req, res) {
 
     } catch (error) {
         res.status.send(`failed to get popular menu list`);
+    }
+}
+
+const calculateTotal = async (items) => {
+    try{
+        let total = 0;
+
+        for (const i of items) {
+            const item = await getItemByIdFromRepo(i.item);
+            total += item.price * i.quantity;
+        }
+        return total;
+
+    } catch (error) {
+        res.status.send(`error calculating total`);
     }
 }
