@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from "react-query";
 import Nav from 'react-bootstrap/Nav';
-import "./managerTabs.styles.css";
+import "./ManagerTabs.styles.css";
 import TabContent from "../TabContent/TabContent.component";
 
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import axios from "axios";
-import "./managerHeader.styles.css";
+import "./ManagerHeader.styles.css";
 
 const fetchRestaurantName = async (rID) => {
     //console.log("ID: " + rID);
@@ -16,9 +16,9 @@ const fetchRestaurantName = async (rID) => {
 }
 
 function ManagerHeader ( { selectedUser, setResInfo} ) {
-    const {data: resInfo, isLoading, isError, refetch} = useQuery(
-        ['resInfo'], 
-        () => selectedUser && fetchRestaurantName(selectedUser[1]), {
+    const {data: resInfo, isLoading, isError, refetch} = useQuery({
+        queryKey: ['resInfo', selectedUser], 
+        queryFn: () => selectedUser && fetchRestaurantName(selectedUser[1]), 
         cacheTime: Infinity,
         enabled: !!selectedUser, //Run only if selectedUser is not null
     });

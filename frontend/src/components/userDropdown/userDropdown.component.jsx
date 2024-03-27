@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from "react-query";
 import axios from "axios";
 import Form from 'react-bootstrap/Form';
-import "./userDropdown.styles.css";
+import "./UserDropdown.styles.css";
 
 const fetchManagers = async () => {
     //const link = await getLink(type);
@@ -27,12 +27,11 @@ const fetchManagers = async () => {
 function UserDropdown ({ type, setSelectedUser}) {
 
     //Query to get array of users
-    const {data: users, isLoading, isError, refetch} = useQuery(
-        ['users'], 
-        fetchManagers,
-        {
-            enabled: !!setSelectedUser,
-            cacheTime: Infinity,
+    const {data: users, isLoading, isError, refetch} = useQuery({
+        queryKey: ['users'], 
+        queryFn: fetchManagers,
+        enabled: !!setSelectedUser,
+        cacheTime: Infinity,
     });
 
     if (isLoading) return <p>Loading...</p>
