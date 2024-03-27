@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import {  QueryClient, QueryClientProvider } from 'react-query'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ManagerHeader from "../components/managerHeader/managerHeader.component";
-import ManagerTabs from "../components/managerTabs/managerTabs.component";
-import UserDropdown from "../components/userDropdown/userDropdown.component";
+import ManagerHeader from "../components/ManagerHeader/ManagerHeader.component";
+import ManagerTabs from "../components/ManagerTabs/ManagerTabs.component";
+import UserDropdown from "../components/UserDropdown/UserDropdown.component";
 
 const queryClient = new QueryClient();
 

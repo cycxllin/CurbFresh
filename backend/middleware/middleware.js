@@ -60,7 +60,6 @@ export const checkValidCustomer = (req, res, next) => {
 export const checkValidUser = async (req, res, next) => {
     try {
         const order = req.body.query;
-
         if (!order.orderStatus || order.orderStatus === 'placed') {
             // order is being placed OR not yet seen by manager so customer can change it
             checkValidCustomer(req, res, next);
@@ -76,7 +75,8 @@ export const checkValidUser = async (req, res, next) => {
     Checks to see if items in order are from the right restaurant
 */ 
 export const checkValidItems = async (req, res, next) => {
-    try {
+    try {   
+
         const target = req.body.query;
 
         //build item list from items dictionary in order

@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 
 const Card = ( { item , selectedManager} ) => {
   const { _id, restID, name, description, price, soldOut, active, category } = item;
+
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDelModal, setShowDelModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);

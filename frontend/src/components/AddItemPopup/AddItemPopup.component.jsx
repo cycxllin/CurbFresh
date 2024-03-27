@@ -16,11 +16,11 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
 
     //Change in whatever is inputted
     const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-    }));
+      const { name, value } = event.target;
+      setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+      }));
     };
 
     const handleSubmit = async (event) => {
@@ -43,7 +43,7 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
             query: formData
         }
         const response = await axios.post("http://localhost:65500/items", data);
-        console.log("Response:" + response );
+        //console.log("Response:" + response );
         if (response.status === 200) {
             console.log("Success Add!");
             toggleAddModal();

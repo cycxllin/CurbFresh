@@ -2,8 +2,8 @@ import React from "react";
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import CardList from '../components/restaurantList/cardList.component';
-import CustomerDropdown from "../components/customerDropdown/customerDropdown.component";
-import CustomerTabs from "../components/customerTabs/customerTabs.component";
+import CustomerDropdown from "../components/CustomerDropdown/CustomerDropdown.component";
+import CustomerTabs from "../components/CustomerTabs/customerTabs.component";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();

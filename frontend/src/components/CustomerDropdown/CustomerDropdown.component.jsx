@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from "react-query";
 import axios from "axios";
 import Form from 'react-bootstrap/Form';
-import "./customerDropdown.styles.css";
+import "./CustomerDropdown.styles.css";
 
 const fetchCustomers = async () => {
     const response = await axios.get("http://localhost:65500/customers");
