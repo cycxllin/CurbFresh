@@ -32,9 +32,9 @@ function ManagerTabs ( {selectedManager, resInfo} ) {
             </Nav>
 
             {/* Render the content based on the selected tab */}
-            {selectedTab === "link-0" && <TabContent key={`${selectedManager}-MenuItems`} resInfo={resInfo} type="Menu Items" selectedManager={selectedManager} />}
-            {selectedTab === "link-1" && <TabContent key={`${selectedManager}-Orders`} resInfo={resInfo} type="Orders" selectedManager={selectedManager} />}
-            {selectedTab === "link-2" && <TabContent key={`${selectedManager}-Analytics`} resInfo={resInfo} type="Analytics" selectedManager={selectedManager} />}
+            {selectedTab === "link-0" && <TabContent  resInfo={resInfo} type="Menu Items" selectedManager={selectedManager} />}
+            {selectedTab === "link-1" && <TabContent  resInfo={resInfo} type="Orders" selectedManager={selectedManager} />}
+            {selectedTab === "link-2" && <TabContent  resInfo={resInfo} type="Analytics" selectedManager={selectedManager} />}
         </div>
     )
 }
