@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from "react-query";
 import CardList from "../cardList/cardList.component";
 import SearchBar from '../searchbar/searchbar.component';
+import Form from 'react-bootstrap/Form';
 
 const fetchResOrders = async (resID) => {
     if (resID === undefined){
@@ -38,6 +39,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
     const [searchInput, setSearchInput] = useState("");//For search input
     const [filteredOrders, setFilteredOrders] = useState([]); //Search filtering states
     const [filteredMenu, setFilteredMenu] = useState([]); //Search filtering states
+    const [filterC, setFilterC] = useState(""); //Search filtering states
 
      //Get Restaurant menu
     const {data: menuItems, isLoading, isError } = useQuery({
@@ -67,6 +69,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
             //console.log("ORders:" + orders);
         }
         setSearchInput("");
+        setFilterC("");
     }, [selectedManager, menuItems, resOrders]);
 
     //Searchbar input
@@ -74,9 +77,10 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setSearchInput(e.target.value);
     }
     //Filter search orders and menu items
+    let filteredI = []; //Used in searchbar and filters
     useEffect(() => {
         let filteredO = [];
-        let filteredI = [];
+        
         if (searchInput === ""){
             filteredO = orders;
             filteredI = menu;
@@ -88,8 +92,16 @@ function TabContent ( {type, resInfo, selectedManager}) {
                 ));
         }
         setFilteredOrders(filteredO);
-        setFilteredMenu(filteredI); //
+        setFilteredMenu(filteredI); 
     }, [orders, menu, searchInput]);
+    //Handle filter searching
+    const handleChange = (event) => {
+        const filterCategory = event.target.value;
+        filteredI = menu.filter(item => 
+            item.category.includes(filterCategory));
+        setFilteredMenu(filteredI); 
+        setFilterC(filterCategory);
+    }
 
     if (isLoading || loading) {
         return <p>Loading...</p>}
@@ -102,9 +114,33 @@ function TabContent ( {type, resInfo, selectedManager}) {
         return (
             <div className="content">
                 <SearchBar
-                    placeholder="Search"
+                    placeholder="Search Item Name"
                     handleInput={handleInput}
                 />
+
+                <Form.Group className="mb-4">
+                    <Form.Label>Item Filter: </Form.Label>
+                    <Form.Control 
+                    as="select" 
+                    name="category"
+                    value={filterC}
+                    onChange={handleChange}
+                    >
+                    <option value="none" selected={true}>Select a category</option>
+                    <option value="Starters">Starters</option>
+                    <option value="Specials">Specials</option>
+                    <option value="Salads">Salads</option>
+                    <option value="Soups">Soups</option>
+                    <option value="Handhelds">Handhelds</option>
+                    <option value="Mains">Mains</option>
+                    <option value="Sides">Sides</option>
+                    <option value="Desserts">Desserts</option>
+                    <option value="Drinks">Drinks</option>
+                    <option value="Other">Other</option>
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">Select a category</Form.Control.Feedback>
+                </Form.Group>
+
                 <CardList key={`${menu}-CardList`} type={type} items={filteredMenu} selectedManager={selectedManager}/>
             </div>
         )
@@ -112,7 +148,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
         return (
             <div className="content">
                 <SearchBar
-                    placeholder="Search"
+                    placeholder="Search Order ID"
                     handleInput={handleInput}
                 />
                 <CardList key={`${orders}-CardList`} type={type} items={filteredOrders} selectedManager={selectedManager}/>
