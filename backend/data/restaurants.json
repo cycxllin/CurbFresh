@@ -3,7 +3,7 @@
         "_id": "R1",
         "name": "A&W",
         "phone": "381-324-1932",
-        "menu": ["I1","I2","I3"],
+        "menu": ["I1","I2","I3","I6","I7","I8","I10"],
         "active": true,
         "image": "aw.jpg",
         "__v": 0
@@ -12,27 +12,27 @@
         "_id": "R2",
         "name": "Beans List",
         "phone": "491-814-1589",
-        "menu": ["I4"],
+        "menu": ["I4","I9","I10","I11","I12","I13","I14","I15"],
         "active": true,
-        "image": "aw.jpg",
+        "image": "bl.jpg",
         "__v": 0
     },
     {
         "_id": "R3",
         "name": "Tasty Tacos",
         "phone": "592-735-9210",
-        "menu": [],
+        "menu": ["I16","I17","I18","I19","I20","I21","I22"],
         "active": true,
-        "image": "aw.jpg",
+        "image": "tt.jpg",
         "__v": 0
     },
     {
         "_id": "R4",
         "name": "Pizza Palace",
         "phone": "684-327-5092",
-        "menu": [],
+        "menu": ["I5","I23","I24","I25","I26"],
         "active": true,
-        "image": "aw.jpg",
+        "image": "pp.jpg",
         "__v": 0
     },
     {
@@ -41,25 +41,7 @@
         "phone": "329-576-1843",
         "menu": [],
         "active": true,
-        "image": "aw.jpg",
-        "__v": 0
-    },
-    {
-        "_id": "R6",
-        "name": "Burger Barn",
-        "phone": "817-652-3048",
-        "menu": [],
-        "active": true,
-        "image": "aw.jpg",
-        "__v": 0
-    },
-    {
-        "_id": "R7",
-        "name": "Pasta Paradise",
-        "phone": "476-912-3856",
-        "menu": [],
-        "active": true,
-        "image": "aw.jpg",
+        "image": "sc.jpg",
         "__v": 0
     }
 ]
