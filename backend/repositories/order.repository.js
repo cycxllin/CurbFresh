@@ -28,6 +28,15 @@ export const getOrdersFromRepo = async function (query) {
     }
 }
 
+export const getOrdersByRestIdFromRepo = async function (id) {
+    try {
+        const orders = await Order.find({restID: id}).sort({time: -1});
+        return orders;
+    } catch (error) {
+        throw Error("Error while getting orders");
+    }
+}
+
 export const updateOrderInRepo = async function (query, update) {
     try {
         const order = await Order.findOneAndUpdate(

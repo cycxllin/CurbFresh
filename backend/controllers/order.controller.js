@@ -1,6 +1,6 @@
 import { getItemFromRepo } from "../repositories/item.repository.js";
 import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, 
-    deleteOrderFromRepo, addItemToOrderInRepo} from "../repositories/order.repository.js";
+    deleteOrderFromRepo, addItemToOrderInRepo, getOrdersByRestIdFromRepo} from "../repositories/order.repository.js";
 
 export const createOrder = async function (req, res) {
     try {
@@ -87,7 +87,8 @@ export const getOrderById = async function (req, res) {
 /* GET a list of orders from a single restaurant*/
 export const getOrdersFromRestaurantID = async function (req, res) {
     try {
-        const restaurantOrders = await getOrdersFromRepo({restId: req.params.id});
+        console.log(req.params.id);
+        const restaurantOrders = await getOrdersByRestIdFromRepo(req.params.id);
         if (restaurantOrders) {
             return res.status(200).json({
                 status: 200,
