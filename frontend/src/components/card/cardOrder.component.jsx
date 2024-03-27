@@ -65,7 +65,7 @@ const CardOrder = ( { order, selectedManager } ) => {
           <div className='card-container'>
             <h2>{custID}</h2>
             <p>Order Status: {order.orderStatus} Total: ${order.price}</p>
-            <p>Pickup Time: {order.pickupTime}</p>
+            <p>Pickup Time: {order.pic}</p>
             <Form.Group className="mb-4">
                     <Form.Label>Order Status: </Form.Label>
                     <Form.Control 
