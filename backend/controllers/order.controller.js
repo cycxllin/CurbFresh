@@ -10,6 +10,14 @@ export const createOrder = async function (req, res) {
         // calculate total
         body.price = await calculateTotal(body.items);
 
+        // check correct format for pickup time
+        if (!checkPickupTime(body.pickupTime)) {
+            return res.status(404).json({
+                status: 404,
+                message: `Pickup time must be asap or 4 digit 24hr time`,
+            });
+        }
+
         const order = { 
             _id: `O${orderCount}`, 
             ...body, 
@@ -145,6 +153,14 @@ export const updateOrder = async function (req, res) {
         // calculate total
         body.price = await calculateTotal(body.items);
 
+        // check correct format for pickup time
+        if (!checkPickupTime(body.pickupTime)) {
+            return res.status(404).json({
+                status: 404,
+                message: `Pickup time must be asap or 4 digit 24hr time`,
+            });
+        }
+
         const order = await updateOrderInRepo({_id: id}, body);
         if (order) {
             return res.status(200).json({
@@ -253,5 +269,19 @@ const calculateTotal = async (items) => {
 
     } catch (error) {
         res.status.send(`error calculating total`);
+    }
+}
+
+const checkPickupTime = (str) => {
+    try{
+        if (str.toLowerCase() === 'asap') {
+            return true;
+        } else {
+            const reg = new RegExp('^[0-9][0-9][0-9][0-9]$');
+            return reg.test(str);
+        }
+
+    } catch (error) {
+        res.status.send(``);
     }
 }
