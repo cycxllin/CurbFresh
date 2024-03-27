@@ -4,8 +4,18 @@ import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo
 
 export const createOrder = async function (req, res) {
     try {
-        const body = req.body.query;
+        let body = req.body.query;
         const orderCount = await countOrdersInRepo();
+
+        body.price = await calculateTotal(body.items);
+
+        if (!checkPickupTime(body.pickupTime)) {
+            return res.status(500).json({
+                status: 500,
+                message: `Pickup time must be ASAP or 4 digit 24hr time`,
+            });
+        }
+
         const order = { 
             _id: `O${orderCount}`, 
             ...body, 
@@ -136,7 +146,17 @@ export const getOrdersFromCustomerID = async function (req, res) {
 export const updateOrder = async function (req, res) {
     try {
         const id = req.params.id;
-        const body = req.body.query;
+        let body = req.body.query;
+
+        body.price = await calculateTotal(body.items);
+
+        if (!checkPickupTime(body.pickupTime)) {
+            return res.status(500).json({
+                status: 500,
+                message: `Pickup time must be ASAP or 4 digit 24hr time`,
+            });
+        }
+
         const order = await updateOrderInRepo({_id: id}, body);
         if (order) {
             return res.status(200).json({
@@ -208,27 +228,31 @@ export const  deleteOrder = async function (req, res) {
     }
 }
 
-//TODO After menu and order have been implemented 
-export const getRestaurantSaleInfo = async function (req, res) {
+const calculateTotal = async (items) => {
     try{
+        let total = 0;
+
+        for (const i of items) {
+            const item = await getItemByIdFromRepo(i.item);
+            total += item.price * i.quantity;
+        }
+        return total;
 
     } catch (error) {
-        res.status(500).send(`failed to get sale info for restaurant ${id}`);
+        res.status.send(`error calculating total`);
     }
 }
 
-export const getRestaurantBusiestTime = async function (req, res) {
-    try {
-
-    } catch (error) {
-        res.status(500).send(`failed to get busiest time for restaurant ${id}`);
-    }
-}
-
-export const getRestaurantMenuPopularity = async function (req, res) {
+const checkPickupTime = (str) => {
     try{
+        if (str.toLowerCase() === 'asap') {
+            return true;
+        } else {
+            const reg = new RegExp('^[0-9][0-9][0-9][0-9]$');
+            return reg.test(str);
+        }
 
     } catch (error) {
-        res.status.send(`failed to get popular menu list`);
+        res.status.send(`error checking pickup time`);
     }
 }
