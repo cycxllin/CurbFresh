@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from "react-query";
 import CardList from "../cardList/cardList.component";
-//import SearchBar from '../searchbar/searchbar.component';
+import SearchBar from '../searchbar/searchbar.component';
 
 const fetchResOrders = async (resID) => {
     if (resID === undefined){
@@ -32,11 +32,13 @@ const fetchMenuItems = async (menuIDs) => {
 }
 
 function TabContent ( {type, resInfo, selectedManager}) {
-    //const [filteredItems, setFilteredItems] = useState([]);
-    //const [searchInput, setSearchInput] = useState("");
-
     const [menu, setMenuItems] = useState([]);//State for menu items
     const [orders, setOrders] = useState([]);//State for orders
+
+    const [searchInput, setSearchInput] = useState("");//For search input
+    const [filteredOrders, setFilteredOrders] = useState([]); //Search filtering states
+    const [filteredMenu, setFilteredMenu] = useState([]); //Search filtering states
+
      //Get Restaurant menu
     const {data: menuItems, isLoading, isError } = useQuery({
         queryKey: ['menuItems', resInfo],
@@ -51,18 +53,43 @@ function TabContent ( {type, resInfo, selectedManager}) {
         enabled: !!selectedManager || !!resInfo, //same as above
         cacheTime: Infinity,
     });
-
+    //Setting inital values of menu and orders
     useEffect(() =>{
         if (menuItems && selectedManager) {
             //console.log("type: " + typeof menuItems.data);
             setMenuItems(menuItems.data);
+            //setSearchInput("");
             //console.log("Menu? " + menu );
         }
         if (resOrders && selectedManager){
             setOrders(resOrders.data);
-            //console.log("ORders:" + orders.length);
+            
+            //console.log("ORders:" + orders);
         }
+        setSearchInput("");
     }, [selectedManager, menuItems, resOrders]);
+
+    //Searchbar input
+    const handleInput = e => {
+        setSearchInput(e.target.value);
+    }
+    //Filter search orders and menu items
+    useEffect(() => {
+        let filteredO = [];
+        let filteredI = [];
+        if (searchInput === ""){
+            filteredO = orders;
+            filteredI = menu;
+        } else {
+            filteredO = orders.filter(order => 
+                order._id.toLowerCase().includes(searchInput.toLowerCase()));
+            filteredI = menu.filter(item =>
+                item.name.toLowerCase().includes(searchInput.toLowerCase()
+                ));
+        }
+        setFilteredOrders(filteredO);
+        setFilteredMenu(filteredI); //
+    }, [orders, menu, searchInput]);
 
     if (isLoading || loading) {
         return <p>Loading...</p>}
@@ -70,19 +97,25 @@ function TabContent ( {type, resInfo, selectedManager}) {
     if (resInfo === null || selectedManager === null){
         return <p>Select Manager to view restaurant info!</p> 
     }
-
-    //TODO Add other tabContents
-    //Add search to menuItems
+    //TODO Add other tabContents, split menu into categories
     if (type === "Menu Items"){
         return (
             <div className="content">
-                <CardList key={`${menu}-CardList`} type={type} items={menu} selectedManager={selectedManager}/>
+                <SearchBar
+                    placeholder="Search"
+                    handleInput={handleInput}
+                />
+                <CardList key={`${menu}-CardList`} type={type} items={filteredMenu} selectedManager={selectedManager}/>
             </div>
         )
     }else if (type === "Orders"){
         return (
             <div className="content">
-                <CardList key={`${orders}-CardList`} type={type} items={orders} selectedManager={selectedManager}/>
+                <SearchBar
+                    placeholder="Search"
+                    handleInput={handleInput}
+                />
+                <CardList key={`${orders}-CardList`} type={type} items={filteredOrders} selectedManager={selectedManager}/>
             </div>
         )
     }
