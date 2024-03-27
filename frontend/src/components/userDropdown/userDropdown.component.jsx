@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from "react-query";
-import axios from "axios";
 import Form from 'react-bootstrap/Form';
 import "./UserDropdown.styles.css";
 

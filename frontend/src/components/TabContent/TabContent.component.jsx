@@ -21,7 +21,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
     //const [searchInput, setSearchInput] = useState("");
     const [menu, setMenuItems] = useState([]);
     
-    const {data: menuItems, isLoading, isError, refetch } = useQuery({
+    const {data: menuItems, isLoading, isError } = useQuery({
         queryKey: ['menuItems', resInfo],
         queryFn: () => fetchMenuItems(resInfo.menu),
         enabled: !!selectedManager || !!resInfo, //Run only if selectedUser or resInfo is not null,

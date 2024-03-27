@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
-import axios from "axios";
+//import axios from "axios";
 import "./ManagerHeader.styles.css";
 
 const fetchRestaurantName = async (rID) => {
@@ -34,7 +34,7 @@ function ManagerHeader ( { selectedUser, setResInfo} ) {
         setResName(resInfo.data[0].name);
         setResInfo(resInfo.data[0]);
         refetch();
-    }}, [resInfo, selectedUser]);
+    }}, [resInfo, selectedUser, isLoading, isError, refetch, setResInfo]);
 
     return (
         <header className="mHeader" >
