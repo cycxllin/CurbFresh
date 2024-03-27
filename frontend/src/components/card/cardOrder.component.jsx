@@ -6,18 +6,6 @@ import Form from 'react-bootstrap/Form';
 const CardOrder = ( { order, selectedManager } ) => {
     const { _id, custID, restID, items, orderStatus, pickupTime, price, active, notes, created } = order;
 
-    /*const [orderData, setOrderData] = useState({
-        _id: item._id,
-        custID: custID,
-        restID: restID,
-        items: items,
-        orderStatus: orderStatus,
-        pickupTime: pickupTime,
-        price: price,
-        active: active,
-        notes: notes
-    });*/
-
     //Handle change in order status
     const handleChange = async (event) => {
         //console.log("Before: " + order.orderStatus);
@@ -30,7 +18,7 @@ const CardOrder = ( { order, selectedManager } ) => {
         //update status here
         order.orderStatus = updatedValue;
 
-        console.log("Change?: " + order.orderStatus);
+        //console.log("Change?: " + order.orderStatus);
 
         try {
             const data = {
@@ -39,10 +27,10 @@ const CardOrder = ( { order, selectedManager } ) => {
             }
             const url = `http://localhost:65500/orders/${order._id}`;
             const response = await axios.patch(url, data);
-            if (response.status === 200) {
+            if (response.status === 200) {//Success
                 console.log("Success Update Order!!");
                 alert(`Order Status for order ${order._id} updated successfully!`);
-            } else if (response.status === 404) {
+            } else if (response.status === 404) {//Permission denial
                 console.log("Do not have permission to update to that status!");
                 alert("Do not have permission to update to that status!");
             }else {
@@ -63,8 +51,9 @@ const CardOrder = ( { order, selectedManager } ) => {
     return (
         <>
           <div className='card-container'>
-            <h2>{custID}</h2>
+            <h2>Customer: {order.custID} Order ID: {order._id}</h2>
             <p>Order Status: {order.orderStatus} Total: ${order.price}</p>
+            
             <p>Pickup Time: {order.pickupTime}</p>
             <Form.Group className="mb-4">
                     <Form.Label>Order Status: </Form.Label>
