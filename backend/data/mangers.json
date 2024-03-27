@@ -47,15 +47,5 @@
         "active" : true,
         "email" : "lunen@email.ca",
         "__v" : 0
-    },
-    {
-        "_id" : "M6",
-        "restID": "R6",
-        "fName" : "Sufyan",
-        "lName" : "Mata",
-        "phone" : "841-922-7291",
-        "active" : true,
-        "email" : "smata@email.ca",
-        "__v" : 0
     }
 ]
