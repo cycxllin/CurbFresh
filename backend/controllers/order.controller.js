@@ -87,7 +87,7 @@ export const getOrderById = async function (req, res) {
 /* GET a list of orders from a single restaurant*/
 export const getOrdersFromRestaurantID = async function (req, res) {
     try {
-        console.log(req.params.id);
+        //console.log(req.params.id);
         const restaurantOrders = await getOrdersByRestIdFromRepo(req.params.id);
         if (restaurantOrders) {
             return res.status(200).json({
@@ -138,6 +138,7 @@ export const updateOrder = async function (req, res) {
     try {
         const id = req.params.id;
         const body = req.body.query;
+
         const order = await updateOrderInRepo({_id: id}, body);
         if (order) {
             return res.status(200).json({

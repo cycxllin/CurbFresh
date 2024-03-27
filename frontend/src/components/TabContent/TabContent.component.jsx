@@ -8,7 +8,7 @@ const fetchResOrders = async (resID) => {
         return;
     }
     const url = `http://localhost:65500/orders/restaurant/${resID}`;
-    console.log("Order url: " + url);
+    //console.log("Order url: " + url);
     const response = await fetch(url);
     if (!response.ok) {
         throw new Error("Failed to fetch menu items");

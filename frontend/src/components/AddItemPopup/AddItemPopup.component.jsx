@@ -16,11 +16,11 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
 
     //Change in whatever is inputted
     const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-    }));
+      const { name, value } = event.target;
+      setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+      }));
     };
 
     const handleSubmit = async (event) => {

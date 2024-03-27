@@ -19,7 +19,7 @@ function CardList ({ type, items, selectedManager }) {
         return (
             <div className="cardlist">
             {items.map(item => (
-                <CardOrder key={item._id} item={item} selectedManager={selectedManager}/>
+                <CardOrder key={item._id} order={item} selectedManager={selectedManager}/>
             ))}
         </div>
         )
