@@ -55,10 +55,18 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
               alert("Error adding item: " + response.statusText);
           }
       } catch(error) {
+        if (error.response.status === 409) {
+          const responseMsg = error.response.data;
+          const existItem = responseMsg.data;
+          //console.log(existItem);
+          console.error(`Cannot add existing item: "${existItem.name}", exists as ID: ${existItem._id}`);
+          alert(`Item: "${existItem.name}" already exists as item ID: ${existItem._id}`);
+        }else {
           // Network error or other exception occurred
           console.error("Error adding item:", error.message);
           // Show error alert
           alert("Error adding item: " + error.message);
+        }
       }
     };
     
