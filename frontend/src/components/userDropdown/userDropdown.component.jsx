@@ -30,7 +30,7 @@ function UserDropdown ({ type, setSelectedUser}) {
         queryKey: ['users'], 
         queryFn: fetchManagers,
         enabled: !!setSelectedUser,
-        staleTime: 120000, //Time the data is stale in milliseconds (2min)
+        staleTime: 300000, //Time the data is stale in milliseconds (5min)
         cacheTime: Infinity,
     });
 
@@ -38,7 +38,7 @@ function UserDropdown ({ type, setSelectedUser}) {
     if (isError) return <p>Error!</p>
 
     const handleChangeUser = (event) => {
-        refetch();
+        //refetch();
         //console.log("??" + typeof event.target.value);
         const userID = event.target.value.substring(0,2);
         const resID = event.target.value.substring(3,5);
