@@ -5,9 +5,9 @@ import { checkValidManager } from "../middleware/middleware.js";
 
 const router = express.Router();
 
-//Restaurant Analytics
+//Restaurant Analytics only looks at completed orders
 router.get("/sales/:id", checkValidManager, getRestaurantSaleInfo);         //Get Sale info
-router.get("/popular/:id", checkValidManager, getRestaurantMenuPopularity); //List popular menu items in order
-router.get("/busy/:id",checkValidManager, getRestaurantBusiestTime);       //Returns a list of the times where most orders are picked up (hourly)
+router.get("/popular/:id", checkValidManager, getRestaurantMenuPopularity); //List most popular menu items
+router.get("/busy/:id",checkValidManager, getRestaurantBusiestTime);       //Returns a list of the hours where most orders are picked up
 
 export default router;
