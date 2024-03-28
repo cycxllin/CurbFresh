@@ -19,6 +19,7 @@ export const checkValidManager = (req, res, next) => {
               message: "You are not authorized to perform this action",
             });
         }
+        
     } catch (error) {
         throw Error(error);
     }
