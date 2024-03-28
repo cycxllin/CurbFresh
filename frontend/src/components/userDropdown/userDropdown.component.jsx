@@ -30,6 +30,7 @@ function UserDropdown ({ type, setSelectedUser}) {
         queryKey: ['users'], 
         queryFn: fetchManagers,
         enabled: !!setSelectedUser,
+        staleTime: 120000, //Time the data is stale in milliseconds (2min)
         cacheTime: Infinity,
     });
 
