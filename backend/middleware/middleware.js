@@ -6,13 +6,8 @@ import { getItemsByListFromRepo } from "../repositories/item.repository.js";
 */ 
 export const checkValidManager = (req, res, next) => {
     try {
-        console.log(req.body);
-
         const manager = req.body.user;
         const target = req.body.query;  
-
-        console.log(manager);
-        console.log(target);
 
         if (manager.length === 2 && manager[0].includes('M') && manager[1] === target.restID) {
             return next();
