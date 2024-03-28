@@ -24,43 +24,43 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
     };
 
     const handleSubmit = async (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-        }
-        setValidated(true);
+      const form = event.currentTarget;
+      if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+      }
+      setValidated(true);
 
+        
+      //Add restID to formData
+      formData.restID = selectedManager[1];
+      //console.log(formData);
     
-    //Add restID to formData
-    formData.restID = selectedManager[1];
-    //console.log(formData);
-    
-    //Send new menu item to backend
-    try{
-        const data = {
-            user: [selectedManager[0], selectedManager[1]],
-            query: formData
-        }
-        const response = await axios.post("http://localhost:65500/items", data);
-        //console.log("Response:" + response );
-        if (response.status === 200) {
-            console.log("Success Add!");
-            toggleAddModal();
-            alert("Item added successfully!");
-        } else {
-            // Request failed
-            console.error("Error adding item:", response.statusText);
-            // Show error alert
-            alert("Error adding item: " + response.statusText);
-        }
-    } catch(error) {
-        // Network error or other exception occurred
-        console.error("Error adding item:", error.message);
-        // Show error alert
-        alert("Error adding item: " + error.message);
-    }
-  };
+      //Send new menu item to backend
+      try{
+          const data = {
+              user: [selectedManager[0], selectedManager[1]],
+              query: formData
+          }
+          const response = await axios.post("http://localhost:65500/items", data);
+          //console.log("Response:" + response );
+          if (response.status === 200) {
+              console.log("Success Add!");
+              toggleAddModal();
+              alert("Item added successfully!");
+          } else {
+              // Request failed
+              console.error("Error adding item:", response.statusText);
+              // Show error alert
+              alert("Error adding item: " + response.statusText);
+          }
+      } catch(error) {
+          // Network error or other exception occurred
+          console.error("Error adding item:", error.message);
+          // Show error alert
+          alert("Error adding item: " + error.message);
+      }
+    };
     
 
 

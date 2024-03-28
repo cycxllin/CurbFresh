@@ -18,7 +18,7 @@ function Restaurant() {
       fetchItems();
     }, []);
 
-  console.log(items);
+  //console.log(items);
 
     return (
         <div>
