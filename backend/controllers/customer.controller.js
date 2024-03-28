@@ -47,8 +47,8 @@ export const addCustomer = async (req, res, next) => {
 
             } else {
                 // customer exists but is still active so reject adding
-                return res.status(400).json({
-                    status: 400,
+                return res.status(409).json({
+                    status: 409,
                     message: `Customer with phone ${body.phone} already exists`
                 });
             }
@@ -82,8 +82,8 @@ export const addCustomer = async (req, res, next) => {
                 data: addedCustomer
             });
         } else {
-            return res.status(404).json({
-                status: 404,
+            return res.status(500).json({
+                status: 500,
                 message: `Error adding customer`,
             });
         }
@@ -111,8 +111,8 @@ export const deleteCustomer = async function (req, res) {
                 data: customer
             });
         } else {
-            return res.status(404).json({
-                status: 404,
+            return res.status(500).json({
+                status: 500,
                 message: `Error deleting customer`
             });
         }

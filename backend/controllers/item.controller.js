@@ -75,8 +75,8 @@ export const addItem = async (req, res) => {
                 data: addedItem
             });
         } else {
-            return res.status(404).json({
-                status: 404,
+            return res.status(500).json({
+                status: 500,
                 message: `Error adding item ${body.name}`,
             });
         }

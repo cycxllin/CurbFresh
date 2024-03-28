@@ -7,15 +7,21 @@ import { getItemsByListFromRepo } from "../repositories/item.repository.js";
 export const checkValidManager = (req, res, next) => {
     try {
         const manager = req.body.user;
-        const target = req.body.query;  
+        let restID = 0;
 
-        if (manager.length === 2 && manager[0].includes('M') && manager[1] === target.restID) {
+        if (req.body.query.restID) {
+            restID = req.body.query.restID; 
+        } else {
+            restID = req.params.id; 
+        }
+
+        if (manager.length === 2 && manager[0].includes('M') && manager[1] === restID) {
             return next();
         } else {
             return res
-            .status(404)
+            .status(403)
             .json({
-              status: 404,
+              status: 403,
               message: "You are not authorized to perform this action",
             });
         }
@@ -38,9 +44,9 @@ export const checkValidCustomer = (req, res, next) => {
             return next();
         } else {
             return res
-            .status(404)
+            .status(403)
             .json({
-              status: 404,
+              status: 403,
               message: "You are not authorized to perform this action",
             });
         }
@@ -85,9 +91,9 @@ export const checkValidItems = async (req, res, next) => {
         for (const item of items) {
             if (item.restID !== target.restID) {
                 return res
-                .status(404)
+                .status(409)
                 .json({
-                  status: 404,
+                  status: 409,
                   message: `Item ${item._id} is not from restaurant ${target.restID}`,
                 });
             }

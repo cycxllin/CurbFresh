@@ -1,4 +1,4 @@
-import { getItemByIdFromRepo } from "../repositories/item.repository.js";
+import { getItemFromRepo, getItemByIdFromRepo } from "../repositories/item.repository.js";
 import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, 
     deleteOrderFromRepo, addItemToOrderInRepo} from "../repositories/order.repository.js";
 
@@ -239,13 +239,13 @@ const calculateTotal = async (items) => {
         return total;
 
     } catch (error) {
-        res.status.send(`error calculating total`);
+        throw Error(`error calculating total`);
     }
 }
 
 const checkPickupTime = (str) => {
     try{
-        if (str.toLowerCase() === 'asap') {
+        if (str.toLoweSrCase() === 'asap') {
             return true;
         } else {
             const reg = new RegExp('^[0-9][0-9][0-9][0-9]$');
@@ -253,6 +253,6 @@ const checkPickupTime = (str) => {
         }
 
     } catch (error) {
-        res.status.send(`error checking pickup time`);
+        throw Error(`error checking pickup time`);
     }
 }
