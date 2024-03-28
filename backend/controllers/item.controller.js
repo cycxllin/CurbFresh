@@ -1,5 +1,5 @@
 import {getItemByIdFromRepo, addItemToRepo, deleteItemFromRepo, updateItemInRepo, 
-    getItemsFromRepo,getItemsByRestIDFromRepo, countItemsInRepo, getItemsByListFromRepo} from "../repositories/item.repository.js";
+    getItemsFromRepo,getItemsByRestIDFromRepo, countItemsInRepo, getItemsByListFromRepo, getItemFromRepo} from "../repositories/item.repository.js";
 import { addItemToRestaurantMenuRepo, removeItemFromRestaurantMenuRepo} from "../repositories/restaurant.repository.js";
 
 export const getItemById = async (req, res) => {
@@ -28,13 +28,44 @@ export const getItemById = async (req, res) => {
     }
 };
 
+
+// checks for old items containing the new item name (case insensitive)
+// if old item found and was inactive, reactivates the item and updates info
+// if old item found and active, rejects request and sends back the old item
 export const addItem = async (req, res) => {
     try {
-        const body = req.body.query;       
-        const itemCount = await countItemsInRepo();
-        const item = { _id: `I${itemCount}`, ...body, active: true, soldOut: false};
+        const body = req.body.query;
+        let item = {};
+        let addedItem = {};
+        
+        // check to see if there is an item that contains the case insensitive name
+        const checkOldQuery = {
+            $and: [
+                {restID: body.restID},
+                {name: {$regex : `${body.name}`, $options : 'i'}}
+        ]}
 
-        const addedItem = await addItemToRepo(item);
+        const old = await getItemFromRepo(checkOldQuery);
+
+        if (old) {
+            if (old.active === false) {
+                item = {...body, active: true, soldOut: false};
+                addedItem = await updateItemInRepo({_id: old.id}, item);
+            } else {
+                // item is still active, reject add and send old item
+                return res.status(500).json({
+                    status: 500,
+                    message: `Item ${body.name} already exists`,
+                    data: old
+                });
+            }
+        } else {
+            // no old item
+            const itemCount = await countItemsInRepo();
+            item = { _id: `I${itemCount}`, ...body, active: true, soldOut: false};
+    
+            addedItem = await addItemToRepo(item);
+        }
 
         if (addedItem) {
             await addItemToRestaurantMenuRepo(item);
@@ -62,7 +93,6 @@ export const addItem = async (req, res) => {
 export const deleteItem = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log("here!" + req.params);
         const item = await deleteItemFromRepo({_id: id});
 
         if (item){
@@ -87,8 +117,7 @@ export const updateItem = async (req, res) => {
     const body = req.body.query;
     
     try {
-        const item = await 
-        updateItemInRepo({_id: id}, body);
+        const item = await updateItemInRepo({_id: id}, body);
         if (item){
             return res.status(200).json({
                 status: 200,

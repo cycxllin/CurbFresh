@@ -15,7 +15,6 @@ export const addItemToRepo = async (payload) => {
         const savedItem = await addedItem.save();
         return savedItem;
         } catch (error) {
-            console.log(error);
             throw Error("Error while adding the item: " + error);
         }
 };
@@ -57,7 +56,7 @@ export const updateItemInRepo = async (query, update) => {
 
 export const getItemsFromRepo = async (query) => {
     try{
-        const items = await Item.find().sort({time: -1});
+        const items = await Item.find(query).sort({time: -1});
         return items;
    } catch (error) {
        throw Error("Error while getting items from repository");
@@ -66,10 +65,10 @@ export const getItemsFromRepo = async (query) => {
 
 export const getItemFromRepo = async (query) => {
     try{
-        const item = await Item.find(query);
+        const item = await Item.findOne(query);
         return item;
    } catch (error) {
-       throw Error("Error while getting items from repository");
+       throw Error("Error while getting item from repository");
    }
 };
 
