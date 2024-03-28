@@ -34,7 +34,7 @@ export const addItem = async (req, res) => {
         let item = {};
         let addedItem = {};
         
-        // check to see if there are items with the same name
+        // check to see if there is an item that contains the case insensitive name
         const checkOldQuery = {
             $and: [
                 {restID: body.restID},
@@ -42,7 +42,6 @@ export const addItem = async (req, res) => {
         ]}
 
         const old = await getItemFromRepo(checkOldQuery);
-        console.log('old item ', old.active);
 
         if (old) {
             if (old.active === false) {
