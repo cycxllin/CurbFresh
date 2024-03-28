@@ -62,7 +62,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
         queryKey: ['menuItems', resInfo],
         queryFn: () => fetchMenuItems(resInfo.menu),
         enabled: !!selectedManager || !!resInfo, //Run only if selectedUser or resInfo is not null,
-        staleTime: 30000, //Time the data is stale in milliseconds (30sec)
+        staleTime: 3000, //Time the data is stale in milliseconds (3sec)
         cacheTime: Infinity,
     });
     //Get Restaurant orders
@@ -70,10 +70,10 @@ function TabContent ( {type, resInfo, selectedManager}) {
         queryKey: ['resOrders', resInfo],
         queryFn: () => fetchResOrders(resInfo._id),
         enabled: !!selectedManager || !!resInfo, //same as above
-        staleTime: 30000, //Time the data is stale in milliseconds (30sec)
+        staleTime: 3000, //Time the data is stale in milliseconds (3sec)
         cacheTime: Infinity,
     });
-    
+
     //Setting inital values of menu and orders
     useEffect(() =>{
         if (menuItems && selectedManager) {

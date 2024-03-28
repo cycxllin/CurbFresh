@@ -53,8 +53,8 @@ export const addItem = async (req, res) => {
                 addedItem = await updateItemInRepo({_id: old.id}, item);
             } else {
                 // item is still active, reject add and send old item
-                return res.status(500).json({
-                    status: 500,
+                return res.status(409).json({
+                    status: 409,
                     message: `Item ${body.name} already exists`,
                     data: old
                 });
