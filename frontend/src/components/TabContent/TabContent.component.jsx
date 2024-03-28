@@ -73,6 +73,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
         staleTime: 30000, //Time the data is stale in milliseconds (30sec)
         cacheTime: Infinity,
     });
+    
     //Setting inital values of menu and orders
     useEffect(() =>{
         if (menuItems && selectedManager) {

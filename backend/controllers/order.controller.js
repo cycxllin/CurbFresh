@@ -1,4 +1,4 @@
-import { getItemFromRepo } from "../repositories/item.repository.js";
+import { getItemByIdFromRepo } from "../repositories/item.repository.js";
 import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, 
     deleteOrderFromRepo, addItemToOrderInRepo} from "../repositories/order.repository.js";
 
@@ -147,9 +147,9 @@ export const updateOrder = async function (req, res) {
     try {
         const id = req.params.id;
         let body = req.body.query;
-
+        
         body.price = await calculateTotal(body.items);
-
+        
         if (!checkPickupTime(body.pickupTime)) {
             return res.status(500).json({
                 status: 500,

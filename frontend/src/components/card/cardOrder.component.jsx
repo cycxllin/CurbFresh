@@ -9,7 +9,7 @@ const CardOrder = ( { order, selectedManager } ) => {
     //Handle change in order status
     const handleChange = async (event) => {
         //console.log("Before: " + order.orderStatus);
-        const { name, value, checked } = event.target;
+        const { name, value } = event.target;
         //console.log("Name: " + name);
         //console.log("Target: " + event.target.value);
         const updatedValue = value;
@@ -18,7 +18,7 @@ const CardOrder = ( { order, selectedManager } ) => {
         //update status here
         order.orderStatus = updatedValue;
 
-        //console.log("Change?: " + order.orderStatus);
+        //console.log("pickupTime: " + order.pickupTime);
 
         try {
             const data = {
@@ -37,7 +37,7 @@ const CardOrder = ( { order, selectedManager } ) => {
                 // Request failed
                 console.error("Error updating order status:", response.statusText);
                 // Show error alert
-                alert("Error updating order status: " + response.statusText);
+                alert("Error updating order status: " + response.message);
             }
         } catch(error) {
             // Network error or other exception occurred
