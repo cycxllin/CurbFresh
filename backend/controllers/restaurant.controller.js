@@ -15,8 +15,8 @@ export const addRestaurant = async (req, res, next) => {
                 data: addedRestaurant
             });
         } else {
-            return res.status(404).json({
-                status: 404,
+            return res.status(500).json({
+                status: 500,
                 message: `Error adding restaurant`,
             });
         }

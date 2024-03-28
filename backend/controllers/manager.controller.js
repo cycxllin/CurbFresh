@@ -47,8 +47,8 @@ export const addManager = async (req, res, next) => {
 
             } else {
                 // manager exists but is still active so reject adding
-                return res.status(400).json({
-                    status: 400,
+                return res.status(409).json({
+                    status: 409,
                     message: `Manager with phone ${body.phone} already exists`
                 });
             }
@@ -82,8 +82,8 @@ export const addManager = async (req, res, next) => {
                 data: addedManager
             });
         } else {
-            return res.status(404).json({
-                status: 404,
+            return res.status(500).json({
+                status: 500,
                 message: `Error adding manager`,
             });
         }

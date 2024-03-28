@@ -6,6 +6,7 @@ import managerRoutes from "./routes/manager.route.js";
 import itemRoutes from "./routes/item.route.js";
 import orderRoutes from "./routes/order.route.js";
 import restaurantRoutes from "./routes/restaurant.route.js";
+import analyticsRoutes from "./routes/analytics.route.js";
 
 import { connectDB } from "./database/database.js";
 
@@ -28,6 +29,7 @@ app.use("/managers", managerRoutes);
 app.use("/items", itemRoutes);
 app.use("/orders", orderRoutes);
 app.use("/restaurants", restaurantRoutes);
+app.use("/analytics", analyticsRoutes);
 
 //start server
 app.listen(port, () => {
