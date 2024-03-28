@@ -54,7 +54,8 @@ function TabContent ( {type, resInfo, selectedManager}) {
     const [searchInput, setSearchInput] = useState("");//For search input
     const [filteredOrders, setFilteredOrders] = useState([]); //Search filtering states
     const [filteredMenu, setFilteredMenu] = useState([]); //Search filtering states
-    const [filterC, setFilterC] = useState(""); //Search filtering states
+    const [filterM, setFilterM] = useState(""); //Search filtering menu states 
+    const [filterO, setFilterO] = useState(""); //Search filtering orderStatus states
 
      //Get Restaurant menu
     const {data: menuItems, isLoading, isError } = useQuery({
@@ -87,7 +88,8 @@ function TabContent ( {type, resInfo, selectedManager}) {
             //console.log("ORders:" + orders);
         }
         setSearchInput("");
-        setFilterC("");
+        setFilterM("");
+        setFilterO("");
     }, [selectedManager, menuItems, resOrders]);
 
     //Searchbar input
@@ -96,9 +98,8 @@ function TabContent ( {type, resInfo, selectedManager}) {
     }
     //Filter search orders and menu items
     let filteredI = []; //Used in searchbar and filters
+    let filteredO = []; //Used in searchbar and filters
     useEffect(() => {
-        let filteredO = [];
-        
         if (searchInput === ""){
             filteredO = orders;
             filteredI = menu;
@@ -112,17 +113,23 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setFilteredOrders(filteredO);
         setFilteredMenu(filteredI); 
     }, [orders, menu, searchInput]);
+
     //Handle filter searching
     const handleChange = (event) => {
         const filterCategory = event.target.value;
         if (filterCategory != "none") {
             filteredI = menu.filter(item => 
                 item.category.includes(filterCategory));
+            filteredO = orders.filter(order =>
+                order.orderStatus.includes(filterCategory))
         } else {
             filteredI = menu;
+            filteredO = orders;
         }
         setFilteredMenu(filteredI); 
-        setFilterC(filterCategory);
+        setFilterM(filterCategory);
+        setFilteredOrders(filteredO);
+        setFilterO(filterCategory);
     }
 
     if (isLoading || loading) {
@@ -145,7 +152,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
                     <Form.Control 
                     as="select" 
                     name="category"
-                    value={filterC}
+                    value={filterM}
                     onChange={handleChange}
                     >
                     <option value="none" selected={true}>Select a category</option>
@@ -173,6 +180,25 @@ function TabContent ( {type, resInfo, selectedManager}) {
                     placeholder="Search Order ID"
                     handleInput={handleInput}
                 />
+
+                <Form.Group className="mb-4">
+                    <Form.Label>Order Status Filter: </Form.Label>
+                    <Form.Control 
+                    as="select" 
+                    name="category"
+                    value={filterO}
+                    onChange={handleChange}
+                    >
+                    <option value="none" selected={true}>Select Order Status</option>
+                    <option value="placed">Ordered</option>
+                    <option value="in progress">In Progress</option>
+                    <option value="awaiting pickup">Awaiting Pickup</option>
+                    <option value="completed">completed</option>
+                    <option value="canceled">canceled</option>
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">Select a category</Form.Control.Feedback>
+                </Form.Group>
+
                 <CardList key={`${orders}-CardList`} type={type} items={filteredOrders} selectedManager={selectedManager}/>
             </div>
         )
