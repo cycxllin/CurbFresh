@@ -28,6 +28,10 @@ export const getItemById = async (req, res) => {
     }
 };
 
+
+// checks for old items containing the new item name (case insensitive)
+// if old item found and was inactive, reactivates the item and updates info
+// if old item found and active, rejects request and sends back the old item
 export const addItem = async (req, res) => {
     try {
         const body = req.body.query;
