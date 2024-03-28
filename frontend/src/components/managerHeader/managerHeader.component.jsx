@@ -20,6 +20,7 @@ function ManagerHeader ( { selectedUser, setResInfo} ) {
         queryKey: ['resInfo', selectedUser], 
         queryFn: () => selectedUser && fetchRestaurantName(selectedUser[1]), 
         cacheTime: Infinity,
+        staleTime: 60000, //Time the data is stale in milliseconds (1min)
         enabled: !!selectedUser, //Run only if selectedUser is not null
     });
 
