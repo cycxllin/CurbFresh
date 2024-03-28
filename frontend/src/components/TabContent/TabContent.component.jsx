@@ -32,6 +32,21 @@ const fetchMenuItems = async (menuIDs) => {
     return response.json();
 }
 
+//Comparison function to sort orders based on orderStatus
+function compareOrderStatus(orderA, orderB) {
+    const statusOrder = ["placed", "in progress", "awaiting pickup", "completed", "canceled"];
+    //console.log("Test: " + statusOrder.findIndex("in progress"));
+    const a = statusOrder.indexOf(orderA.orderStatus);
+    const b = statusOrder.indexOf(orderB.orderStatus);
+    if (a < b ){
+        return -1;
+    } else if ( a > b ){
+        return 1;
+    }
+    //Otherwise equal
+    return 0;
+}
+
 function TabContent ( {type, resInfo, selectedManager}) {
     const [menu, setMenuItems] = useState([]);//State for menu items
     const [orders, setOrders] = useState([]);//State for orders
@@ -66,6 +81,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
             //console.log("Menu? " + menu );
         }
         if (resOrders && selectedManager){
+            resOrders.data.sort(compareOrderStatus);
             setOrders(resOrders.data);
             
             //console.log("ORders:" + orders);
