@@ -1,10 +1,23 @@
 import { getItemFromRepo, getItemByIdFromRepo } from "../repositories/item.repository.js";
 import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, 
     deleteOrderFromRepo, addItemToOrderInRepo} from "../repositories/order.repository.js";
+import { getRestaurantFromRepo } from '../repositories/restaurant.repository.js';
 
 export const createOrder = async function (req, res) {
     try {
         let body = req.body.query;
+
+        //check restaurant is open
+        const restaurant = await getRestaurantFromRepo({_id: body.restID});
+
+        if (!checkOpen(restaurant)) {
+            return res.status(409).json({
+                status: 409,
+                message: `Restaurant is closed`,
+            });
+        }
+
+        // restaurant is open so continue to create order
         const orderCount = await countOrdersInRepo();
 
         body.price = await calculateTotal(body.items);
@@ -245,7 +258,7 @@ const calculateTotal = async (items) => {
 
 const checkPickupTime = (str) => {
     try{
-        if (str.toLoweSrCase() === 'asap') {
+        if (str.toLowerCase() === 'asap') {
             return true;
         } else {
             const reg = new RegExp('^[0-9][0-9][0-9][0-9]$');
@@ -254,5 +267,31 @@ const checkPickupTime = (str) => {
 
     } catch (error) {
         throw Error(`error checking pickup time`);
+    }
+}
+
+const checkOpen = (restaurant) => {
+    try{
+        const startHour = Number(restaurant.hours.slice(0,2));
+        const endHour = Number(restaurant.hours.slice(5,7));
+        const startMin = Number(restaurant.hours.slice(2,4)); 
+        const endMin = Number(restaurant.hours.slice(-2));
+    
+        const date = new Date();
+        const hour = date.getHours();
+        const min = date.getMinutes();
+
+        if (hour === startHour){
+            if (min >= startMin && min <= endMin) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return hour > startHour && hour < endHour;
+
+    } catch (error) {
+        throw Error(`error checking if restaurant is open ${error.message}`);
     }
 }
