@@ -28,6 +28,28 @@ export const getOrdersFromRepo = async function (query) {
     }
 }
 
+export const getOrdersForAnalyticsFromRepo = async function (query) {
+    try {
+        const orders = await Order.find(query, {
+            '_id':0, 'created':1, 'items':1, 'price':1, 'pickupTime':1
+            });
+        return orders;
+    } catch (error) {
+        throw Error("Error while getting orders");
+    }
+}
+
+export const getOrdersStatusFromRepo = async function (query) {
+    try {
+        const orders = await Order.find(query, {
+            '_id':0, 'orderStatus':1
+    });
+        return orders;
+    } catch (error) {
+        throw Error("Error while getting orders");
+    }
+}
+
 export const getOrdersByRestIdFromRepo = async function (id) {
     try {
         const orders = await Order.find({restID: id}).sort({time: -1});

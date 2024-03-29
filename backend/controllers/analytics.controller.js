@@ -1,37 +1,128 @@
-import { getOrdersFromRepo } from "../repositories/order.repository.js";
+import { getOrdersForAnalyticsFromRepo, getOrdersStatusFromRepo } from "../repositories/order.repository.js";
 import { getItemsByListFromRepo } from '../repositories/item.repository.js';
 
-export const getRestaurantSaleInfo = async function (req, res) {
-    try{
-
-    } catch (error) {
-        res.status(400).send(`failed to get sale info for restaurant ${id}`);
-    }
-}
-
-/* returns list of busiest hours (0000-2300) in given date range
-   returns 404 error if no orders in given range
+/* returns list of objects of x: days, y: total sales
+        EXCEPT last 4 entries
+            total: total sales
+            popular: list of popular items
+            busiest: list of busiest times
+            status: object containing statuses and the number of orders with that
+                status
+   returns 404 error if no orders
    example for req body construction:
    {
     "user": ["M1", "R1"],
 
     "query":    {
-        "from": "2024-02-27",
-        "to": "2024-03-27"
+        "month": "2024-02"
       }
     }
 */
-export const getRestaurantBusiestTime = async function (req, res) {
-    try {
-        const orders = await getOrdersInRange(req);
+export const getRestaurantAnalytics = async function (req, res) {
+    try{
+        const year = Number(req.body.query.month.slice(0,4));
+        const month = Number(req.body.query.month.slice(-2));
+        const restID = req.params.id;
 
-        if (orders.length === 0) {
+        const orders = await getOrdersInMonth(year, month, restID, 'completed');
+        const allOrders = await getOrdersInMonth(year, month, restID, 'all');
+
+        if (allOrders.length === 0) {
             return res.status(404).json({
                 status: 404,
                 message: 'No orders in date range',
             });
+        } 
+
+        let dailySales = getRestaurantSales(orders, year, month);
+
+        const popularItems = await getRestaurantMenuPopularity(orders);
+        dailySales.push({'popular': popularItems});
+
+
+        const busiest = getRestaurantBusiestTime(orders);
+        dailySales.push({'busiest': busiest});
+
+        const status = getRestaurantOrderStatus(allOrders);
+        dailySales.push({'status': status});
+
+
+
+        if (dailySales) {
+            return res.status(200).json({
+                status: 200,
+                message: 'found sales info',
+                data: dailySales
+            });
+        } else {
+            return res.status(404).json({
+                status: 404,
+                message: `Error finding sales info`,
+            });
         }
 
+    } catch (error) {
+        res.status(400).send(`failed to get sales info for restaurant ${req.params.id}`);
+    }
+}
+
+/* returns list objects of days with total sales, last object is the monthly total when given list of orders
+*/
+export const getRestaurantSales = function (orders, year, month) {
+    try{
+        let days = getDaysInMonth(year, month);
+        let total = Array(days.length).fill(0.0);
+
+        for (const order of orders) {
+            let day = order.created.toISOString().slice(8,10);
+            let price = order.price;
+
+            total[day-1] += price;
+        }
+
+        let dailySales = days.map((a,i) => {
+            return {'x': a, 'y': total[i]}
+        });
+
+        const monthlyTotal = total.reduce((partialSum, a) => partialSum + a, 0);
+        dailySales.push({'total': monthlyTotal});
+
+        return dailySales;
+
+    } catch (error) {
+        throw Error(error.message);
+    }
+}
+
+/* returns object of order statuses when given list of orders
+*/
+export const getRestaurantOrderStatus = (orders) => {
+    try{
+        console.log(orders);
+        const status = {
+            "placed": 0, 
+            "in progress": 0, 
+            "awaiting pickup": 0, 
+            "completed": 0, 
+            "canceled": 0
+        };
+
+        for (const order of orders) {
+            console.log(order.orderStatus);
+            status[order.orderStatus] += 1;
+        }
+
+        return status;
+
+    } catch (error) {
+        throw Error(error.message);
+    }
+}
+
+/* returns list of busiest hours (0000-2300) when given list of orders
+*/
+export const getRestaurantBusiestTime = function (orders) {
+    try {
         // construct dictionary of times and number of orders
         let times = {};
 
@@ -48,7 +139,6 @@ export const getRestaurantBusiestTime = async function (req, res) {
         // get busiest times
         let busiest = [];
         const numOrders = Math.max(...Object.values(times));
-        console.log(times);
 
         for (const t in times) {
             if (times[t] === numOrders) {
@@ -56,47 +146,17 @@ export const getRestaurantBusiestTime = async function (req, res) {
             }
         }
 
-        if (busiest.length !== 0) {
-            return res.status(200).json({
-                status: 200,
-                message: 'found busiest times',
-                data: busiest
-            });
-        } else {
-            return res.status(404).json({
-                status: 404,
-                message: `Error finding busiest times`,
-            });
-        }
+        return busiest;
 
     } catch (error) {
-        res.status(500).send(`failed to get busiest times for restaurant ${req.params.id}`);
+        throw Error(error.message);
     }
 }
 
-/* returns most popular item in given date range
-   returns 404 error if no orders in given range
-   example for req body construction:
-   {
-    "user": ["M1", "R1"],
-
-    "query":    {
-        "from": "2024-02-27",
-        "to": "2024-03-27"
-      }
-    }
+/* returns most popular item when given list of orders
 */
-export const getRestaurantMenuPopularity = async function (req, res, next) {
+export const getRestaurantMenuPopularity = async function (orders) {
     try{
-        const orders = await getOrdersInRange(req);
-
-        if (orders.length === 0) {
-            return res.status(404).json({
-                status: 404,
-                message: 'No orders in date range',
-            });
-        }
-        
         // construct dictionary of items and quantities
         let itemDict = {};
 
@@ -112,7 +172,6 @@ export const getRestaurantMenuPopularity = async function (req, res, next) {
 
         let popularItemsIds = [];
         const numOrders = Math.max(...Object.values(itemDict));
-        console.log(itemDict);
 
         for (const i in itemDict) {
             if (itemDict[i] === numOrders) {
@@ -122,63 +181,58 @@ export const getRestaurantMenuPopularity = async function (req, res, next) {
         
         const popularItems = await getItemsByListFromRepo(popularItemsIds);
 
-        if (popularItems.length !== 0) {
-            return res.status(200).json({
-                status: 200,
-                message: 'found most popular items',
-                data: popularItems
-            });
-        } else {
-            return res.status(404).json({
-                status: 404,
-                message: `Error finding most popular items`,
-            });
-        }
-
+        return popularItems;
 
     } catch (error) {
-        res.status(500).send(`failed to get most popular items for restaurant ${req.params.id}`);
+        throw Error(error.message);
     }
 }
 
-const parseDates = (from, to) => {
+const getOrdersInMonth = async (year, month, restID, status) => {
     try{
-        if (!from || !to) {
-            throw Error('Both from and to dates are required');
-        };
+        let query = {                
+            $and: [
+                {restID: restID},
+                {$expr: { 
+                    $and: [{$eq: [ {$month: "$created"}, month]},
+                            {$eq: [ {$year: "$created"}, year]}
+                        ] 
+                    }},
+                {orderStatus: 'completed'}
+        ]}
+        let orders = [];
 
-        const fromDate = new Date(from);
-        let toDate = new Date(to);
+        if (status === 'completed') {
+            // need created, items, price, pickuptime
+            orders = await getOrdersForAnalyticsFromRepo(query);
 
-        if (fromDate > toDate) {
-            throw Error('From date must be equal or smaller than to date');
+        } else {
+            // only need the order status of each order, remove completed from query
+            query.$and.pop();
+            orders = await getOrdersStatusFromRepo(query);
         }
-        // increment to date to account for time
-        toDate.setDate(toDate.getDate() + 1);
+        
+        return orders;
 
-        return {from: fromDate, to: toDate};
     } catch (error) {
         throw Error(error.message);
     }
 }
 
 // gets completed orders only
-const getOrdersInRange = async (req) => {
+const getDaysInMonth = (year, month) => {
     try{
-        const dates = parseDates(req.body.query.from, req.body.query.to)
-        const query = {
-            $and: [
-                {restID: req.params.id},
-                {orderStatus: 'completed'},
-                {created: {
-                    $gte: new Date(dates.from), 
-                    $lte: new Date(dates.to)
-                }}
-            ]};
-        
-        const orders = await getOrdersFromRepo(query);
+        const date = new Date(year, month, 0); // gets last day of requested month
+        const days = date.getDate(); // number of days in month as date is the last day of the month
 
-        return orders;
+        let daysList = [];
+
+        for (let i = 1; i < days+1; i++) {
+            let day = new Date(year, month-1, i); // month is an index in Date constructor hence -1
+            daysList.push(day.toISOString().slice(0,10));
+        }
+        return daysList;
+
     } catch (error) {
         throw Error(error.message);
     }
