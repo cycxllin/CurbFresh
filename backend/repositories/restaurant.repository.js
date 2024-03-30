@@ -1,5 +1,14 @@
 import Restaurant from "../models/restaurant.model.js";
 
+export const getRestaurantFromRepo = async function (query) {
+    try{
+         const restaurant = await Restaurant.findOne(query);
+         return restaurant;
+    } catch (error) {
+        throw Error("Error while getting restaurant");
+    }
+}
+
 export const addRestaurantToRepo = async function (payload) {
     try {
         const addedRestaurant = new Restaurant(payload);

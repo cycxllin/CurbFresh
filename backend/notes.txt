@@ -11,3 +11,4 @@ Order status is enum in schema
 Order notes length is 256 char (can change in order schema)
 
 Restaurant menu contains active items only
+Operating hours assumes same hours for everyday
