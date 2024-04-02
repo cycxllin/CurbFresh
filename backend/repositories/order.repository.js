@@ -59,6 +59,15 @@ export const getOrdersByRestIdFromRepo = async function (id) {
     }
 }
 
+export const getOrderByIdFromRepo = async function (id) {
+    try {
+        const order = await Order.findOne({_id: id});
+        return order;
+    } catch (error) {
+        throw Error("Error while getting order");
+    }
+}
+
 export const updateOrderInRepo = async function (query, update) {
     try {
         const order = await Order.findOneAndUpdate(
