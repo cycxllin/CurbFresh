@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useQuery } from "react-query";
 import axios from "axios";
 import CardList from "../cardList/cardList.component";
+import RestaurantList from '../restaurantList/cardList.component';
 import SearchBar from '../searchbar/searchbar.component';
 import Form from 'react-bootstrap/Form';
 import Analytics from "../Analytics/Analytics.component";
+import axios from 'axios';
+import { MyCartContext } from '../../Context/MyCartContext';
 
 const fetchResOrders = async (resID) => {
     if (resID === undefined){
@@ -15,6 +19,19 @@ const fetchResOrders = async (resID) => {
     const response = await fetch(url);
     if (!response.ok) {
         throw new Error("Failed to fetch restaurant orders");
+    }
+    return response.json();
+}
+
+const fetchCustOrders = async (custID) => {
+    if (custID === undefined){
+        return;
+    }
+    const url = `http://localhost:65500/orders/customer/${custID}`;
+    //console.log("Order url: " + url);
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error("Failed to fetch customer's orders");
     }
     return response.json();
 }
@@ -52,6 +69,7 @@ function compareOrderStatus(orderA, orderB) {
 function TabContent ( {type, resInfo, selectedManager}) {
     const [menu, setMenuItems] = useState([]);//State for menu items
     const [orders, setOrders] = useState([]);//State for orders
+    const [restaurants, setRestaurants] = useState([]);
 
     const [searchInput, setSearchInput] = useState("");//For search input
     const [filteredOrders, setFilteredOrders] = useState([]); //Search filtering states
@@ -75,6 +93,25 @@ function TabContent ( {type, resInfo, selectedManager}) {
         staleTime: 3000, //Time the data is stale in milliseconds (3sec)
         cacheTime: Infinity,
     });
+    //Get Customer orders
+    //resInfo here is actually custInfo and selectedManager is selectedCustomer
+    const {data: custOrders, isLoad, isErr} = useQuery({
+        queryKey: ['custOrders', resInfo],
+        queryFn: () => fetchCustOrders(resInfo[0]),
+        enabled: !!selectedManager || !!resInfo, //same as above
+        staleTime: 3000, //Time the data is stale in milliseconds (3sec)
+        cacheTime: Infinity,
+    });
+
+    //Setting Restaurants for customers
+    useEffect(() => {
+        const fetchRestaurants = async () => {
+          const response = await axios.get("http://localhost:65500/restaurants");
+          setRestaurants(response.data.data);
+        };
+    
+        fetchRestaurants();
+      }, []);
 
 
     //Setting inital values of menu and orders
@@ -91,10 +128,15 @@ function TabContent ( {type, resInfo, selectedManager}) {
             
             //console.log("ORders:" + orders);
         }
+
+        if (custOrders && selectedManager){
+            custOrders.data.sort(compareOrderStatus);
+            setOrders(custOrders.data);
+        }
         setSearchInput("");
         setFilterM("");
         setFilterO("");
-    }, [selectedManager, menuItems, resOrders]);
+    }, [selectedManager, menuItems, resOrders, custOrders]);}
 
     //Searchbar input
     const handleInput = e => {
@@ -139,8 +181,10 @@ function TabContent ( {type, resInfo, selectedManager}) {
     }
 
     if (isLoading || loading) {
+    if (isLoading || loading || isLoad) {
         return <p>Loading...</p>}
     if (isError || error) {return console.log(isError);}
+    if (isError || error || isErr) {return console.log(isError);}
     if (resInfo === null || selectedManager === null){
         return <p>Select Manager to view restaurant info!</p> 
     }
@@ -210,7 +254,27 @@ function TabContent ( {type, resInfo, selectedManager}) {
         )
     }else if (type === "Analytics"){
         return (
-            <Analytics selectedManager={selectedManager} resInfo={resInfo}/>
+            <Analytics selectedManager={selectedManager} resInfo={resInfo}/>)
+    }else if (type==="Restaurants"){
+        return(
+            <div className = "content">
+
+                <RestaurantList
+                        restaurants = {restaurants}
+                        customer = {selectedManager}
+                        />
+            </div>
+        )
+    }else if (type === "CustOrders"){
+        return (
+            <div className="content">
+                <SearchBar
+                    placeholder="Search Order ID"
+                    handleInput={handleInput}
+                />
+
+                <CardList key={`${orders}-CardList`} type={type} items={filteredOrders} selectedManager={selectedManager}/>
+            </div>
         )
     }
 }

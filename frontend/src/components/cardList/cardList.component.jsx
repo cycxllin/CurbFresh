@@ -23,6 +23,14 @@ function CardList ({ type, items, selectedManager }) {
             ))}
         </div>
         )
+    }else if (type === "CustOrders") {
+        return (
+            <div className="cardlist">
+            {items.map(item => (
+                <CardOrder key={item._id} order={item} selectedManager={selectedManager}/>
+            ))}
+        </div>
+        )
     }
 }
 
