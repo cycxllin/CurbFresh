@@ -39,6 +39,10 @@ function UserDropdown ({ type, setSelectedUser}) {
 
     const handleChangeUser = (event) => {
         //refetch();
+        if (event.target.value === "Choose a manager"){
+            setSelectedUser(null);
+            return;
+        }
         //console.log("??" + typeof event.target.value);
         const userID = event.target.value.substring(0,2);
         const resID = event.target.value.substring(3,5);
