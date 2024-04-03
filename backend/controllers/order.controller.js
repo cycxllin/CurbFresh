@@ -247,7 +247,7 @@ const calculateTotal = async (items) => {
             const item = await getItemByIdFromRepo(i.item);
             total += item.price * i.quantity;
         }
-        return total;
+        return total.toFixed(2);
 
     } catch (error) {
         throw Error(`error calculating total`);
