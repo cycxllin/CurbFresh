@@ -34,7 +34,7 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
         
       //Add restID to formData
       formData.restID = selectedManager[1];
-      //console.log(formData);
+      console.log(formData);
     
       //Send new menu item to backend
       try{
