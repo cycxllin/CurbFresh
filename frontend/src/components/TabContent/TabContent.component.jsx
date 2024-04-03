@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import React, { useState, useEffect, useContext } from 'react';
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -7,7 +6,6 @@ import RestaurantList from '../restaurantList/cardList.component';
 import SearchBar from '../searchbar/searchbar.component';
 import Form from 'react-bootstrap/Form';
 import Analytics from "../Analytics/Analytics.component";
-import axios from 'axios';
 import { MyCartContext } from '../../Context/MyCartContext';
 
 const fetchResOrders = async (resID) => {
@@ -136,7 +134,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setSearchInput("");
         setFilterM("");
         setFilterO("");
-    }, [selectedManager, menuItems, resOrders, custOrders]);}
+    }, [selectedManager, menuItems, resOrders, custOrders]);
 
     //Searchbar input
     const handleInput = e => {
@@ -180,10 +178,8 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setFilterO(filterCategory);
     }
 
-    if (isLoading || loading) {
-    if (isLoading || loading || isLoad) {
-        return <p>Loading...</p>}
-    if (isError || error) {return console.log(isError);}
+    if (isLoading || loading || isLoad) { 
+        return <p>Loading...</p> }
     if (isError || error || isErr) {return console.log(isError);}
     if (resInfo === null || selectedManager === null){
         return <p>Select Manager to view restaurant info!</p> 
@@ -278,5 +274,6 @@ function TabContent ( {type, resInfo, selectedManager}) {
         )
     }
 }
+
 
 export default TabContent;
