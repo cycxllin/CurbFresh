@@ -11,8 +11,8 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
         description: '',
         price: '',
         image: '',
-        category: '',
-      });
+        category: "Starters", //Since default category is Starters
+    });
 
     //Change in whatever is inputted
     const handleChange = (event) => {
@@ -25,26 +25,26 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
 
     const handleSubmit = async (event) => {
       const form = event.currentTarget;
+
       if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation();
       }
       setValidated(true);
-
         
       //Add restID to formData
       formData.restID = selectedManager[1];
-      console.log(formData);
+      //console.log(formData);
     
       //Send new menu item to backend
       try{
-          const data = {
+          const data = {//Data to send to backend
               user: [selectedManager[0], selectedManager[1]],
               query: formData
           }
           const response = await axios.post("http://localhost:65500/items", data);
           //console.log("Response:" + response );
-          if (response.status === 200) {
+          if (response.status === 200) {//Success
               console.log("Success Add!");
               toggleAddModal();
               alert("Item added successfully!");
@@ -55,7 +55,7 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
               alert("Error adding item: " + response.statusText);
           }
       } catch(error) {
-        if (error.response.status === 409) {
+        if (error.response.status === 409) {//409 Item exists already
           const responseMsg = error.response.data;
           const existItem = responseMsg.data;
           //console.log(existItem);
@@ -70,7 +70,6 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
       }
     };
     
-
 
   return (
     <>
