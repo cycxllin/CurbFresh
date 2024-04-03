@@ -99,7 +99,6 @@ export const getRestaurantSales = function (orders, year, month) {
 */
 export const getRestaurantOrderStatus = (orders) => {
     try{
-        console.log(orders);
         const status = {
             "placed": 0, 
             "in progress": 0, 
@@ -109,7 +108,6 @@ export const getRestaurantOrderStatus = (orders) => {
         };
 
         for (const order of orders) {
-            console.log(order.orderStatus);
             status[order.orderStatus] += 1;
         }
 

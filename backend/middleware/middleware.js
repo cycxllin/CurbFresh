@@ -13,6 +13,7 @@ export const checkValidManager = (req, res, next) => {
         }else {
             manager = req.headers.user.split(",");
         }
+
         let restID = 0;
 
         if (req.body.query !== undefined && req.body.query.restID) {
@@ -43,7 +44,16 @@ export const checkValidManager = (req, res, next) => {
 */ 
 export const checkValidCustomer = (req, res, next) => {
     try {
-        const customer = req.body.user;
+        //const customer = req.body.user;
+
+        let customer = [];
+
+        if (req.body.user){
+            customer = req.body.user;
+        }else {
+            customer = req.headers.user.split(",");
+        }
+
         const target = req.body.query;
 
         if (customer[0].includes('C') && customer[0] === target.custID) {
@@ -68,7 +78,15 @@ export const checkValidCustomer = (req, res, next) => {
 export const checkValidUser = async (req, res, next) => {
     try {
         const order = req.body.query;
-        const user = req.body.user;
+        //const user = req.body.user;
+
+        let user = [];
+
+        if (req.body.user){
+            user = req.body.user;
+        }else {
+            user = req.headers.user.split(",");
+        }
 
         if (!order.orderStatus || order.orderStatus === 'placed') {
             if (user[0].includes('C')) {
@@ -116,6 +134,7 @@ export const checkValidItems = async (req, res, next) => {
 
         //build item list from items dictionary in order
         const orderItems = [];
+        
         for (const i of target.items) {
             orderItems.push(i.item);
         }
