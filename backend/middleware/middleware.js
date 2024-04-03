@@ -1,3 +1,4 @@
+import { getOrderByIdFromRepo } from "../repositories/order.repository.js";
 import { getItemsByListFromRepo } from "../repositories/item.repository.js";
 
 /*
@@ -67,9 +68,37 @@ export const checkValidCustomer = (req, res, next) => {
 export const checkValidUser = async (req, res, next) => {
     try {
         const order = req.body.query;
+        const user = req.body.user;
+
         if (!order.orderStatus || order.orderStatus === 'placed') {
-            // order is being placed OR not yet seen by manager so customer can change it
-            checkValidCustomer(req, res, next);
+            if (user[0].includes('C')) {
+                checkValidCustomer(req, res, next);
+            } else {
+                checkValidManager(req, res, next);
+            }
+
+        } else if (order.orderStatus === 'canceled') {
+            const oldOrder = await getOrderByIdFromRepo(req.params.id);
+
+            if (oldOrder.orderStatus !== 'placed') {
+                if (user[0].includes('C')) {
+                    // cust can only cancel if previous order status is placed
+                    return res.status(403).json({
+                        status: 403,
+                        message: "Customer can't cancel order once it is in progress",
+                        });
+                } else { 
+                    // manager can cancel anytime
+                    checkValidManager(req, res, next);
+                }
+            } else { // previous orderStatus === placed
+                if (user[0].includes('C')) {
+                    // customer is cancelling order that was not in progress
+                    checkValidCustomer(req, res, next);
+                } else {
+                    checkValidManager(req, res, next);
+                }
+            }
         } else {
             checkValidManager(req, res, next);
         }
@@ -83,7 +112,6 @@ export const checkValidUser = async (req, res, next) => {
 */ 
 export const checkValidItems = async (req, res, next) => {
     try {   
-
         const target = req.body.query;
 
         //build item list from items dictionary in order
