@@ -7,15 +7,20 @@ import { getItemsByListFromRepo } from "../repositories/item.repository.js";
 */ 
 export const checkValidManager = (req, res, next) => {
     try {
-        const manager = req.body.user;
+        let manager = [];
+        if (req.body.user){
+            manager = req.body.user;
+        }else {
+            manager = req.headers.user.split(",");
+        }
         let restID = 0;
 
-        if (req.body.query.restID) {
+        if (req.body.query !== undefined && req.body.query.restID) {
             restID = req.body.query.restID; 
-        } else {
+        } else{
             restID = req.params.id; 
         }
-
+        
         if (manager.length === 2 && manager[0].includes('M') && manager[1] === restID) {
             return next();
         } else {

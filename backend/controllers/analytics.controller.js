@@ -20,8 +20,9 @@ import { getItemsByListFromRepo } from '../repositories/item.repository.js';
 */
 export const getRestaurantAnalytics = async function (req, res) {
     try{
-        const year = Number(req.body.query.month.slice(0,4));
-        const month = Number(req.body.query.month.slice(-2));
+        
+        const year = Number(req.headers.query.slice(0,4));
+        const month = Number(req.headers.query.slice(-2));
         const restID = req.params.id;
 
         const orders = await getOrdersInMonth(year, month, restID, 'completed');

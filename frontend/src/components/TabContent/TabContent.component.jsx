@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from "react-query";
+import axios from "axios";
 import CardList from "../cardList/cardList.component";
 import SearchBar from '../searchbar/searchbar.component';
 import Form from 'react-bootstrap/Form';
+import Analytics from "../Analytics/Analytics.component";
 
 const fetchResOrders = async (resID) => {
     if (resID === undefined){
@@ -12,7 +14,7 @@ const fetchResOrders = async (resID) => {
     //console.log("Order url: " + url);
     const response = await fetch(url);
     if (!response.ok) {
-        throw new Error("Failed to fetch menu items");
+        throw new Error("Failed to fetch restaurant orders");
     }
     return response.json();
 }
@@ -74,6 +76,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
         cacheTime: Infinity,
     });
 
+
     //Setting inital values of menu and orders
     useEffect(() =>{
         if (menuItems && selectedManager) {
@@ -97,9 +100,11 @@ function TabContent ( {type, resInfo, selectedManager}) {
     const handleInput = e => {
         setSearchInput(e.target.value);
     }
+
     //Filter search orders and menu items
     let filteredI = []; //Used in searchbar and filters
     let filteredO = []; //Used in searchbar and filters
+    //useEffect for searchbar
     useEffect(() => {
         if (searchInput === ""){
             filteredO = orders;
@@ -115,10 +120,10 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setFilteredMenu(filteredI); 
     }, [orders, menu, searchInput]);
 
-    //Handle filter searching
+    //Handle select filter searching
     const handleChange = (event) => {
         const filterCategory = event.target.value;
-        if (filterCategory != "none") {
+        if (filterCategory !== "none") {
             filteredI = menu.filter(item => 
                 item.category.includes(filterCategory));
             filteredO = orders.filter(order =>
@@ -194,14 +199,18 @@ function TabContent ( {type, resInfo, selectedManager}) {
                     <option value="placed">Ordered</option>
                     <option value="in progress">In Progress</option>
                     <option value="awaiting pickup">Awaiting Pickup</option>
-                    <option value="completed">completed</option>
-                    <option value="canceled">canceled</option>
+                    <option value="completed">Completed</option>
+                    <option value="canceled">Canceled</option>
                     </Form.Control>
                     <Form.Control.Feedback type="invalid">Select a category</Form.Control.Feedback>
                 </Form.Group>
 
                 <CardList key={`${orders}-CardList`} type={type} items={filteredOrders} selectedManager={selectedManager}/>
             </div>
+        )
+    }else if (type === "Analytics"){
+        return (
+            <Analytics selectedManager={selectedManager} resInfo={resInfo}/>
         )
     }
 }
