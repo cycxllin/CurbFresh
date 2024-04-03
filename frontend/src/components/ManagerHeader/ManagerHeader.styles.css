@@ -1,6 +1,9 @@
 .mHeader h2{
-    display: inline-block;
-    margin: 2% 24% 2% 4%;
+    margin: 2% 24% 4% 4%;
     font-size: 2vw;
     font-style: bold;
+}
+
+.mHeader {
+    display: inline;
 }

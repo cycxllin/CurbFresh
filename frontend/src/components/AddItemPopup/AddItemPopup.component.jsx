@@ -23,6 +23,7 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
       }));
     };
 
+    //Submit to the backend
     const handleSubmit = async (event) => {
       const form = event.currentTarget;
 

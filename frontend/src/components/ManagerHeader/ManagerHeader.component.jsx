@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
-//import axios from "axios";
+import dayjs from 'dayjs';
 import "./ManagerHeader.styles.css";
 
 const fetchRestaurantName = async (rID) => {
@@ -25,6 +25,8 @@ function ManagerHeader ( { selectedUser, setResInfo} ) {
     });
 
     const [resName, setResName] = useState("Welcome!");
+    const [resStartHours, setResStartHours] = useState("");
+    const [resEndHours, setResEndHours] = useState("");
     
     useEffect(() => {
         if (isLoading) { setResName("Loading..."); }
@@ -33,14 +35,19 @@ function ManagerHeader ( { selectedUser, setResInfo} ) {
         else {
         //console.log(resInfo);
         setResName(resInfo.data[0].name);
+        const hours = resInfo.data[0].hours.split("-");
+        const startH = hours[0].substring(0,2) + ":" + hours[0].substring(2,4);
+        const endH = hours[1].substring(0,2) + ":" + hours[1].substring(2,4);
+        console.log(startH + " " + endH);
+        setResStartHours(dayjs(startH).format('LT'));
+        setResEndHours(dayjs(endH).format('LT'));
         setResInfo(resInfo.data[0]);
         refetch();
     }}, [resInfo, selectedUser, isLoading, isError, refetch, setResInfo]);
 
     return (
         <header className="mHeader" >
-            <h2>CurbFresh</h2> 
-            <h2>{resName}</h2>
+            <h2>CurbFresh &emsp; {resName}&emsp; Business Hours: {resStartHours}-{resEndHours}</h2> 
         </header>
     )
 }
