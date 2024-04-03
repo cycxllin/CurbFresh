@@ -280,7 +280,13 @@ const checkOpen = (restaurant) => {
         const min = date.getMinutes();
 
         if (hour === startHour){
-            if (min >= startMin && min <= endMin) {
+            if (min >= startMin) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (hour === endHour){
+            if (min <= endMin) {
                 return true;
             } else {
                 return false;
