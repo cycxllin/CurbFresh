@@ -7,7 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import Customer from "./pages/customer";
 import Manager from "./pages/manager";
 import Restaurant from "./pages/restaurant";
-//import 'semantic-ui-css/semantic.min.css';
+import Checkout from "./pages/checkout";
+import { MyCartContext } from './Context/MyCartContext';
 
 import {
   createBrowserRouter,
@@ -31,12 +32,16 @@ const router = createBrowserRouter([
     path: "restaurant",
     element: <Restaurant/>,
   },
+  {
+    path: "checkout",
+    element: <Checkout/>,
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     <RouterProvider router={router} />
+      <RouterProvider router={router} />
   </React.StrictMode>
 );
 

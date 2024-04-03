@@ -5,36 +5,45 @@ import Form from 'react-bootstrap/Form';
 import "./CustomerDropdown.styles.css";
 
 const fetchCustomers = async () => {
-    const response = await axios.get("http://localhost:65500/customers");
-    if (!response.ok){
-        throw new Error('failed to get');
+    const response = await fetch("http://localhost:65500/customers");
+    if (!response.ok) {
+        throw new Error("failed to get");
     }
-    const data = response.json();
+    return response.json();
 }
 
-function UserDropdown ({ type, setSelectedUser}) {
+function CustomerDropdown ({ type, setSelectedUser}) {
 
     //Query to get array of users
-    const {data: users, refetch} = useQuery(['users'], fetchCustomers);
+    //Query to get array of users
+    const {data: users, isLoading, isError, refetch} = useQuery({
+        queryKey: ['users'], 
+        queryFn: fetchCustomers,
+        enabled: !!setSelectedUser,
+        staleTime: 300000, //Time the data is stale in milliseconds (5min)
+        cacheTime: Infinity,
+    });
+
+    if (isLoading) return <p>Loading...</p>
+    if (isError) return <p>Error!</p>
 
     const handleChangeUser = (event) => {
         const userID = event.target.value.substring(0,2);
         //console.log("test: " + user);
-        setSelectedUser(userID);
+        setSelectedUser([userID]);
     }
 
     const event = new CustomEvent('test');
 
     return (
-        users
-        // <Form.Select className="form-select" onChange={handleChangeUser} event={event}>
-        //     <option >Choose a customer</option>
-        //     {users.data.map((user,index) => (
-        //     <option key = {index} value={[user._id]} >{user.fName}</option>
-        // ))
-        // }
-        // </Form.Select>
+        <Form.Select className="form-select" onChange={handleChangeUser} event={event}>
+            <option >Choose a customer</option>
+            {users.data.map((user,index) => (
+            <option key = {index} value={[user._id]} >{user.fName}</option>
+        ))
+        }
+        </Form.Select>
     )
 }
 
-export default UserDropdown;
+export default CustomerDropdown;

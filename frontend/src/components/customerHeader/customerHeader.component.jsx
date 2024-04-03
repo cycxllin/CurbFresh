@@ -1,47 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext, useContext} from 'react';
 import { useQuery } from 'react-query';
+import CustomerDropdown from '../CustomerDropdown/CustomerDropdown.component';
+import CartPopup from '../CartPopup/CartPopup.component';
 import axios from "axios";
-import "./managerHeader.styles.css";
+import "./CustomerHeader.styles.css";
+import CardSubtitle from 'react-bootstrap/esm/CardSubtitle';
+import { MyCartContext } from '../../Context/MyCartContext';
 
-const fetchRestaurantName = async (rID) => {
-    //console.log("ID: " + rID);
-    const url = `http://localhost:65500/restaurants/${rID}`
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error("Error fetching restaurant name");
-    }
-    //const rName = response.json().data.name;
-    const data = response.json();
-    return data;
-}
+function CustomerHeader ({selectedCustomer}) {
 
-function ManagerHeader ( { selectedUser, setResInfo} ) {
-    const {data: resInfo, isLoading, isError, refetch} = useQuery(
-        ['resInfo'], 
-        () => selectedUser && fetchRestaurantName(selectedUser[1]), {
-        cacheTime: Infinity,
-    });
+    const {cart, setCart} = useContext(MyCartContext);
+    const [showCartModal, setShowCartModal] = useState(false);
+    const [customers, setCustomers] = useState([]);
 
-    const [resName, setResName] = useState("Welcome!");
-    
-    useEffect(() => {
-    if (isLoading) { setResName("Loading..."); }
-    if (isError) { setResName("Error!");}
-    if (selectedUser === null) {setResName("Select Manager!");}
-    else {
-        
-        console.log(resInfo);
-        setResName(resInfo.data[0].name);
-        setResInfo(resInfo.data[0]);
-        refetch();
-    }}, [isLoading, isError, resInfo]);
+    const toggleCartModal = () => {setShowCartModal(!showCartModal);};
 
     return (
         <header className="mHeader" >
-            <h2>CurbFresh</h2> 
-            <h2>{resName}</h2>
+            <div className="row sm-md">
+                        <div className="col sm-md">
+                            <h2>CurbFresh</h2>
+                        </div>
+                        <div className="col sm-md">
+                            <h2>Enter Your Address</h2>
+                        </div>
+                        <div className="col sm-md">
+                            <h2 onClick={toggleCartModal}> Cart</h2>
+                        </div>
+                    <MyCartContext.Provider value={{ cart, setCart }}>
+                        <CartPopup
+                                showCartModal={showCartModal}
+                                toggleCartModal={toggleCartModal}
+                                selectedCustomer={selectedCustomer}
+                            />
+                    </MyCartContext.Provider>
+                        
+
+                    </div>
         </header>
     )
 }
 
-export default ManagerHeader;
+export default CustomerHeader;
