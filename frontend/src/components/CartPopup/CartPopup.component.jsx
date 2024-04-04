@@ -8,14 +8,6 @@ import CardList from '../itemList/cardList.component';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import { MyCartContext } from '../../Context/MyCartContext';
 
-function cartSubtotal(items){
-    var subtotal = 0;
-    for (var i = 0; i < items.length; i++) {
-        subtotal += items[i].price;
-    }
-    return subtotal;
-}
-
 
 function CartPopup({showCartModal, toggleCartModal, selectedCustomer}){
 
@@ -27,67 +19,25 @@ function CartPopup({showCartModal, toggleCartModal, selectedCustomer}){
         setCustomer(selectedCustomer);
     }, [selectedCustomer]);
 
-    // //Used to turn the list of item ids into retrieving data for each item from the database
-    // //sets items to an array of dictionaries with restIds and item objects.
-    // useEffect(() => {
-    //     const fetchItems = async () => {
-    //         setItems([]);
-    //       if (selectedCustomer!=null){
-    //             const tempItems = [];
-    //           if (cart[selectedCustomer[0]] !== undefined) {
-    //               for (let i = 0; i < cart[selectedCustomer[0]].length; i++) {
-    //                   let IdString = "";
-    //                   let temp_items = cart[selectedCustomer[0]][i];
-    //                   for (let j = 0; j < temp_items.cust_items.length; j++) {
-    //                       IdString = IdString.concat(temp_items.cust_items[j].item) + ",";
-    //                   }
-    //                   IdString = IdString.slice(0, -1);
-    //                   const url = `http://localhost:65500/items/list?menu=${IdString}`;
-    //                   const response = await axios.get(url);
-    //                   console.log(temp_items.rest_id);
-    //                   tempItems.push({ rest_id: temp_items.rest_id, cust_items: response.data.data });
-    //               }
-    //               setItems(tempItems);
-    //           }else {
-    //               setItems([]);
-    //           }
-    //       }
-          
-    //     };
-    //     fetchItems();
-    //   }, [selectedCustomer, cart]);
-
-    // //Assigns each item object to it's quantity in a dictionary
-    // //an array of dictionaries that look like {item: Item item, quantity: Number quantity}
-    // useEffect(() => {
-    //     const fetchItemsList = async () => {
-    //         // const updatedList = [];
-    //         // if (items !== undefined) {
-    //         //     //this first for loop goes through each cart the customer has from every present restaurant
-    //         //     for (var i = 0; i < cart[selectedCustomer[0].length]; i++){
-    //         //         //this second for loop goes through each item in a customers cart specific to cart[i]'s restaurant - we get item quantity from here
-    //         //         for (var j = 0; j < cart[selectedCustomer[0]][i].cust_items.length; j++){
-    //         //             //this goes through each object in our list of items - we get the item objects from this list
-    //         //             for (var k in items) {
-    //         //                 k.cust_items // this returns the restaurants cust_items list of item
-    //         //                 const itemIndex = cart[selectedCustomer[0]][i].cust_items.findIndex(m_item => m_item.item === items[i]._id);
-    //         //                 for (){
-                                
-    //         //                 }
-    //         //             }
-    //         //             console.log(itemIndex);
-    //         //         }
-    //         //         updatedList[i] = {item: items[i], quantity: cart[selectedCustomer[i]][itemIndex].quantity};
-    //         //         //console.log(itemsList);
-    //         //     }
-    //         // } else{
-    //         //     setItemsList([]);
-    //         // }
-    //         // setItemsList(updatedList);
-    //     };
-    
-    //     fetchItemsList();
-    //   }, [cart, items]);
+const handleClick = (item, quantity, restName, type) =>{
+    if (type === "delete") {
+        alert("Item Deleted from Cart!");
+        const updatedCart = {...cart};
+        const restIndex = updatedCart[selectedCustomer[0]].findIndex(res => res.rest_id === item.restID);
+        const itemIndex = updatedCart[selectedCustomer[0]][restIndex].cust_items.findIndex(m_item => m_item.item === item);
+        //delete the item at the item index
+        updatedCart[selectedCustomer[0]][restIndex].cust_items.splice(itemIndex, 1);
+        setCart(updatedCart);
+      } else if (type === "update"){
+        alert("Item Quantity Updated In Cart!");
+        const updatedCart = {...cart};
+        const restIndex = updatedCart[selectedCustomer[0]].findIndex(res => res.rest_id === item.restID);
+        const itemIndex = updatedCart[selectedCustomer[0]][restIndex].cust_items.findIndex(m_item => m_item.item === item);
+        //delete the item at the item index
+        updatedCart[selectedCustomer[0]][restIndex].cust_items[itemIndex].quantity = quantity;
+        setCart(updatedCart);
+      }
+}
 
       console.log(cart);
     if (selectedCustomer){
@@ -102,15 +52,10 @@ function CartPopup({showCartModal, toggleCartModal, selectedCustomer}){
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col sm-md">
-                            <CardList type = {"cart"} items = {cart[selectedCustomer[0]]} checkoutData={checkoutData}/>
+                            <CardList type = {"cart"} items = {cart[selectedCustomer[0]]} checkoutData={checkoutData} handleClick = {handleClick}/>
                             </div>
     
                             <div class="col sm-md">
-                                <Modal.Footer>
-                                    <h3>
-                                        Subtotal: ${}
-                                    </h3>
-                                </Modal.Footer>
                             </div>
                         </div>
     
@@ -134,11 +79,6 @@ function CartPopup({showCartModal, toggleCartModal, selectedCustomer}){
                             </div>
     
                             <div class="col sm-md">
-                                <Modal.Footer>
-                                    <h3>
-                                        Subtotal: ${}
-                                    </h3>
-                                </Modal.Footer>
                             </div>
                         </div>
     

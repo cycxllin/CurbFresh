@@ -4,11 +4,17 @@ import Form from 'react-bootstrap/Form';
 import FormCheck from 'react-bootstrap/FormCheck'
 import Button from 'react-bootstrap/Button';
 import CardList from '../components/itemList/cardList.component';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 function Checkout() {
     const [validated, setValidated] = useState(false);
     const { state: { customer, cart } = {} } = useLocation();
+    const [storedCart, setStoredCart] = useState(() => {
+        // getting stored value
+        const saved = localStorage.getItem("cart");
+        const initialValue = JSON.parse(saved);
+        return initialValue || "";
+      });
     console.log(cart);
     //const customer = checkoutData.customer;
     //items is a list of item objects
@@ -47,7 +53,7 @@ function Checkout() {
     }
 
     function getGST(subtotal){
-        let GST = 0;
+        let GST = subtotal * 0.05;
         return GST;
     }
 
@@ -59,6 +65,9 @@ function Checkout() {
             [name]: value,
         }));
     };
+
+    console.log(customer);
+    console.log(storedCart);
 
     const placeOrder = async (event) => {
         const form = event.currentTarget;
@@ -82,6 +91,16 @@ function Checkout() {
                 console.log("Order Placed!");
                 //Trigger Thank You popup
                 alert("Order Placed Successfully!");
+                //delete from localStorage cart
+                //find index of the restaurant cart with cart.rest_id
+                const cartIndex = storedCart[customer[0]].findIndex(res => res.rest_id === cart.rest_id);
+                if (cartIndex > -1) { // only splice array when item is found
+                    storedCart[customer[0]].splice(cartIndex, 1); // 2nd parameter means remove one item only
+                }
+                localStorage.setItem('cart', JSON.stringify(storedCart));
+
+                //send to customer page
+                <Link className="Link" to={`/customer`}>Link</Link>
             } else {
                 // Request failed
                 console.error("Error placing order:", response.statusText);
