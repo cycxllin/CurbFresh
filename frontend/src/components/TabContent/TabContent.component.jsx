@@ -7,6 +7,7 @@ import SearchBar from '../searchbar/searchbar.component';
 import Form from 'react-bootstrap/Form';
 import Analytics from "../Analytics/Analytics.component";
 import { MyCartContext } from '../../Context/MyCartContext';
+import "./TabContent.styles.css";
 
 const fetchResOrders = async (resID) => {
     if (resID === undefined){

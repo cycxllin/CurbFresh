@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 
 
 const Card = ( { item , selectedManager} ) => {
-  const { _id, restID, name, description, price, soldOut, active, category } = item;
+  const { _id, restID, name, description, image, price, soldOut, active, category } = item;
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDelModal, setShowDelModal] = useState(false);
@@ -22,10 +22,9 @@ const Card = ( { item , selectedManager} ) => {
   if (name === "Add Item") {
     return (
       <>
-        <div className='card-container' onClick={toggleAddModal}>
-          <h1 className="add">{name}</h1>
+        <div className='card-container-add' onClick={toggleAddModal}>
+          <h1 className="add-t">{name}</h1>
           <h2 className="add">+</h2>
-          <h2 className="O">O</h2>
         </div> 
 
         <AddItemPopup
@@ -40,11 +39,16 @@ const Card = ( { item , selectedManager} ) => {
   return (
     <>
       <div className='card-container'>
-        <h2>{name} ${price}</h2>
-        <p>{description}</p>
-        <p>Sold out={soldOut.toString()} Category: {category}</p>
-        <Button className="delete" variant="danger" onClick={toggleDelModal} >Delete</Button>{' '}
-        <Button className="edit" variant="warning" onClick={toggleEditModal}>Edit</Button>{' '}
+        <img src={image} />
+        <hr></hr>
+        <h2 className="itemName">{name} ${price}</h2>
+        <p className="desc">{description}</p>
+        <p><span className="sold">Sold out:</span> {soldOut.toString()}</p>
+        <hr></hr>
+        <div className ="Btns">
+          <Button className="delete" onClick={toggleDelModal} >Delete</Button>{' '}
+          <Button className="edit" onClick={toggleEditModal}>Edit</Button>{' '}
+        </div>
       </div>
 
       <DeleteItemPopup
