@@ -55,7 +55,6 @@ export const updateRestaurantInRepo = async function (query, update) {
 */
 export const deleteRestaurantFromRepo = async function (query) {
     try {
-        //console.log(query);
         const restaurant = await Restaurant.findOneAndUpdate(
             { ...query},
             { active: false},

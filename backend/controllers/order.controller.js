@@ -10,19 +10,24 @@ export const createOrder = async function (req, res) {
         //check restaurant is open
         const restaurant = await getRestaurantFromRepo({_id: body.restID});
 
-        // if (!checkOpen(restaurant)) {
-        //     return res.status(409).json({
-        //         status: 409,
-        //         message: `Restaurant is closed`,
-        //     });
-        // }
+        const startHour = Number(restaurant.hours.slice(0,2));
+        const endHour = Number(restaurant.hours.slice(5,7));
+        const startMin = Number(restaurant.hours.slice(2,4)); 
+        const endMin = Number(restaurant.hours.slice(-2));
+
+         if (!checkOpen(startHour, startMin, endHour, endMin)) {
+             return res.status(409).json({
+                 status: 409,
+                 message: `Restaurant is closed`,
+             });
+         }
 
         // restaurant is open so continue to create order
         const orderCount = await countOrdersInRepo();
 
         body.price = await calculateTotal(body.items);
 
-        if (!checkPickupTime(body.pickupTime)) {
+        if (!checkPickupTime(body.pickupTime, startHour, startMin, endHour, endMin)) {
             return res.status(500).json({
                 status: 500,
                 message: `Pickup time must be ASAP or 4 digit 24hr time`,
@@ -247,6 +252,8 @@ const calculateTotal = async (items) => {
             const item = await getItemByIdFromRepo(i.item);
             total += item.price * i.quantity;
         }
+        total = total*1.05;
+
         return total.toFixed(2);
 
     } catch (error) {
@@ -254,27 +261,47 @@ const calculateTotal = async (items) => {
     }
 }
 
-const checkPickupTime = (str) => {
+const checkPickupTime = (str, startHour, startMin, endHour, endMin) => {
     try{
         if (str.toLowerCase() === 'asap') {
             return true;
         } else {
             const reg = new RegExp('^[0-9][0-9][0-9][0-9]$');
-            return reg.test(str);
+
+            if (!reg.test(str)) {
+                throw Error('Pickup time must be ASAP or 4 digit 24hr time');
+            } else {
+                const hour = Number(str.slice(0,2));
+                const min = Number(str.slice(2,4));
+
+
+                if (hour === startHour){
+                    if (min >= startMin) {
+                        return true;
+                    } else {
+                        throw Error('Pickup time must be within business hours');
+                    }
+                } else if (hour === endHour){
+                    if (min <= endMin) {
+                        return true;
+                    } else {
+                        throw Error('Pickup time must be within business hours');
+                    }
+                } else if (hour > startHour && hour < endHour) {
+                    return true;
+                } else {
+                    throw Error('Pickup time must be within business hours');
+                }
+            }
         }
 
     } catch (error) {
-        throw Error(`error checking pickup time`);
+        throw Error(`${error}`);
     }
 }
 
-const checkOpen = (restaurant) => {
+const checkOpen = (startHour, startMin, endHour, endMin) => {
     try{
-        const startHour = Number(restaurant.hours.slice(0,2));
-        const endHour = Number(restaurant.hours.slice(5,7));
-        const startMin = Number(restaurant.hours.slice(2,4)); 
-        const endMin = Number(restaurant.hours.slice(-2));
-    
         const date = new Date();
         const hour = date.getHours();
         const min = date.getMinutes();
