@@ -8,20 +8,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 function Checkout() {
     const [validated, setValidated] = useState(false);
-    const { state: { checkoutData } = {} } = useLocation();
-    const customer = checkoutData.customer;
+    const { state: { customer, cart } = {} } = useLocation();
+    console.log(cart);
+    //const customer = checkoutData.customer;
     //items is a list of item objects
-    const items = checkoutData.items;
     //cart is a list of item dictionaries for the specific customer
     //format cart = [{item: I1, quantity: 1},...]
-    const cart = checkoutData.cart;
-    const itemsList = checkoutData.itemsList;
+    //const cart = checkoutData.cart;
     console.log(cart);
-    console.log(items);
     const [formData, setFormData] = useState({
         custID: customer[0],
-        restID: items[0].restID,
-        items: cart,
+        restID: cart.rest_id,
+        items: cartConversion(cart.cust_items),//need to convert the item object to just it's id for query
         orderStatus: "placed",
         pickupTime: 'ASAP',
         price: 0,
@@ -31,12 +29,26 @@ function Checkout() {
     }
     );
 
-    function cartSubtotal(items){
+    //converts our cart objects cust_item array into a suitable array for our query
+    function cartConversion(cust_items) {
+        let items = [];
+        for (var i = 0; i < cust_items.length; i++) {
+            items.push({item : cust_items[i].item._id, quantity: cust_items[i].quantity});
+        }
+        return items;
+    }
+
+    function cartSubtotal(cust_items){
         var subtotal = 0;
-        for (var i = 0; i < items.length; i++) {
-            subtotal += items[i].price;
+        for (var i = 0; i < cust_items.length; i++) {
+            subtotal += cust_items[i].item.price;
         }
         return subtotal;
+    }
+
+    function getGST(subtotal){
+        let GST = 0;
+        return GST;
     }
 
     //Change FormData
@@ -55,15 +67,16 @@ function Checkout() {
         event.stopPropagation();
         }
         setValidated(true);
-        let date = new Date().toJSON();
-        //formData.created = date;
-        formData.price = cartSubtotal(items);
+        let subTotal = cartSubtotal(cart.cust_items);
+        let GST = getGST(subTotal);
+        formData.price = subTotal + GST;
 
         try{
             const data = {
                 user: [customer[0]],
                 query: formData
             }
+            console.log(data);
             const response = await axios.post("http://localhost:65500/orders", data);
             if (response.status === 200) {
                 console.log("Order Placed!");
@@ -85,7 +98,7 @@ function Checkout() {
 
     return (
         <div>
-            <CardList type = {"checkout"} items = {itemsList}/>
+            <CardList type = {"checkout"} items = {cart.cust_items}/>
             <Form noValidate validated={validated}>
                 <Form.Group>
                     <Form.Label>Pick-Up Time</Form.Label>

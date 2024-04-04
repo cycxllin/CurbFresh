@@ -10,12 +10,12 @@ export const createOrder = async function (req, res) {
         //check restaurant is open
         const restaurant = await getRestaurantFromRepo({_id: body.restID});
 
-        if (!checkOpen(restaurant)) {
-            return res.status(409).json({
-                status: 409,
-                message: `Restaurant is closed`,
-            });
-        }
+        // if (!checkOpen(restaurant)) {
+        //     return res.status(409).json({
+        //         status: 409,
+        //         message: `Restaurant is closed`,
+        //     });
+        // }
 
         // restaurant is open so continue to create order
         const orderCount = await countOrdersInRepo();
