@@ -59,17 +59,18 @@ function Restaurant() {
     }, []);
 
     //handles when the user clicks add cart on an item
-    const handleClick = (item, quantity, restID) => {
+    const handleClick = (item, quantity, restName) => {
+      alert("Item Added to Cart!");
       //if the selected customer does not have a cart yet
       if (!cart[selectedCustomer[0]]){
-        setCart({...cart, [selectedCustomer[0]]: [{rest_id: restID, cust_items: [{item: item, quantity: quantity}]}]}); //good one
-        //setCart({...cart, [selectedCustomer[0]]: {[restID]: [{item: item, quantity: quantity}]}}); 
+        setCart({...cart, [selectedCustomer[0]]: [{restName: restName, rest_id: item.restID, cust_items: [{item: item, quantity: quantity}]}]}); //good one
+        //setCart({...cart, [selectedCustomer[0]]: {[item.restID]: [{item: item, quantity: quantity}]}}); 
       }else {
-        const restIndex = cart[selectedCustomer[0]].findIndex(res => res.rest_id === restID);
+        const restIndex = cart[selectedCustomer[0]].findIndex(res => res.rest_id === item.restID);
         console.log("restINDEX = " + restIndex);
         //if the selectedcustomer has a cart but not with the current restaurant
         if(restIndex === -1){
-          setCart({...cart, [selectedCustomer[0]]: [...cart[selectedCustomer[0]], {rest_id: restID, cust_items: [{item: item, quantity: quantity}]}]});
+          setCart({...cart, [selectedCustomer[0]]: [...cart[selectedCustomer[0]], {restName: restName, rest_id: item.restID, cust_items: [{item: item, quantity: quantity}]}]});
         }
         else {
           const itemIndex = cart[selectedCustomer[0]][restIndex].cust_items.findIndex(m_item => m_item.item === item);
@@ -79,7 +80,7 @@ function Restaurant() {
             updatedCart[selectedCustomer[0]][restIndex].cust_items.push({item: item, quantity: quantity});
             setCart(updatedCart);
             //setCart({...cart, [selectedCustomer[0]]: [...cart[selectedCustomer[0]][restIndex], [...cart[selectedCustomer[0]][restIndex].cust_items, cust_items: [{item: item, quantity: quantity}]]]]});
-            //setCart({...cart, [selectedCustomer[0]]: {[restID]: [...cart[selectedCustomer[0]][restID], {item: item, quantity: quantity}]}});
+            //setCart({...cart, [selectedCustomer[0]]: {[item.restID]: [...cart[selectedCustomer[0]][item.restID], {item: item, quantity: quantity}]}});
           } 
           else {
             // Create a copy of the cart
@@ -95,7 +96,7 @@ function Restaurant() {
       }
     };
 
-    //console.log(cart);
+    console.log(cart);
     return (
       <QueryClientProvider client={queryClient}>
 
@@ -114,7 +115,7 @@ function Restaurant() {
             <body>
               <center>
               <h2>Welcome to {restaurant.name}!</h2>
-              <h3>Our Business hours are 9am - 10pm.</h3>
+              <h3>Our Business hours are {restaurant.hours}</h3>
               </center>
 
               <MyCartContext.Provider value={{ cart, setCart }}>
@@ -122,6 +123,7 @@ function Restaurant() {
                     type = {"default"}
                     items = {items}
                     handleClick = {handleClick}
+                    restName = {restaurant.name}
                     /> 
             </MyCartContext.Provider>
 

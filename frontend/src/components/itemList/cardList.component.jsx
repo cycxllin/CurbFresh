@@ -6,12 +6,12 @@ import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import axios from "axios";
 
-const CardList = ({ type, items, handleClick, checkoutData}) => {
+const CardList = ({ type, items, handleClick, checkoutData, restName}) => {
     if (type === "default"){
         return(
             <div className="cardlist">
                 {items.map(item => (
-                <Card type = {"default"} handleClick={handleClick} key={item._id} item={item} />))}
+                <Card type = {"default"} handleClick={handleClick} key={item._id} item={item} restName={restName}/>))}
             </div>
         );   
     }else if (type === "checkout"){
@@ -29,13 +29,13 @@ const CardList = ({ type, items, handleClick, checkoutData}) => {
                     //if type is cart we receive all the customers carts and must put each restaurant cart in an accordion
                     items.map(item => (
                     <Accordion defaultActiveKey="0">
-                        <Accordion.Header>{item.rest_id}</Accordion.Header>
+                        <Accordion.Header>{item.restName}</Accordion.Header>
                         <Accordion.Body>
                         <div className="cardlist">
                             {item.cust_items.map(it => (
                             <Card type = {"cart"} handleClick={handleClick} key={it.item._id} item={it.item} item_count={it.quantity}/>))}
                         </div>
-                        <Link className="Link" to={`/checkout`} state={{ checkoutData }}>
+                        <Link className="Link" to={`/checkout`} state={{customer: checkoutData.customer, cart: item }}>
                                         <Button variant="primary">Checkout</Button>
                                     </Link>
                         </Accordion.Body>
