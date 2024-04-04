@@ -50,7 +50,28 @@
     border-radius: 10px;
     align-self: center;
     /* border: 3px solid #5A3E23; */
-  }
+}
+
+.card-container-order {
+    height: 30vw;
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFBA7A;
+    border-radius: 16px;
+    padding: 16px;
+    cursor: pointer;
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: transform 0.25s ease-out;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    overflow:hidden;
+}
+
+.card-container-order:hover {
+    transform: scale(1.05);
+}
 
 p {
     font-size: 1vw;
