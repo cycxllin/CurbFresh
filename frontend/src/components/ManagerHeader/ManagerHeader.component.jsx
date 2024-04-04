@@ -31,7 +31,11 @@ function ManagerHeader ( { selectedUser, setResInfo} ) {
     useEffect(() => {
         if (isLoading) { setResName("Loading..."); }
         if (isError) { setResName("Error!");}
-        if (selectedUser === null || resInfo===undefined) {setResName("Select Manager!");}
+        if (selectedUser === null || resInfo===undefined) {
+            setResName("Select Manager!");
+            setResStartHours("");
+            setResEndHours("");
+        }
         else {
         //console.log(resInfo);
         setResName(resInfo.data[0].name);

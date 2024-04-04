@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ManagerHeader from "../components/ManagerHeader/ManagerHeader.component";
 import ManagerTabs from "../components/ManagerTabs/ManagerTabs.component";
 import UserDropdown from "../components/UserDropdown/UserDropdown.component";
+import "./manager.styles.css";
 
 const queryClient = new QueryClient();
 
