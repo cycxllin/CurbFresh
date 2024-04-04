@@ -20,8 +20,17 @@ export const addOrderToRepo = async function (payload) {
 }
 
 export const getOrdersFromRepo = async function (query) {
-    try {
+    try { 
         const orders = await Order.find(query).sort({time: -1});
+        return orders;
+    } catch (error) {
+        throw Error("Error while getting orders");
+    }
+}
+
+export const getOrdersByCustFromRepo = async function (id) {
+    try { console.log(id);
+        const orders = await Order.find({custID: id}).sort({time: -1});
         return orders;
     } catch (error) {
         throw Error("Error while getting orders");

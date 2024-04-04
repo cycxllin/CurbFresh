@@ -1,6 +1,6 @@
 import { getItemFromRepo, getItemByIdFromRepo } from "../repositories/item.repository.js";
 import { addOrderToRepo, countOrdersInRepo, getOrdersFromRepo, updateOrderInRepo, 
-    deleteOrderFromRepo, addItemToOrderInRepo, getOrdersByRestIdFromRepo} from "../repositories/order.repository.js";
+    deleteOrderFromRepo, addItemToOrderInRepo, getOrdersByRestIdFromRepo, getOrdersByCustFromRepo} from "../repositories/order.repository.js";
 import { getRestaurantFromRepo } from '../repositories/restaurant.repository.js';
 
 export const createOrder = async function (req, res) {
@@ -58,7 +58,7 @@ export const createOrder = async function (req, res) {
     } catch (error) {
         return res.status(500).json({
             status: 500,
-            message: `failed to create order due to ${error}`
+            message: `failed to create order`
         });
     }
 }
@@ -139,7 +139,8 @@ export const getOrdersFromRestaurantID = async function (req, res) {
 /* GET a list of orders from a single customer*/
 export const getOrdersFromCustomerID = async function (req, res) {
     try {
-        const customersOrders = await getOrdersFromRepo({custId: req.params.id});
+        console.log(req.params.id);
+        const customersOrders = await getOrdersByCustFromRepo(req.params.id);
         if (customersOrders) {
             return res.status(200).json({
                 status: 200,
