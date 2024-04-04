@@ -38,9 +38,9 @@ function ManagerHeader ( { selectedUser, setResInfo} ) {
         const hours = resInfo.data[0].hours.split("-");
         const startH = hours[0].substring(0,2) + ":" + hours[0].substring(2,4);
         const endH = hours[1].substring(0,2) + ":" + hours[1].substring(2,4);
-        console.log(startH + " " + endH);
-        setResStartHours(dayjs(startH).format('LT'));
-        setResEndHours(dayjs(endH).format('LT'));
+        //console.log(startH + " " + endH);
+        setResStartHours(startH);
+        setResEndHours(endH);
         setResInfo(resInfo.data[0]);
         refetch();
     }}, [resInfo, selectedUser, isLoading, isError, refetch, setResInfo]);
