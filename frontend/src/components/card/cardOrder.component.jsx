@@ -8,18 +8,13 @@ const CardOrder = ( { order, selectedManager } ) => {
 
     //Handle change in order status
     const handleChange = async (event) => {
-        //console.log("Before: " + order.orderStatus);
         const { name, value } = event.target;
-        //console.log("Name: " + name);
-        //console.log("Target: " + event.target.value);
         const updatedValue = value;
-        //console.log("Updated value: " + updatedValue);
 
         //update status here
         order.orderStatus = updatedValue;
 
-        //console.log("pickupTime: " + order.pickupTime);
-
+        //Send to backend
         try {
             const data = {
                 user: [selectedManager[0], selectedManager[1]],

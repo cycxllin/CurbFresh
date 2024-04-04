@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ManagerHeader from "../components/ManagerHeader/ManagerHeader.component";
 import ManagerTabs from "../components/ManagerTabs/ManagerTabs.component";
 import UserDropdown from "../components/UserDropdown/UserDropdown.component";
+import "./manager.styles.css";
 
 const queryClient = new QueryClient();
 
@@ -13,9 +14,9 @@ function Manager() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <div className="Manager">
-                <UserDropdown setSelectedUser={setSelectedManager} setResInfo={setResInfo} />
+            <div className="Manager">    
                 <ManagerHeader selectedUser={selectedManager} setResInfo={setResInfo} />
+                <UserDropdown setSelectedUser={setSelectedManager} setResInfo={setResInfo} />
                 <ManagerTabs selectedManager={selectedManager} resInfo={resInfo}/>
             </div>
         </QueryClientProvider>

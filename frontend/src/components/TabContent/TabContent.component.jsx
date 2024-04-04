@@ -201,7 +201,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
                     value={filterM}
                     onChange={handleChange}
                     >
-                    <option value="none" selected={true}>Select a category</option>
+                    <option value="none" selected={true}>All</option>
                     <option value="Starters">Starters</option>
                     <option value="Specials">Specials</option>
                     <option value="Salads">Salads</option>
@@ -235,7 +235,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
                     value={filterO}
                     onChange={handleChange}
                     >
-                    <option value="none" selected={true}>Select Order Status</option>
+                    <option value="none" selected={true}>All</option>
                     <option value="placed">Ordered</option>
                     <option value="in progress">In Progress</option>
                     <option value="awaiting pickup">Awaiting Pickup</option>
