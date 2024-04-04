@@ -91,7 +91,6 @@ export const addItemToOrderInRepo = async function (query, payload) {
         ).lean();
         return updatedOrder;
     } catch (error) {
-        console.log(error);
         throw Error("Error while adding item to order");
     }
 }
