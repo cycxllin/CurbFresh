@@ -88,7 +88,7 @@ export const checkValidUser = async (req, res, next) => {
             user = req.headers.user.split(",");
         }
 
-        if (!order.orderStatus || order.orderStatus === 'placed') {
+        if (!order.orderStatus || order.orderStatus === 'placed' || order.orderStatus === 'completed') {
             if (user[0].includes('C')) {
                 checkValidCustomer(req, res, next);
             } else {
