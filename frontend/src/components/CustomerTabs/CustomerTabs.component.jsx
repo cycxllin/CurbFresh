@@ -6,7 +6,7 @@ import { MyCartContext } from '../../Context/MyCartContext';
 
 function CustomerTabs ( {selectedCustomer, resInfo} ) {
     //State for selected tab
-    const [selectedTab, setSelectedTab] = useState("link-0");
+    const [selectedTab, setSelectedTab] = useState("link-3");
     const {cart, setCart} = useContext(MyCartContext);
 
 
