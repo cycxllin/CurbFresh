@@ -2,7 +2,13 @@
     border: none;
     outline: none;
     padding: 10px;
-    width: 150px;
+    width: 240px;
     line-height: 30px;
-    margin-bottom: 30px;
+    margin: 2% 4% 4% 4%;
+    background: #A38367;
+    color: #FFFFFF;
+}
+
+.search::placeholder{
+    color: #FFFFFF;
 }
