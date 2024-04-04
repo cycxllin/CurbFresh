@@ -33,7 +33,16 @@ function Restaurant() {
         const IdString = restaurant.menu.join(',');
         const url = `http://localhost:65500/items/list?menu=${IdString}`;
         const response = await axios.get(url);
-        setItems(response.data.data);
+        const allItems = response.data.data;
+        let placeholderItems =[];
+        for (var value of allItems) {
+          if (value.soldOut !== true || value.soldOut !== false) {
+            placeholderItems.push(value);
+          }
+        }
+        console.log(allItems);
+        console.log(placeholderItems);
+        setItems(placeholderItems);
       };
       fetchItems();
     }, []);
@@ -59,41 +68,47 @@ function Restaurant() {
     }, []);
 
     //handles when the user clicks add cart on an item
+    //type denotes what type of click was registered, there are three types adding an item to cart, updating and deleting
     const handleClick = (item, quantity, restName) => {
-      alert("Item Added to Cart!");
-      //if the selected customer does not have a cart yet
-      if (!cart[selectedCustomer[0]]){
-        setCart({...cart, [selectedCustomer[0]]: [{restName: restName, rest_id: item.restID, cust_items: [{item: item, quantity: quantity}]}]}); //good one
-        //setCart({...cart, [selectedCustomer[0]]: {[item.restID]: [{item: item, quantity: quantity}]}}); 
-      }else {
-        const restIndex = cart[selectedCustomer[0]].findIndex(res => res.rest_id === item.restID);
-        console.log("restINDEX = " + restIndex);
-        //if the selectedcustomer has a cart but not with the current restaurant
-        if(restIndex === -1){
-          setCart({...cart, [selectedCustomer[0]]: [...cart[selectedCustomer[0]], {restName: restName, rest_id: item.restID, cust_items: [{item: item, quantity: quantity}]}]});
+        if (selectedCustomer === null){
+          alert("Please select a customer!");
         }
         else {
-          const itemIndex = cart[selectedCustomer[0]][restIndex].cust_items.findIndex(m_item => m_item.item === item);
-          //if item doesn't exist in the dictionary else
-          if (itemIndex === -1){
-            const updatedCart = { ...cart };
-            updatedCart[selectedCustomer[0]][restIndex].cust_items.push({item: item, quantity: quantity});
-            setCart(updatedCart);
-            //setCart({...cart, [selectedCustomer[0]]: [...cart[selectedCustomer[0]][restIndex], [...cart[selectedCustomer[0]][restIndex].cust_items, cust_items: [{item: item, quantity: quantity}]]]]});
-            //setCart({...cart, [selectedCustomer[0]]: {[item.restID]: [...cart[selectedCustomer[0]][item.restID], {item: item, quantity: quantity}]}});
-          } 
+          alert("Item Added to Cart!");
+        //if the selected customer does not have a cart yet
+        if (!cart[selectedCustomer[0]]){
+          setCart({...cart, [selectedCustomer[0]]: [{restName: restName, rest_id: item.restID, cust_items: [{item: item, quantity: quantity}]}]}); //good one
+          //setCart({...cart, [selectedCustomer[0]]: {[item.restID]: [{item: item, quantity: quantity}]}}); 
+        }else {
+          const restIndex = cart[selectedCustomer[0]].findIndex(res => res.rest_id === item.restID);
+          console.log("restINDEX = " + restIndex);
+          //if the selectedcustomer has a cart but not with the current restaurant
+          if(restIndex === -1){
+            setCart({...cart, [selectedCustomer[0]]: [...cart[selectedCustomer[0]], {restName: restName, rest_id: item.restID, cust_items: [{item: item, quantity: quantity}]}]});
+          }
           else {
-            // Create a copy of the cart
-            const updatedCart = { ...cart };
-
-            // Update quantity of duplicate item
-            updatedCart[selectedCustomer[0]][restIndex].cust_items[itemIndex].quantity += quantity;
-
-            // Set the updated cart using setCart
-            setCart(updatedCart);
+            const itemIndex = cart[selectedCustomer[0]][restIndex].cust_items.findIndex(m_item => m_item.item === item);
+            //if item doesn't exist in the dictionary else
+            if (itemIndex === -1){
+              const updatedCart = { ...cart };
+              updatedCart[selectedCustomer[0]][restIndex].cust_items.push({item: item, quantity: quantity});
+              setCart(updatedCart);
+              //setCart({...cart, [selectedCustomer[0]]: [...cart[selectedCustomer[0]][restIndex], [...cart[selectedCustomer[0]][restIndex].cust_items, cust_items: [{item: item, quantity: quantity}]]]]});
+              //setCart({...cart, [selectedCustomer[0]]: {[item.restID]: [...cart[selectedCustomer[0]][item.restID], {item: item, quantity: quantity}]}});
+            } 
+            else {
+              // Create a copy of the cart
+              const updatedCart = { ...cart };
+  
+              // Update quantity of duplicate item
+              updatedCart[selectedCustomer[0]][restIndex].cust_items[itemIndex].quantity += quantity;
+  
+              // Set the updated cart using setCart
+              setCart(updatedCart);
+            }
           }
         }
-      }
+        }
     };
 
     console.log(cart);

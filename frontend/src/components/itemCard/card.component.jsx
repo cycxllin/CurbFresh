@@ -11,6 +11,8 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
   const name = item.name;
   const price = item.price;
   const restID = item.restID;
+  var count = 0;
+  count = item_count;
   var quantity = 1;
   var id = name + "quantity";
 
@@ -37,7 +39,7 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
             <input type="text" id={id} value="1" min="1"></input>
             <Button variant="primary" onClick={plusButtonClick}>+</Button>
             </div>
-            <Button variant="primary" onClick={() => handleClick(item, quantity, restName)}>Add to Cart</Button>
+            <Button variant="primary" onClick={() => handleClick(item, quantity, restName, "add")}>Add to Cart</Button>
         </BootStrapCard.Body>
       </BootStrapCard>
     );
@@ -52,13 +54,12 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
           </BootStrapCard.Text>
           <div class="row">
             <Button variant="primary" onClick={minusButtonClick}>-</Button>
-            <input type="text" id={id} value={item_count} min="1"></input>
+            <input type="text" id={id} value={count} min="1"></input>
             <Button variant="primary" onClick={plusButtonClick}>+</Button>
             </div>
 
-            {/* implement on-click!!!! */}
-            <Button variant="primary" onClick={null}>Update</Button>
-            <Button variant="primary" onClick={null}>Delete</Button>
+            <Button variant="primary" onClick={() => handleClick(item, quantity, restName, "update")}>Update</Button>
+            <Button variant="primary" onClick={() => handleClick(item, quantity, restName, "delete")}>Delete</Button>
         </BootStrapCard.Body>
       </BootStrapCard>
     );
@@ -72,7 +73,7 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
             Price: {price}
           </BootStrapCard.Text>
           <div class="row">
-            <input type="text" id={id} value={item_count} min="1"></input>
+            <input type="text" id={id} value={count} min="1"></input>
             </div>
         </BootStrapCard.Body>
       </BootStrapCard>
