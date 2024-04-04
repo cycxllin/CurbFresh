@@ -139,7 +139,7 @@ export const getOrdersFromRestaurantID = async function (req, res) {
 /* GET a list of orders from a single customer*/
 export const getOrdersFromCustomerID = async function (req, res) {
     try {
-        console.log(req.params.id);
+
         const customersOrders = await getOrdersByCustFromRepo(req.params.id);
         if (customersOrders) {
             return res.status(200).json({

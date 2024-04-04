@@ -29,7 +29,7 @@ export const getOrdersFromRepo = async function (query) {
 }
 
 export const getOrdersByCustFromRepo = async function (id) {
-    try { console.log(id);
+    try { 
         const orders = await Order.find({custID: id}).sort({time: -1});
         return orders;
     } catch (error) {
