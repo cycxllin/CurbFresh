@@ -1,6 +1,24 @@
+* {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+  
+  html {
+    height: 100%;
+  }
+  
+  body {
+    height: 100%;
+  }
 .content {
     /* background-color: #FFFFFF; */
-    display: ruby;
+    display: block;
+  max-width: 900px;
+  margin: auto;
+  padding: 100px;
+  height: 100%;
+  outline: none;
 }
 
 .mb-4 {

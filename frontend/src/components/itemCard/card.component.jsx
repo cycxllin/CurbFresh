@@ -5,28 +5,40 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import { Link } from "react-router-dom";
 import BootStrapCard from 'react-bootstrap/Card';
+import "./card.styles.css";
 
 const Card = ({ type, item, handleClick, item_count, restName}) => {
   const _id = item._id;
   const name = item.name;
   const price = item.price;
   const restID = item.restID;
-  var count = 0;
-  count = item_count;
+  let count = item_count;
   var quantity = 1;
   var id = name + "quantity";
 
   function plusButtonClick() {
-    document.getElementById(id).value = ++quantity;
+    if (type==="cart") {
+      document.getElementById(id + "cart").value = ++count;
+    } else {
+      document.getElementById(id).value = ++quantity;
+    }
+    
   }
   function minusButtonClick() {
-    if (document.getElementById(id).value > 1){
-      document.getElementById(id).value = --quantity;
+    if (type==="cart") {
+      if (document.getElementById(id + "cart").value > 1){
+        document.getElementById(id + "cart").value = --count;
+      }
+    } else {
+      if (document.getElementById(id).value > 1){
+        document.getElementById(id).value = --quantity;
+      }
     }
   }
 
   if (type === "default"){
     return (
+    <div class=".card-container">
       <BootStrapCard style={{ width: '18rem' }}>
         <BootStrapCard.Img variant="top" src={item.image} />
         <BootStrapCard.Body>
@@ -42,6 +54,7 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
             <Button variant="primary" onClick={() => handleClick(item, quantity, restName, "add")}>Add to Cart</Button>
         </BootStrapCard.Body>
       </BootStrapCard>
+    </div>
     );
   } else if (type === "cart") {
     return (
@@ -54,12 +67,12 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
           </BootStrapCard.Text>
           <div class="row">
             <Button variant="primary" onClick={minusButtonClick}>-</Button>
-            <input type="text" id={id} value={count} min="1"></input>
+            <input type="text" id={id + "cart"} value={count} min="1"></input>
             <Button variant="primary" onClick={plusButtonClick}>+</Button>
             </div>
 
-            <Button variant="primary" onClick={() => handleClick(item, quantity, restName, "update")}>Update</Button>
-            <Button variant="primary" onClick={() => handleClick(item, quantity, restName, "delete")}>Delete</Button>
+            <Button variant="primary" onClick={() => handleClick(item, count, restName, "update")}>Update</Button>
+            <Button variant="primary" onClick={() => handleClick(item, count, restName, "delete")}>Delete</Button>
         </BootStrapCard.Body>
       </BootStrapCard>
     );

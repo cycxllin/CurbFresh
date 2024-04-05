@@ -39,8 +39,7 @@ const handleClick = (item, quantity, restName, type) =>{
       }
 }
 
-      console.log(cart);
-    if (selectedCustomer){
+    if (selectedCustomer !== null && cart[selectedCustomer[0]] !== undefined){
         const checkoutData = {customer: customer, cart: cart[selectedCustomer[0]]};
         return (
             <Modal show={showCartModal} onHide={toggleCartModal}>

@@ -73,9 +73,11 @@ function TabContent ( {type, resInfo, selectedManager}) {
     const [searchInput, setSearchInput] = useState("");//For search input
     const [filteredOrders, setFilteredOrders] = useState([]); //Search filtering states
     const [filteredMenu, setFilteredMenu] = useState([]); //Search filtering states
+    const [filteredRestaurants, setFilteredRestaurants] = useState([]); //Search filtering states
     const [filterM, setFilterM] = useState(""); //Search filtering menu states 
     const [filterO, setFilterO] = useState(""); //Search filtering orderStatus states
     const [filterCategory, setFilterCategory] = useState("none"); //Search filtering dropdown category
+    const [filterR, setFilterR] = useState(""); //Search filtering Restaurant states
 
      //Get Restaurant menu
     const {data: menuItems, isLoading, isError } = useQuery({
@@ -178,6 +180,9 @@ function TabContent ( {type, resInfo, selectedManager}) {
         return <p>Loading...</p> }
     if (isError || error || isErr) {return console.log(isError);}
     if (resInfo === null || selectedManager === null){
+        if (type==="CustOrders"){
+            return <p>Select Customer to view restaurant info!</p>
+        }
         return <p>Select Manager to view restaurant info!</p> 
     }
     //TODO Add other tabContents, split menu into categories
@@ -249,12 +254,27 @@ function TabContent ( {type, resInfo, selectedManager}) {
             <Analytics selectedManager={selectedManager} resInfo={resInfo}/>)
     }else if (type==="Restaurants"){
         return(
-            <div className = "content">
-
-                <RestaurantList
-                        restaurants = {restaurants}
+            <div className = "restaurant-content">
+                <div class="container-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <center>
+                            <SearchBar
+                    placeholder="Search for a Restaurant!"
+                    handleInput={handleInput}
+                />
+                            </center>
+                        
+                        </div>
+                        <div class="row">
+                        <RestaurantList
+                        restaurants = {filteredRestaurants}
                         customer = {selectedManager}
                         />
+                        </div>
+                    </div>
+                </div>
+
             </div>
         )
     }else if (type === "CustOrders"){
