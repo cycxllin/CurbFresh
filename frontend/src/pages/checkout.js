@@ -49,7 +49,6 @@ function Checkout() {
           for (var i = Number(hours.substring(0,2)); i < hours.substring(5,7); i++){
             temp.push({value: (i+"00").padStart(4, "0"), text: (i+":00").padStart(5, "0")});
           }
-          console.log(temp);
           setPickupTimes(temp);
         };
     
@@ -87,9 +86,6 @@ function Checkout() {
             [name]: value,
         }));
     };
-
-    // console.log(customer);
-    // console.log(storedCart);
 
     const placeOrder = async (event) => {
         const form = event.currentTarget;
@@ -183,10 +179,9 @@ function Checkout() {
                 <Form.Group>
                     <Form.Label id="pickL">Select a Pick-Up Time:</Form.Label>
                     <Form.Control id="pickTime"
-                    required
                     as="select"
-                    value={formData.pickupTime}
                     onChange={handleChange}
+                    name="pickupTime"
                     >
                         {pickupTimes.map(times => (
                             <option value={times.value}>{times.text}</option>
