@@ -138,6 +138,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setSearchInput("");
         setFilterM("");
         setFilterO("");
+        setFilterR("");
     }, [selectedManager, menuItems, resOrders, custOrders]);
 
     //Searchbar input
@@ -149,6 +150,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
     useEffect(() => {
         let filteredO = orders;
         let filteredI = menu;
+        let filteredR = restaurants; //list for searchbar restaurants
 
         // Filter by search input
         if (searchInput.trim() !== "") {
@@ -156,6 +158,9 @@ function TabContent ( {type, resInfo, selectedManager}) {
                 order._id.toLowerCase().includes(searchInput.toLowerCase()));
             filteredI = menu.filter(item => 
                 item.name.toLowerCase().includes(searchInput.toLowerCase()));
+            filteredR = restaurants.filter(restaurant =>
+                restaurant.name.toLowerCase().includes(searchInput.toLowerCase()
+                ));
         }
 
         // Filter by selected category
@@ -169,7 +174,8 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setFilteredMenu(filteredI); 
         setFilterO(filterCategory);
         setFilterM(filterCategory);
-    }, [orders, menu, searchInput, filterCategory]);
+        setFilteredRestaurants(filteredR);
+    }, [orders, menu, restaurants, searchInput, filterCategory]);
 
     //Handle select filter searching
     const handleChange = (event) => {
@@ -279,13 +285,45 @@ function TabContent ( {type, resInfo, selectedManager}) {
         )
     }else if (type === "CustOrders"){
         return (
-            <div className="content">
-                <SearchBar
+            <div className = "custOrders-content">
+                <div class="container-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <center>
+                            <SearchBar
                     placeholder="Search Order ID"
                     handleInput={handleInput}
                 />
 
-                <CardList key={`${orders}-CardList`} type={type} items={filteredOrders} selectedManager={selectedManager}/>
+<Form.Group className="mb-4">
+                    <Form.Label>Order Status Filter: </Form.Label>
+                    <Form.Control 
+                    as="select" 
+                    name="category"
+                    value={filterO}
+                    onChange={handleChange}
+                    >
+                    <option value="none" selected={true}>All</option>
+                    <option value="placed">Ordered</option>
+                    <option value="in progress">In Progress</option>
+                    <option value="awaiting pickup">Awaiting Pickup</option>
+                    <option value="completed">Completed</option>
+                    <option value="canceled">Canceled</option>
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">Select a category</Form.Control.Feedback>
+                </Form.Group>
+                            </center>
+                        
+                        </div>
+                        <div class="row">
+                        
+                        </div>
+                        <div class="row">
+                        <CardList key={`${orders}-CardList`} type={type} items={filteredOrders} selectedManager={selectedManager}/>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         )
     }

@@ -11,9 +11,10 @@ function App() {
   return (
       <div className="App">
         <h1 className="Welcome"> Welcome to CurbFresh !</h1>
-        <p>Log in as ...</p>
+        <p className="log">Log in as ...</p>
         <Button name="Manager"></Button>
         <Button name="Customer"></Button>
+        <div className='bgIMG'></div>
       </div>
   );
 }

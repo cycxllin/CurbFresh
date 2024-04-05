@@ -1,0 +1,56 @@
+h2#orderTitle{
+    margin: 4% 0% 2%;
+    text-align: center;
+    font-size: 3vw;
+    font-weight: bolder;
+    color: #FFFFFF;
+    font-family: sans-serif;
+    -webkit-text-stroke: 0.2px #000000;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);/*  Drop shadow; */
+}
+
+.checkout-content {
+    padding-bottom: 2%;
+}
+
+.form-label#noteL {
+    margin: 2% 8% 0.5% 4%;
+    font-size: 1.5vw;
+    font-family: sans-serif;
+}
+
+.form-control#notes {
+    width: 40%;
+    margin: 0% 4% 0% 4%;
+    padding-bottom: 4%;
+    font-family: sans-serif;
+}
+
+.form-label#pickL {
+    margin: 0% 8% 2% 4%;
+    font-size: 1.5vw;
+    font-family: sans-serif;
+}
+
+.form-control#pickTime {
+    width: 20%;
+    margin: -2% 4% 2% 4%;
+    font-family: sans-serif;
+}
+
+.btn.placeO.btn.btn-primary {
+    font-family: sans-serif;
+    position: absolute;
+    right: 8%;
+    bottom: -12%;
+    margin: 0% 0% 4% 4%;
+    width: 20%;
+    height: 20%;
+    background-color: #5A3E23;
+    font-size: 3vw;
+    border-radius: 30px;
+    -webkit-text-stroke: 0.2px #000000;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);/*  Drop shadow; */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    border: none;
+}
