@@ -152,7 +152,7 @@ Button.edit {
     background-color: #C5BDB5;
 }
 
-.mb-4 .form-label {
+.mb-4 .form-label#orderSt {
     font-size: 1.5vw;
     color: #000000;
     -webkit-text-stroke: 0.2px #000000;

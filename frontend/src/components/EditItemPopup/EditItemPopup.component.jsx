@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FormCheck from 'react-bootstrap/FormCheck'
 import Modal from 'react-bootstrap/Modal';
+import "./EditItemPopup.styles.css";
 
 function EditItemPopup ( {showEditModal, toggleEditModal, selectedManager, item} ) {
     const [validated, setValidated] = useState(false);

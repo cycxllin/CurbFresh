@@ -3,6 +3,7 @@ import axios from "axios";
 import './card.styles.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import "./card.styles.css";
 
 const CardOrder = ( { order, selectedManager } ) => {
     const { _id, custID, restID, items, orderStatus, pickupTime, price, active, notes, created } = order;
@@ -12,6 +13,9 @@ const CardOrder = ( { order, selectedManager } ) => {
         type = "customer";
     }else {
         type = "Manager";
+        if (notes === ""){
+            order.notes ="none";
+        }
     }
 
     //Handle change in order status
@@ -139,7 +143,7 @@ const CardOrder = ( { order, selectedManager } ) => {
                 <p>Total: ${order.price}</p>
                 
                 <p>Pickup Time: {order.pickupTime}</p>
-                <Form.Group className="mb-4">
+                <Form.Group className="mb-4" id="orderSt">
                         <Form.Label>Order Status: </Form.Label>
                         <Form.Control 
                         as="select" 

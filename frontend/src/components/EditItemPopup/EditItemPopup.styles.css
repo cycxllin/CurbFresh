@@ -1,0 +1,15 @@
+.mb-4 .form-label {
+    font-size: unset;
+    color: unset;
+    text-shadow: initial; /*Drop shadow;*/
+    
+}
+
+.mb-4 select.form-control {
+    background-color: unset;
+    color: unset;
+}
+
+.mb-4 {
+    text-align: left;
+}

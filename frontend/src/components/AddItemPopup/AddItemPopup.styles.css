@@ -1,3 +1,33 @@
 Form.Select {
     width: 100%;
+    text-align: left;
+    display: unset;
 }
+
+
+/* #N {
+    position: absolute;
+    top: 3%;
+}
+
+#nIn {
+    margin: unset;
+}
+
+#pr {
+    position: absolute;
+    top: 53%;
+    left: 8%;
+    font-weight: unset;
+    color: unset;
+    font-size: unset;
+    text-shadow: unset;
+}
+
+#itmimg {
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
+    left: 5%;
+    
+} */
