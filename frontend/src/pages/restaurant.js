@@ -20,6 +20,7 @@ function Restaurant() {
     const [customers, setCustomers] = useState([]);
     const [filterI, setFilterI] = useState(""); //Search filtering menu states 
     const [filteredItems, setFilteredItems] = useState([]); //Search filtering states
+    const [filterCat, setFilterCat] = useState("none"); //Search filtering
     const [categories, setCategories] = useState([]); //
     const [cart, setCart] = useState(() => {
       // getting stored cart
@@ -86,31 +87,25 @@ function Restaurant() {
       setSearchInput(e.target.value);
     }
 
-    //Search menu items
-    let filteredI = []; //Used in searchbar and filters
     //useEffect for searchbar
     useEffect(() => {
-        if (searchInput === ""){
-            filteredI = items;
-        } else {
-            filteredI = items.filter(item =>
+        let filteredI = items; //Used in searchbar and filters
+        if (searchInput.trim() !== ""){
+              filteredI = items.filter(item =>
                 item.name.toLowerCase().includes(searchInput.toLowerCase()
                 ));
+        } 
+
+        if (filterCat !== "none"){
+          filteredI = filteredI.filter(item =>
+            item.category.includes(filterCat));
         }
         setFilteredItems(filteredI); 
-    }, [items, searchInput]);
+    }, [items, searchInput, filterCat]);
 
     //Handle select filter searching
     const handleChange = (event) => {
-      const filterCategory = event.target.value;
-      if (filterCategory !== "none") {
-          filteredI = items.filter(item => 
-              item.category.includes(filterCategory));
-      } else {
-          filteredI = items;
-      }
-      setFilteredItems(filteredI); 
-      setFilterI(filterCategory);
+      setFilterCat(event.target.value);
   }
 
     useEffect(() => {
@@ -200,7 +195,7 @@ function Restaurant() {
                     <Form.Control 
                     as="select" 
                     name="category"
-                    value={filterI}
+                    value={filterCat}
                     onChange={handleChange}
                     >
                       <option value="none" selected={true}>All</option>
