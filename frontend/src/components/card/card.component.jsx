@@ -6,6 +6,7 @@ import EditItemPopup from "../EditItemPopup/EditItemPopup.component";
 import Button from 'react-bootstrap/Button';
 
 
+
 const Card = ( { item , selectedManager} ) => {
   const { _id, restID, name, description, image, price, soldOut, active, category } = item;
 

@@ -7,6 +7,18 @@ import Button from 'react-bootstrap/Button';
 const CardOrder = ( { order, selectedManager, resInfo } ) => {
     const { _id, custID, restID, items, orderStatus, pickupTime, price, active, notes, created } = order;
     const [pickupTimes, setPickupTimes] = useState([]);
+    const [restaurant, setRestaurant] = useState("");
+
+  useEffect(() => {
+    const fetchRestaurant = async () => {
+      const url = `http://localhost:65500/restaurants/${restID}`;
+      const response = await axios.get(url);
+      console.log(response.data.data);
+      setRestaurant(response.data.data[0]);
+  }
+    fetchRestaurant();
+  }, []);
+
 
     let data = null;;
     let type = null;
@@ -138,7 +150,7 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
             return (
                 <>
                   <div className='card-container-order'>
-                    <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
+                    <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Restaurant:</span> {restaurant.name} <br></br><span className="sold">Customer:</span> {order.custID}</h2>
                     <p>Total: ${order.price}</p>
                     <p>Pickup Time: {order.pickupTime}</p>
                     <p>Status: {order.orderStatus}</p>
@@ -150,7 +162,7 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
             return (
                 <>
                   <div className='card-container-order'>
-                    <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
+                    <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Restaurant:</span> {restaurant.name} <br></br><span className="sold">Customer:</span> {order.custID}</h2>
                     <p>Total: ${order.price}</p>  
                     <p>Pickup Time: {order.pickupTime}</p>
                     <p>Status: {order.orderStatus}</p>
@@ -162,7 +174,7 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
             return (
                 <>
                   <div className='card-container-order'>
-                    <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
+                    <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Restaurant:</span> {restaurant.name} <br></br><span className="sold">Customer:</span> {order.custID}</h2>
                     <p>Total: ${order.price}</p>
                     
                     <p>Pickup Time: {order.pickupTime}</p>
@@ -175,7 +187,7 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
         return (
             <>
               <div className='card-container-order'>
-                <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
+                <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Restaurant:</span> {restaurant.name} <br></br><span className="sold">Customer:</span> {order.custID}</h2>
                 <p>Total: ${order.price}</p>
                 
                 <p>Pickup Time: {order.pickupTime}</p>
