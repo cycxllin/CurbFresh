@@ -1,16 +1,149 @@
 .card-container {
+    height: 30vw;
+    width: 20vw;
     display: flex;
     flex-direction: column;
-    background-color: #95dada;
-    border: 1px solid grey;
-    border-radius: 5px;
+    background-color: #FFBA7A;
+    border-radius: 16px;
     padding: 16px;
     cursor: pointer;
     -moz-osx-font-smoothing: grayscale;
     backface-visibility: hidden;
     transform: translateZ(0);
     transition: transform 0.25s ease-out;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    overflow:hidden;
 }
 .card-container:hover {
     transform: scale(1.05);
+}
+
+.card-container-add {
+    height: 8vw;
+    width: 8vw;
+    display: flex;
+    flex-direction: column;
+    background-color: #5A3E23;
+    border-radius: 100%;
+    padding: 16px;
+    cursor: pointer;
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: transform 0.25s ease-out;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    margin-top: 48%;
+    margin-left: 28%;
+}
+
+.card-container-add:hover {
+    transform: scale(1.05);
+}
+
+.card-container img {
+    min-width: 240px; /* Set the maximum width to your desired size */
+    min-height: 160px; /* Set the maximum height to your desired size */
+    max-width: 240px;
+    max-height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+    align-self: center;
+    /* border: 3px solid #5A3E23; */
+}
+
+.card-container-order {
+    height: 30vw;
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFBA7A;
+    border-radius: 16px;
+    padding: 16px;
+    cursor: pointer;
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: transform 0.25s ease-out;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    overflow:hidden;
+}
+
+.card-container-order:hover {
+    transform: scale(1.05);
+}
+
+p {
+    font-size: 1vw;
+}
+
+p.desc {
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden; /* Hide any overflowing text */
+    text-overflow: ellipsis;
+}
+
+h1.add-t {
+    width: fit-content;
+    font-size: 1.8vw;
+    top: -30%;
+    left: 8%;
+    position: fixed;
+}
+
+h2.add {
+    color: #FFFFFF;
+    font-size: 7vw;
+    position: fixed;
+    top: -10%;
+    left: 25%;
+}
+
+h2.itemName {
+    font-size: 1.5vw;
+    font-weight: bolder;
+}
+
+.sold {
+    font-weight: bolder;
+}
+
+.hr {
+    margin: 0.2rem 0;
+}
+
+
+.Btns {
+    margin-top: 1%;
+}
+
+Button.delete {
+    border: none;
+    background-color: #B90000;
+    color: #FFFFFF;
+    position: fixed;
+    bottom: 8%;
+    left: 8%;
+    width: 32%;
+    justify-content: center;
+}
+
+Button.edit {
+    border: none;
+    background-color: #5A3E23;
+    color: #FFFFFF;
+    position: fixed;
+    bottom: 8%;
+    right: 8%;
+    width: 32%;
+    justify-content: center;
+}
+
+.btn-primary {
+    border-radius: 12px;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+    background-color: #C5BDB5;
 }

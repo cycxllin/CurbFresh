@@ -7,6 +7,7 @@ import { MyCartContext } from './Context/MyCartContext';
 function App() {
   //clears cache
   localStorage.removeItem("cart");
+  localStorage.removeItem("customer");
   return (
       <div className="App">
         <h1 className="Welcome"> Welcome to CurbFresh !</h1>

@@ -4,22 +4,29 @@ import axios from 'axios';
 import CardList from '../components/itemList/cardList.component';
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import CustomerHeader from "../components/CustomerHeader/CustomerHeader.component";
+import SearchBar from "../components/searchbar/searchbar.component";
+import Form from 'react-bootstrap/Form';
 import CustomerDropdown from "../components/CustomerDropdown/CustomerDropdown.component";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MyCartContext } from "../Context/MyCartContext";
+import "./restaurant.styles.css";
 
 const queryClient = new QueryClient();
 const number = 5;
 
 function Restaurant() {
+    const [searchInput, setSearchInput] = useState("");//For search input
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [customers, setCustomers] = useState([]);
+    const [filterI, setFilterI] = useState(""); //Search filtering menu states 
+    const [filteredItems, setFilteredItems] = useState([]); //Search filtering states
+    const [categories, setCategories] = useState([]); //
     const [cart, setCart] = useState(() => {
-      // getting stored value
-      const saved = localStorage.getItem("cart");
+      // getting stored cart
+      const savedCart = localStorage.getItem("cart");
       //if we have a cart cached then we use that and set it to our context else its empty
-      if (saved !== undefined){
-        const initialValue = JSON.parse(saved);
+      if (savedCart !== undefined){
+        const initialValue = JSON.parse(savedCart);
         return initialValue || "";
       } else {
         return {};
@@ -28,6 +35,7 @@ function Restaurant() {
     //retrieving the restaurant state from the customer page
     const { state: { restaurant } = {} } = useLocation();
     const [items, setItems] = useState([]);
+    
     useEffect(() => {
       const fetchItems = async () => {
         const IdString = restaurant.menu.join(',');
@@ -40,24 +48,70 @@ function Restaurant() {
             placeholderItems.push(value);
           }
         }
-        console.log(allItems);
-        console.log(placeholderItems);
         setItems(placeholderItems);
       };
       fetchItems();
     }, []);
+
+    //gets categories of the current menu items
+    useEffect(() => {
+      const fetchCategories = async () => {
+        let set = new Set();
+        let temp = [];
+        for (let i = 0; i < items.length; i++){
+          set.add(items[i].category);
+        }
+        for (const category of set) {
+          temp.push({value: category, text: category});
+        }
+        console.log(temp);
+        setCategories(temp);
+      };
+  
+      fetchCategories();
+    }, [items]);
+
+    //setting selected customer into cache to save what customer has been selected
+    useEffect(() => {
+      localStorage.setItem('customer', JSON.stringify(selectedCustomer));
+    }, [selectedCustomer]);
 
     //sets the cart into cache so it can persist page refreshing and backpressing (this makes it accessible even if you go back to customer page)
     useEffect(() => {
       localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
 
-    // window.addEventListener("popstate", () => {
-    //   console.log("YASSSS");
-    //   <MyCartContext.Provider value={{ cart, setCart }}>
-    //          <Link className="Link" to={`/customer`} state={{ cart, setCart }}></Link>   
-    //   </MyCartContext.Provider>
-    // });
+    //Searchbar input
+    const handleInput = e => {
+      setSearchInput(e.target.value);
+    }
+
+    //Search menu items
+    let filteredI = []; //Used in searchbar and filters
+    //useEffect for searchbar
+    useEffect(() => {
+        if (searchInput === ""){
+            filteredI = items;
+        } else {
+            filteredI = items.filter(item =>
+                item.name.toLowerCase().includes(searchInput.toLowerCase()
+                ));
+        }
+        setFilteredItems(filteredI); 
+    }, [items, searchInput]);
+
+    //Handle select filter searching
+    const handleChange = (event) => {
+      const filterCategory = event.target.value;
+      if (filterCategory !== "none") {
+          filteredI = items.filter(item => 
+              item.category.includes(filterCategory));
+      } else {
+          filteredI = items;
+      }
+      setFilteredItems(filteredI); 
+      setFilterI(filterCategory);
+  }
 
     useEffect(() => {
       const fetchCustomers = async () => {
@@ -110,12 +164,10 @@ function Restaurant() {
         }
         }
     };
-
-    console.log(cart);
     return (
       <QueryClientProvider client={queryClient}>
 
-        <div>
+        <div class="container-fluid">
             <head>
                 <title>ROPMS Customer Screen</title>
             </head>
@@ -133,10 +185,31 @@ function Restaurant() {
               <h3>Our Business hours are {restaurant.hours}</h3>
               </center>
 
+              <SearchBar
+                    placeholder="Search Item Name"
+                    handleInput={handleInput}
+                />
+
+              <Form.Group className="mb-4">
+                    <Form.Label>Item Filter: </Form.Label>
+                    <Form.Control 
+                    as="select" 
+                    name="category"
+                    value={filterI}
+                    onChange={handleChange}
+                    >
+                      <option value="none" selected={true}>All</option>
+                    {categories.map(category => (
+                            <option value={category.value}>{category.text}</option>
+                        ))}
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">Select a category</Form.Control.Feedback>
+                </Form.Group>
+
               <MyCartContext.Provider value={{ cart, setCart }}>
               <CardList
                     type = {"default"}
-                    items = {items}
+                    items = {filteredItems}
                     handleClick = {handleClick}
                     restName = {restaurant.name}
                     /> 

@@ -13,7 +13,6 @@ const fetchCustomers = async () => {
 }
 
 function CustomerDropdown ({ type, setSelectedUser}) {
-
     //Query to get array of users
     //Query to get array of users
     const {data: users, isLoading, isError, refetch} = useQuery({
@@ -28,15 +27,19 @@ function CustomerDropdown ({ type, setSelectedUser}) {
     if (isError) return <p>Error!</p>
 
     const handleChangeUser = (event) => {
+        if (event.target.value === "Choose a customer"){//Set back to no user
+            setSelectedUser(null);
+            return;
+        }
         const userID = event.target.value.substring(0,2);
-        //console.log("test: " + user);
         setSelectedUser([userID]);
+
     }
 
     const event = new CustomEvent('test');
 
     return (
-        <Form.Select className="form-select" onChange={handleChangeUser} event={event}>
+        <Form.Select className="form-select" onChange={handleChangeUser}>
             <option >Choose a customer</option>
             {users.data.map((user,index) => (
             <option key = {index} value={[user._id]} >{user.fName}</option>

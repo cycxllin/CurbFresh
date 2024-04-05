@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import './card.styles.css';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 const CardOrder = ( { order, selectedManager } ) => {
     const { _id, custID, restID, items, orderStatus, pickupTime, price, active, notes, created } = order;
+    let data = null;;
+    let type = null;
+    if (selectedManager[0][0] === "C") {
+        type = "customer";
+    }
 
     //Handle change in order status
     const handleChange = async (event) => {
@@ -14,12 +20,21 @@ const CardOrder = ( { order, selectedManager } ) => {
         //update status here
         order.orderStatus = updatedValue;
 
-        //Send to backend
-        try {
-            const data = {
+        if (type === "customer") {
+            data = {
+                user: [selectedManager[0]],
+                query: order
+            }
+        } else {
+            data = {
                 user: [selectedManager[0], selectedManager[1]],
                 query: order
             }
+        }
+
+        console.log(data);
+        //Send to backend
+        try {
             const url = `http://localhost:65500/orders/${order._id}`;
             const response = await axios.patch(url, data);
             if (response.status === 200) {//Success
@@ -43,34 +58,74 @@ const CardOrder = ( { order, selectedManager } ) => {
 
     }
 
-    return (
-        <>
-          <div className='card-container-order'>
-            <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
-            <p>Total: ${order.price}</p>
-            
-            <p>Pickup Time: {order.pickupTime}</p>
-            <Form.Group className="mb-4">
-                    <Form.Label>Order Status: </Form.Label>
-                    <Form.Control 
-                    as="select" 
-                    required 
-                    name="orderStatus"
-                    value={order.orderStatus} 
-                    onChange={handleChange}
-                    >
-                    <option value="placed" disabled={false} >Ordered</option>
-                    <option value="in progress">In-Progress</option>
-                    <option value="awaiting pickup">Awaiting Pickup</option>
-                    <option value="completed">Completed</option>
-                    <option value="canceled">Canceled</option>
-                    </Form.Control>
-                    <Form.Control.Feedback type="invalid">Select a status</Form.Control.Feedback>
-                </Form.Group>
-          </div>
-    
-        </>
-      )
+    if (type === "customer"){
+        if (order.orderStatus === "placed") {
+            return (
+                <>
+                  <div className='card-container-order'>
+                    <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
+                    <p>Total: ${order.price}</p>
+                    <p>Pickup Time: {order.pickupTime}</p>
+                    <p>Status: {order.orderStatus}</p>
+                    <Button variant="primary" onClick={handleChange} value={"canceled"}>Cancel Order</Button>
+                  </div>
+                </>
+              )
+        } else if (order.orderStatus === "awaiting pickup"){
+            return (
+                <>
+                  <div className='card-container-order'>
+                    <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
+                    <p>Total: ${order.price}</p>  
+                    <p>Pickup Time: {order.pickupTime}</p>
+                    <p>Status: {order.orderStatus}</p>
+                    <Button variant="primary" onClick={handleChange} value={"completed"}>Picked Up</Button>
+                  </div>
+                </>
+              )
+        } else {
+            return (
+                <>
+                  <div className='card-container-order'>
+                    <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
+                    <p>Total: ${order.price}</p>
+                    
+                    <p>Pickup Time: {order.pickupTime}</p>
+                    <p>Status: {order.orderStatus}</p>
+                  </div>
+                </>
+              )
+        }
+    } else {
+        return (
+            <>
+              <div className='card-container-order'>
+                <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
+                <p>Total: ${order.price}</p>
+                
+                <p>Pickup Time: {order.pickupTime}</p>
+                <Form.Group className="mb-4">
+                        <Form.Label>Order Status: </Form.Label>
+                        <Form.Control 
+                        as="select" 
+                        required 
+                        name="orderStatus"
+                        value={order.orderStatus} 
+                        onChange={handleChange}
+                        >
+                        <option value="placed" disabled={false} >Ordered</option>
+                        <option value="in progress">In-Progress</option>
+                        <option value="awaiting pickup">Awaiting Pickup</option>
+                        <option value="completed">Completed</option>
+                        <option value="canceled">Canceled</option>
+                        </Form.Control>
+                        <Form.Control.Feedback type="invalid">Select a status</Form.Control.Feedback>
+                    </Form.Group>
+              </div>
+        
+            </>
+          )
+    }
 }
 
 export default CardOrder;
