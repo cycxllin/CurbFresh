@@ -12,13 +12,17 @@
     height: 100%;
   }
 .content {
-    /* background-color: #FFFFFF; */
-    display: block;
-  max-width: 900px;
+    display: ruby;
+  /* max-width: 900px; */
   margin: auto;
-  padding: 100px;
+  /* padding: 100px; */
   height: 100%;
   outline: none;
+  padding-bottom: 100px;
+}
+
+div.container {
+    width: fit-content;
 }
 
 .mb-4 {
@@ -27,7 +31,7 @@
 
 .mb-4 .form-label {
     font-size: 1.5vw;
-    color: #FFFFFF;
+    color: #000000;
     -webkit-text-stroke: 0.2px #000000;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);/*  Drop shadow; */
 }
@@ -35,5 +39,5 @@
 .mb-4 select.form-control {
     background-color: #5A3E23;
     color: #FFFFFF;
-    
+
 }

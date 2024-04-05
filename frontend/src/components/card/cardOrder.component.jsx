@@ -3,6 +3,7 @@ import axios from "axios";
 import './card.styles.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import "./card.styles.css";
 
 const CardOrder = ( { order, selectedManager } ) => {
     const { _id, custID, restID, items, orderStatus, pickupTime, price, active, notes, created } = order;
@@ -10,6 +11,11 @@ const CardOrder = ( { order, selectedManager } ) => {
     let type = null;
     if (selectedManager[0][0] === "C") {
         type = "customer";
+    }else {
+        type = "Manager";
+        if (notes === ""){
+            order.notes ="none";
+        }
     }
 
     //Handle change in order status
@@ -58,7 +64,40 @@ const CardOrder = ( { order, selectedManager } ) => {
 
     }
 
-    if (type === "customer"){
+    if (type === "Manager"){
+    return (
+        <>
+          <div className='card-container-order'>
+            <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
+            <p> <span className="soldunder">Pickup Time: {order.pickupTime}</span>
+                <br/>
+                <span className="sold">Total:</span> ${order.price}
+                <br/>
+                <span className="sold">Notes:</span> {order.notes}
+            </p>
+            <Form.Group className="mb-4">
+                    <Form.Label>Order Status: </Form.Label>
+                    <Form.Control 
+                    as="select" 
+                    required 
+                    name="orderStatus"
+                    value={order.orderStatus} 
+                    onChange={handleChange}
+                    >
+                    <option value="placed" disabled={false} >Ordered</option>
+                    <option value="in progress">In-Progress</option>
+                    <option value="awaiting pickup">Awaiting Pickup</option>
+                    <option value="completed">Completed</option>
+                    <option value="canceled">Canceled</option>
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">Select a status</Form.Control.Feedback>
+                </Form.Group>
+          </div>
+    
+        </>
+      )
+    }
+    else if (type === "customer"){
         if (order.orderStatus === "placed") {
             return (
                 <>
@@ -104,7 +143,7 @@ const CardOrder = ( { order, selectedManager } ) => {
                 <p>Total: ${order.price}</p>
                 
                 <p>Pickup Time: {order.pickupTime}</p>
-                <Form.Group className="mb-4">
+                <Form.Group className="mb-4" id="orderSt">
                         <Form.Label>Order Status: </Form.Label>
                         <Form.Control 
                         as="select" 

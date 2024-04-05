@@ -3,6 +3,7 @@ import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import "./AddItemPopup.styles.css";
 
 function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
     const [validated, setValidated] = useState(false);
@@ -80,8 +81,8 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
         </Modal.Header>
         <Modal.Body>
           <Form noValidate validated={validated}>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Name</Form.Label>
+            <Form.Group className="mb-3" id="nIn"controlId="exampleForm.ControlInput1">
+              <Form.Label id="N">Name</Form.Label>
               <Form.Control
                 name='name'
                 required
@@ -108,7 +109,7 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
               <Form.Control.Feedback></Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-4" controlId="exampleForm.ControlInput1">
-              <Form.Label>Price</Form.Label>
+              <Form.Label id="pr">Price</Form.Label>
               <Form.Control
                 name="price"
                 required
@@ -121,7 +122,7 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
               <Form.Control.Feedback></Form.Control.Feedback>
             </Form.Group>
                 <Form.Group className="position-relative mb-3">
-                <Form.Label>Item Image</Form.Label>
+                <Form.Label id="itmimg">Item Image</Form.Label>
                 <Form.Control
                 type="file"
                 /*required*/

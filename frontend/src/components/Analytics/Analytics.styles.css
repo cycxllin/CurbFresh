@@ -1,0 +1,50 @@
+h3 {
+    display: inline-block;
+    font-size: 2.5vw;
+    font-weight: bolder;
+    color: #FFFFFF;
+    -webkit-text-stroke: 0.2px #000000;
+    text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.3);/*  Drop shadow; */
+    text-decoration: underline #FFFFFF;
+    margin: 2% 2% 3% 20%;
+}
+
+div.css-z3c6am-MuiFormControl-root-MuiTextField-root {
+    margin: 2%;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    margin: 4% 8% 8% 8%;
+    padding-bottom: 6%;
+}
+
+.analytics-grid-item {
+    width: 600px;
+    height: 300px;
+    background-color: #A38367;
+    border-radius: 40px;
+    text-align: center;
+}
+.analytics-grid-item#orderSum{
+    width: 600px;
+    height: 300px;
+    background-color: #A38367;
+    border-radius: 40px;
+    text-align: left;
+    padding-left: 4%;
+}
+
+.analytics-grid h2 {
+    margin-top: 4%;
+    color: #FFFFFF;
+    text-decoration: underline;
+    font-style: italic;
+}
+
+.analytics-grid p {
+    font-size: 2vw;
+    color: #FFFFFF;
+}

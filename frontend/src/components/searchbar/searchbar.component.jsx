@@ -3,7 +3,7 @@ import "./searchbar.styles.css";
 const SearchBar = ({ placeholder, handleInput }) => (
   <div class="container">
     <div class="search-container" tabindex="1">
-        <input
+        <input id="input"
           className="search"
           type="text"
           placeholder={placeholder}

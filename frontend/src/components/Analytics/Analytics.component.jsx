@@ -7,6 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CanvasJSReact from '@canvasjs/react-charts';
+import "./Analytics.styles.css";
 
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -78,7 +79,7 @@ function Analytics ( { selectedManager, resInfo }){
     useEffect(() => {
         if (resLytics && analytics){
             refetch();
-            console.log("Analytics?" + analytics.data);
+            //console.log("Analytics?" + analytics.data);
             const length = analytics.data.length;
             //Make data readable by chart
             const transformedData = resLytics.data.slice(0, length - 4).map(item => ({
@@ -88,19 +89,19 @@ function Analytics ( { selectedManager, resInfo }){
             setChartData(transformedData);
             
             // setChartData(analytics.data.slice(0, length-4));
-            console.log("Chart Data: " + chartData);
+            //console.log("Chart Data: " + chartData);
 
             //earnings = analytics.data[length-4];
             setEarnings(analytics.data[length-4]);
-            console.log("Total :" + earnings.total);
+            //console.log("Total :" + earnings.total);
 
             //popularItem = analytics.data[length-3];
             setPopularItem(analytics.data[length-3]);
-            console.log("Popular Item: " + popularItem.popular);
+            //console.log("Popular Item: " + popularItem.popular);
 
             //busyTimes = analytics.data[length-2];
             setBusyTimes(analytics.data[length-2]);
-            console.log("Busy times: " + busyTimes);
+            //console.log("Busy times: " + busyTimes);
 
             //orders = analytics.data[length-1];
             setOrders(analytics.data[length-1]);
@@ -150,9 +151,9 @@ function Analytics ( { selectedManager, resInfo }){
     }
     return (
         <div >
-            <h3>Select a month to view analytics</h3>
+            <h3>Select a month to view analytics:</h3>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker 
+                <DatePicker id="dP"
                 defaultValue={dayjs("2024-01")}
                 label={'"year" and "month"'} 
                 value={dayjs(date)}
@@ -161,17 +162,44 @@ function Analytics ( { selectedManager, resInfo }){
                 onChange={handleChange}/>
             </LocalizationProvider>
             <CanvasJSChart options={options} />
-            <p>Total Earnings: {earnings.total}</p>
-            <p>Most popular menu item(s):</p>
-            {popularItem.popular && popularItem.popular.map((item, index) => (
-                <p key={index}>- {item.name}</p>
-            ))}
-            <p>Busiest Pickup Time(s):</p>
-            {busyTimes.busiest && busyTimes.busiest.map((time, index) => (
-                <p key={index}>- {time}</p>
-            ))}
-            <p>Order Summary: </p>
-            <p>#Placed: {orders.status["placed"]} #In Progress: {orders.status["in progress"]} #Awaiting Pickup: {orders.status["awaiting pickup"]} #Completed: {orders.status["completed"]} #Canceled: {orders.status["canceled"]}</p>
+            <div className="analytics-grid">
+                <div className='analytics-grid-item'>
+                    <h2>Total Earnings:</h2>
+                    <br/>
+                    <br/>
+                    <p>${earnings.total}</p>
+                </div>
+                <div className='analytics-grid-item'>
+                    <h2>Most Popular Menu Item(s):</h2>
+                    <br/> 
+                    <br/>
+                    {popularItem.popular && popularItem.popular.map((item, index) => (
+                        <p key={index}>{item.name}</p>
+                    ))}
+                </div>
+                <div className='analytics-grid-item'>
+                    <h2>Busiest Pickup Time(s)</h2>
+                    <br/>
+                    <br/>
+                    {busyTimes.busiest && busyTimes.busiest.map((time, index) => (
+                        <p key={index}>{time}</p>
+                    ))}
+                </div>
+                <div className='analytics-grid-item' id="orderSum">
+                    <h2>Order Summary:</h2>
+                    <p>Placed: {orders.status["placed"]} 
+                    <br/>
+                    In Progress:     {orders.status["in progress"]} 
+                    <br/>
+                    Awaiting Pickup: {orders.status["awaiting pickup"]}  
+                    <br/>
+                    Completed:       {orders.status["completed"]} 
+                    <br/>
+                    Canceled:        {orders.status["canceled"]}</p>
+
+                </div>
+            </div>
+            
         </div>
     )
 }

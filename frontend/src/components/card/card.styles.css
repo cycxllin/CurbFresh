@@ -53,7 +53,7 @@
 }
 
 .card-container-order {
-    height: 30vw;
+    height: 20vw;
     width: 20vw;
     display: flex;
     flex-direction: column;
@@ -107,6 +107,10 @@ h2.itemName {
 .sold {
     font-weight: bolder;
 }
+.soldunder {
+    font-weight: bolder;
+    text-decoration: underline;
+}
 
 .hr {
     margin: 0.2rem 0;
@@ -146,4 +150,11 @@ Button.edit {
 .btn-primary:hover {
     transform: scale(1.05);
     background-color: #C5BDB5;
+}
+
+.mb-4 .form-label#orderSt {
+    font-size: 1.5vw;
+    color: #000000;
+    -webkit-text-stroke: 0.2px #000000;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);/*  Drop shadow; */
 }
