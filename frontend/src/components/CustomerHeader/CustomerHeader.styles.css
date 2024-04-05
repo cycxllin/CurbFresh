@@ -7,7 +7,7 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Drop shadow */;
 }
 
-.cHeader h2:hover{
+.cHeader h2#CART:hover{
     text-decoration: underline;
 }
 

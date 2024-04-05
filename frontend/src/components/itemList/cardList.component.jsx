@@ -52,7 +52,7 @@ const CardList = ({ type, items, handleClick, checkoutData, restName}) => {
                                 </h3>
                             </div>
                             <div class="col">
-                                <Link className="Link" to={`/checkout`} state={{customer: checkoutData.customer, cart: item }}>
+                                <Link id="CHECK"className="Link" to={`/checkout`} state={{customer: checkoutData.customer, cart: item }}>
                                         <Button variant="primary">Checkout</Button>
                                     </Link>
                             </div>
