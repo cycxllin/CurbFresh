@@ -9,14 +9,42 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
     const [pickupTimes, setPickupTimes] = useState([]);
     const [restaurant, setRestaurant] = useState("");
 
+    const [orderItems, setorderItems] = useState([]);
+
   useEffect(() => {
     const fetchRestaurant = async () => {
       const url = `http://localhost:65500/restaurants/${restID}`;
       const response = await axios.get(url);
-      console.log(response.data.data);
       setRestaurant(response.data.data[0]);
   }
     fetchRestaurant();
+  }, []);
+
+  useEffect(() => {
+    const fetchOrderItems = async () => {
+      let itemString = [];
+      for (const item of order.items) {
+        itemString.push(item.item);
+      }
+      const IdString = itemString.join(',');
+      const url = `http://localhost:65500/items/list?menu=${IdString}`;
+      const response = await axios.get(url);
+
+      const mergeById = (a1, a2) =>
+          a1.map(itm => ({
+              ...a2.find((item) => (item._id === itm.item) && item),
+              ...itm,
+          }));
+
+      const all = mergeById(order.items, response.data.data)
+      console.log("order length: ", order.items.length);
+      console.log("from be length: ", response.data.data.length);
+      
+      console.log(all[0]);
+
+      setorderItems(all);
+  }
+    fetchOrderItems();
   }, []);
 
 
@@ -115,6 +143,11 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
                 </Form.Group>
             <p>
                 <br/>
+                Items:
+                {orderItems.map((item, idx) => (
+                            <li key={idx}>{item.name} x{item.quantity}</li>
+                        ))}
+                <br/>
                 <span className="sold">Total:</span> ${order.price}
                 <br/>
                 <span className="sold">Notes:</span> {order.notes}
@@ -147,10 +180,16 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
                 <>
                   <div className='card-container-order'>
                     <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Restaurant:</span> {restaurant.name} <br></br><span className="sold">Customer:</span> {order.custID}</h2>
+                    <p>
+                    Items:
+                    {orderItems.map((item, idx) => (
+                            <li key={idx}>{item.name} x{item.quantity}</li>
+                        ))}
+                    </p>
                     <p>Total: ${order.price}</p>
                     <p>Pickup Time: {order.pickupTime}</p>
                     <p>Status: {order.orderStatus}</p>
-                    <Button variant="primary" onClick={handleChange} value={"canceled"}>Cancel Order</Button>
+                    <Button variant="primary" onClick={handleChange} name={"orderStatus"} value={"canceled"}>Cancel Order</Button>
                   </div>
                 </>
               )
@@ -159,10 +198,17 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
                 <>
                   <div className='card-container-order'>
                     <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Restaurant:</span> {restaurant.name} <br></br><span className="sold">Customer:</span> {order.custID}</h2>
+                    <p>
+                    Items:
+                    {orderItems.map((item, idx) => (
+                            <li key={idx}>{item.name} x{item.quantity}</li>
+                        ))}
+                    </p>
+                    
                     <p>Total: ${order.price}</p>  
                     <p>Pickup Time: {order.pickupTime}</p>
                     <p>Status: {order.orderStatus}</p>
-                    <Button variant="primary" onClick={handleChange} value={"completed"}>Picked Up</Button>
+                    <Button variant="primary" onClick={handleChange}  name={"orderStatus"} value={"completed"}>Picked Up</Button>
                   </div>
                 </>
               )
@@ -171,8 +217,13 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
                 <>
                   <div className='card-container-order'>
                     <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Restaurant:</span> {restaurant.name} <br></br><span className="sold">Customer:</span> {order.custID}</h2>
+                    <p>
+                    Items:
+                    {orderItems.map((item, idx) => (
+                            <li key={idx}>{item.name} x{item.quantity}</li>
+                        ))}
+                    </p>
                     <p>Total: ${order.price}</p>
-                    
                     <p>Pickup Time: {order.pickupTime}</p>
                     <p>Status: {order.orderStatus}</p>
                   </div>
@@ -184,6 +235,13 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
             <>
               <div className='card-container-order'>
                 <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Restaurant:</span> {restaurant.name} <br></br><span className="sold">Customer:</span> {order.custID}</h2>
+                <p>
+                    Items:
+                    {orderItems.map((item, idx) => (
+                            <li key={idx}>{item.name} x{item.quantity}</li>
+                        ))}
+                    </p>
+                
                 <p>Total: ${order.price}</p>
                 
                 <p>Pickup Time: {order.pickupTime}</p>

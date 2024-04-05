@@ -79,7 +79,7 @@ export const checkValidUser = async (req, res, next) => {
     try {
         const order = req.body.query;
         //const user = req.body.user;
-
+        console.log(order);
         let user = [];
 
         if (req.body.user){
@@ -88,10 +88,14 @@ export const checkValidUser = async (req, res, next) => {
             user = req.headers.user.split(",");
         }
 
-        if (!order.orderStatus || order.orderStatus === 'placed' || order.orderStatus === 'completed') {
+        console.log(user);
+        if (!order.orderStatus || order.orderStatus === 'placed' || 
+            order.orderStatus === 'completed') {
             if (user[0].includes('C')) {
+                console.log('customer');
                 checkValidCustomer(req, res, next);
             } else {
+                console.log('manager');
                 checkValidManager(req, res, next);
             }
 
