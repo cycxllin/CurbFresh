@@ -1,13 +1,16 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import FormCheck from 'react-bootstrap/FormCheck'
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import CardList from '../components/itemList/cardList.component';
 import { useLocation, Link } from "react-router-dom";
 
 function Checkout() {
     const [validated, setValidated] = useState(false);
+    const [pickupTimes, setPickupTimes] = useState([]);
+    const [show, setShow] = useState(false);
     const { state: { customer, cart } = {} } = useLocation();
     const [storedCart, setStoredCart] = useState(() => {
         // getting stored value
@@ -15,13 +18,11 @@ function Checkout() {
         const initialValue = JSON.parse(saved);
         return initialValue || "";
       });
-    console.log(cart);
     //const customer = checkoutData.customer;
     //items is a list of item objects
     //cart is a list of item dictionaries for the specific customer
     //format cart = [{item: I1, quantity: 1},...]
     //const cart = checkoutData.cart;
-    console.log(cart);
     const [formData, setFormData] = useState({
         custID: customer[0],
         restID: cart.rest_id,
@@ -35,6 +36,24 @@ function Checkout() {
     }
     );
 
+    useEffect(() => {
+        const fetchPickupTimes = async () => {
+          const response = await axios.get(`http://localhost:65500/restaurants/${cart.rest_id}`);
+          const restaurant = response.data.data;
+          const hours = restaurant[0].hours;
+          let temp = [{value: "ASAP", text: "ASAP"}];
+          console.log(hours);
+          for (var i = Number(hours.substring(0,2)); i < hours.substring(5,7); i++){
+            temp.push({value: (i+"00").padStart(4, "0"), text: (i+":00").padStart(5, "0")});
+          }
+          console.log(temp);
+          setPickupTimes(temp);
+        };
+    
+        fetchPickupTimes();
+      }, []);
+
+    
     //converts our cart objects cust_item array into a suitable array for our query
     function cartConversion(cust_items) {
         let items = [];
@@ -66,8 +85,8 @@ function Checkout() {
         }));
     };
 
-    console.log(customer);
-    console.log(storedCart);
+    // console.log(customer);
+    // console.log(storedCart);
 
     const placeOrder = async (event) => {
         const form = event.currentTarget;
@@ -78,7 +97,7 @@ function Checkout() {
         setValidated(true);
         let subTotal = cartSubtotal(cart.cust_items);
         let GST = getGST(subTotal);
-        formData.price = subTotal + GST;
+        formData.price = (subTotal + GST).toFixed(2);
 
         try{
             const data = {
@@ -89,8 +108,9 @@ function Checkout() {
             const response = await axios.post("http://localhost:65500/orders", data);
             if (response.status === 200) {
                 console.log("Order Placed!");
+                setShow(true);
                 //Trigger Thank You popup
-                alert("Order Placed Successfully!");
+                //alert("Order Placed Successfully!");
                 //delete from localStorage cart
                 //find index of the restaurant cart with cart.rest_id
                 const cartIndex = storedCart[customer[0]].findIndex(res => res.rest_id === cart.rest_id);
@@ -98,9 +118,6 @@ function Checkout() {
                     storedCart[customer[0]].splice(cartIndex, 1); // 2nd parameter means remove one item only
                 }
                 localStorage.setItem('cart', JSON.stringify(storedCart));
-
-                //send to customer page
-                <Link className="Link" to={`/customer`}>Link</Link>
             } else {
                 // Request failed
                 console.error("Error placing order:", response.statusText);
@@ -117,43 +134,48 @@ function Checkout() {
 
     return (
         <div>
+            <div
+                className="modal show"
+                style={{ display: 'block', position: 'initial' }}
+                >
+                <Modal show={show} backdrop="static">
+                <Modal.Dialog>
+                    <Modal.Header>
+                    <Modal.Title>Modal title</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                    <p>Your order was placed successfully thank you!</p>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                    <Link className="Link" to={`/customer`}><Button variant="secondary">Go back to the main menu.</Button></Link>
+                    </Modal.Footer>
+                </Modal.Dialog>
+                </Modal>
+                </div>
+            <h2>Here are your items for ordering</h2>
             <CardList type = {"checkout"} items = {cart.cust_items}/>
             <Form noValidate validated={validated}>
                 <Form.Group>
-                    <Form.Label>Pick-Up Time</Form.Label>
-                    <Form.Check
-                        inline
-                        label="ASAP"
-                        name="pickUpTime"
-                        value='ASAP'
-                        type='radio'
-                        id={`inline-radio-1`}
-                    />
-                    <Form.Check
-                        inline
-                        label="Custom Time"
-                        name="pickUpTime"
-                        type='radio'
-                        id={`inline-radio-2`}
-                    />
+                    <Form.Label>Select a Pick-Up Time:</Form.Label>
                     <Form.Control
-                        name='pickUpTime'
-                        id = 'pickUpTimeText'
-                        required
-                        type="text"
-                        placeholder="Input a Pick Up Time (HH:MM)"
-                        value=''
-                        autoFocus
-                        onChange={handleChange}
-                    />
+                    as="select"
+                    onChange={handleChange}
+                    >
+                        {pickupTimes.map(times => (
+                            <option value={times.value}>{times.text}</option>
+                        ))}
+                    </Form.Control>
                 </Form.Group>
                 <Form.Group>
+                    <Form.Label>Leave an extra note with your order:</Form.Label>
                     <Form.Control
                             name='notes'
                             required
                             type="text"
                             placeholder="Add any order notes!"
-                            value="a note"
+                            value=""
                             autoFocus
                             onChange={handleChange}
                         />

@@ -73,8 +73,10 @@ function TabContent ( {type, resInfo, selectedManager}) {
     const [searchInput, setSearchInput] = useState("");//For search input
     const [filteredOrders, setFilteredOrders] = useState([]); //Search filtering states
     const [filteredMenu, setFilteredMenu] = useState([]); //Search filtering states
+    const [filteredRestaurants, setFilteredRestaurants] = useState([]); //Search filtering states
     const [filterM, setFilterM] = useState(""); //Search filtering menu states 
     const [filterO, setFilterO] = useState(""); //Search filtering orderStatus states
+    const [filterR, setFilterR] = useState(""); //Search filtering Restaurant states
 
      //Get Restaurant menu
     const {data: menuItems, isLoading, isError } = useQuery({
@@ -145,21 +147,27 @@ function TabContent ( {type, resInfo, selectedManager}) {
     //Filter search orders and menu items
     let filteredI = []; //Used in searchbar and filters
     let filteredO = []; //Used in searchbar and filters
+    let filteredR = []; //list for searchbar restaurants
     //useEffect for searchbar
     useEffect(() => {
         if (searchInput === ""){
             filteredO = orders;
             filteredI = menu;
+            filteredR = restaurants;
         } else {
             filteredO = orders.filter(order => 
                 order._id.toLowerCase().includes(searchInput.toLowerCase()));
             filteredI = menu.filter(item =>
                 item.name.toLowerCase().includes(searchInput.toLowerCase()
                 ));
+            filteredR = restaurants.filter(restaurant =>
+                restaurant.name.toLowerCase().includes(searchInput.toLowerCase()
+                ));
         }
         setFilteredOrders(filteredO);
         setFilteredMenu(filteredI); 
-    }, [orders, menu, searchInput]);
+        setFilteredRestaurants(filteredR);
+    }, [orders, menu, restaurants, searchInput]);
 
     //Handle select filter searching
     const handleChange = (event) => {
@@ -183,6 +191,9 @@ function TabContent ( {type, resInfo, selectedManager}) {
         return <p>Loading...</p> }
     if (isError || error || isErr) {return console.log(isError);}
     if (resInfo === null || selectedManager === null){
+        if (type==="CustOrders"){
+            return <p>Select Customer to view restaurant info!</p>
+        }
         return <p>Select Manager to view restaurant info!</p> 
     }
     //TODO Add other tabContents, split menu into categories
@@ -254,12 +265,27 @@ function TabContent ( {type, resInfo, selectedManager}) {
             <Analytics selectedManager={selectedManager} resInfo={resInfo}/>)
     }else if (type==="Restaurants"){
         return(
-            <div className = "content">
-
-                <RestaurantList
-                        restaurants = {restaurants}
+            <div className = "restaurant-content">
+                <div class="container-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <center>
+                            <SearchBar
+                    placeholder="Search for a Restaurant!"
+                    handleInput={handleInput}
+                />
+                            </center>
+                        
+                        </div>
+                        <div class="row">
+                        <RestaurantList
+                        restaurants = {filteredRestaurants}
                         customer = {selectedManager}
                         />
+                        </div>
+                    </div>
+                </div>
+
             </div>
         )
     }else if (type === "CustOrders"){

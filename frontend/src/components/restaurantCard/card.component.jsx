@@ -10,18 +10,24 @@ const Card = ({ restaurant, handleClick, customer}) => {
   const {cart, setCart} = useContext(MyCartContext);
 
   return (
-    <BootStrapCard style={{ width: '18rem' }}>
-      <BootStrapCard.Img variant="top" src={image} />
-      <BootStrapCard.Body>
-        <BootStrapCard.Title>{name}</BootStrapCard.Title>
-        <BootStrapCard.Text>
-          Phone Number: {phone}
-        </BootStrapCard.Text>
-        <MyCartContext.Provider value={{ cart, setCart }}>
-          <Link className="Link" to={`${link}`} state={{ restaurant, customer }}><Button variant="primary">Go To Store</Button></Link>
-        </MyCartContext.Provider>
-      </BootStrapCard.Body>
-    </BootStrapCard>
+    <div className='card-container'>
+      <img src={image} />
+      <hr></hr>
+      <h2 className="restaurantName">{name}</h2>
+      
+    </div>
+    // <BootStrapCard style={{ width: '18rem' }}>
+    //   <BootStrapCard.Img variant="top" src={image} />
+    //   <BootStrapCard.Body>
+    //     <BootStrapCard.Title>{name}</BootStrapCard.Title>
+    //     <BootStrapCard.Text>
+    //       Phone Number: {phone}
+    //     </BootStrapCard.Text>
+    //     <MyCartContext.Provider value={{ cart, setCart }}>
+    //       <Link className="Link" to={`${link}`} state={{ restaurant, customer }}><Button variant="primary">Go To Store</Button></Link>
+    //     </MyCartContext.Provider>
+    //   </BootStrapCard.Body>
+    // </BootStrapCard>
   );
 }
 
