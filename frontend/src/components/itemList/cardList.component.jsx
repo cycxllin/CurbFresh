@@ -12,7 +12,7 @@ const CardList = ({ type, items, handleClick, checkoutData, restName}) => {
         for (var i = 0; i < items.length; i++) {
             subtotal += items[i].item.price * items[i].quantity;
         }
-        return subtotal;
+        return subtotal.toFixed(2);
     }
 
     if (type === "default"){

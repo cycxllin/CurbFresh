@@ -18,7 +18,7 @@ const Card = ({ restaurant, handleClick, customer}) => {
       <p>Business Hours: {restaurant.hours}</p>
       <div className="Btns">
       <MyCartContext.Provider value={{ cart, setCart }}>
-           <Link className="Link" to={`${link}`} state={{ restaurant, customer }}><Button variant="primary" className="shop">Shop</Button></Link>
+           <Link className="Link" to={`${link}`} state={{ restaurant, customer }}><Button variant="primary" className="shop">Order</Button></Link>
       </MyCartContext.Provider>
       </div>
     </div>

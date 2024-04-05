@@ -29,9 +29,6 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
         if (notes === ""){
             order.notes ="none";
         }
-
-
-        
     }
 
     //Set pickupTimes
@@ -59,7 +56,6 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
           order.pickupTime = updatedValue;
         }
         
-
         if (type === "customer") {
             data = {
                 user: [selectedManager[0]],
