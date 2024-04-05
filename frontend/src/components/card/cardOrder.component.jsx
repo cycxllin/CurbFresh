@@ -47,9 +47,12 @@ const CardOrder = ( { order, selectedManager } ) => {
         <>
           <div className='card-container-order'>
             <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
-            <p>Total: ${order.price}</p>
-            
-            <p>Pickup Time: {order.pickupTime}</p>
+            <p> <span className="soldunder">Pickup Time: {order.pickupTime}</span>
+                <br/>
+                <span className="sold">Total:</span> ${order.price}
+                <br/>
+                <span className="sold">Notes:</span> {order.notes}
+            </p>
             <Form.Group className="mb-4">
                     <Form.Label>Order Status: </Form.Label>
                     <Form.Control 

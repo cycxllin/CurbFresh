@@ -75,6 +75,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
     const [filteredMenu, setFilteredMenu] = useState([]); //Search filtering states
     const [filterM, setFilterM] = useState(""); //Search filtering menu states 
     const [filterO, setFilterO] = useState(""); //Search filtering orderStatus states
+    const [filterCategory, setFilterCategory] = useState("none"); //Search filtering dropdown category
 
      //Get Restaurant menu
     const {data: menuItems, isLoading, isError } = useQuery({
@@ -142,41 +143,35 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setSearchInput(e.target.value);
     }
 
-    //Filter search orders and menu items
-    let filteredI = []; //Used in searchbar and filters
-    let filteredO = []; //Used in searchbar and filters
-    //useEffect for searchbar
+    //Filter search orders and menu items searching and dropdown
     useEffect(() => {
-        if (searchInput === ""){
-            filteredO = orders;
-            filteredI = menu;
-        } else {
+        let filteredO = orders;
+        let filteredI = menu;
+
+        // Filter by search input
+        if (searchInput.trim() !== "") {
             filteredO = orders.filter(order => 
                 order._id.toLowerCase().includes(searchInput.toLowerCase()));
-            filteredI = menu.filter(item =>
-                item.name.toLowerCase().includes(searchInput.toLowerCase()
-                ));
+            filteredI = menu.filter(item => 
+                item.name.toLowerCase().includes(searchInput.toLowerCase()));
+        }
+
+        // Filter by selected category
+        if (filterCategory !== "none") {
+            filteredO = filteredO.filter(order => 
+                order.orderStatus.includes(filterCategory));
+            filteredI = filteredI.filter(item =>
+                 item.category.includes(filterCategory));
         }
         setFilteredOrders(filteredO);
         setFilteredMenu(filteredI); 
-    }, [orders, menu, searchInput]);
+        setFilterO(filterCategory);
+        setFilterM(filterCategory);
+    }, [orders, menu, searchInput, filterCategory]);
 
     //Handle select filter searching
     const handleChange = (event) => {
-        const filterCategory = event.target.value;
-        if (filterCategory !== "none") {
-            filteredI = menu.filter(item => 
-                item.category.includes(filterCategory));
-            filteredO = orders.filter(order =>
-                order.orderStatus.includes(filterCategory))
-        } else {
-            filteredI = menu;
-            filteredO = orders;
-        }
-        setFilteredMenu(filteredI); 
-        setFilterM(filterCategory);
-        setFilteredOrders(filteredO);
-        setFilterO(filterCategory);
+        setFilterCategory(event.target.value);
     }
 
     if (isLoading || loading || isLoad) { 
