@@ -183,7 +183,7 @@ function Checkout() {
                 <Form.Group>
                     <Form.Label id="pickL">Select a Pick-Up Time:</Form.Label>
                     <Form.Control id="pickTime"
-                    required
+                    name="pickupTime"
                     as="select"
                     value={formData.pickupTime}
                     onChange={handleChange}

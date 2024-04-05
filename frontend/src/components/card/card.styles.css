@@ -52,8 +52,8 @@
     /* border: 3px solid #5A3E23; */
 }
 
-.card-container-order {
-    height: 20vw;
+.card-container-order-m {
+    height: 24vw;
     width: 20vw;
     display: flex;
     flex-direction: column;
@@ -171,6 +171,8 @@ Button.edit {
 
 .btn-primary {
     border-radius: 12px;
+    background-color: #5A3E23;
+    border-color: #5A3E23;
 }
 
 .btn-primary:hover {

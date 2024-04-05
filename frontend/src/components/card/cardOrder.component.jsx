@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './card.styles.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import "./card.styles.css";
 
-const CardOrder = ( { order, selectedManager } ) => {
+const CardOrder = ( { order, selectedManager, resInfo } ) => {
     const { _id, custID, restID, items, orderStatus, pickupTime, price, active, notes, created } = order;
+    const [pickupTimes, setPickupTimes] = useState([]);
+
     let data = null;;
     let type = null;
     if (selectedManager[0][0] === "C") {
@@ -16,15 +17,36 @@ const CardOrder = ( { order, selectedManager } ) => {
         if (notes === ""){
             order.notes ="none";
         }
+
+
+        
     }
+
+    //Set pickupTimes
+    useEffect(() => {
+      if (resInfo){
+        let hours = resInfo.hours;
+        let temp = [{value: "ASAP", text: "ASAP"}];
+        for (var i = Number(hours.substring(0,2)); i < hours.substring(5,7); i++){
+          temp.push({value: (i+"00").padStart(4, "0"), text: (i+":00").padStart(5, "0")});
+        }
+        setPickupTimes(temp);
+      }
+    }, [resInfo]);
 
     //Handle change in order status
     const handleChange = async (event) => {
         const { name, value } = event.target;
+
         const updatedValue = value;
 
         //update status here
-        order.orderStatus = updatedValue;
+        if (name === "orderStatus") {
+          order.orderStatus = updatedValue;
+        }else if (name === "pickUp"){
+          order.pickupTime = updatedValue;
+        }
+        
 
         if (type === "customer") {
             data = {
@@ -67,9 +89,23 @@ const CardOrder = ( { order, selectedManager } ) => {
     if (type === "Manager"){
     return (
         <>
-          <div className='card-container-order'>
+          <div className='card-container-order-m'>
             <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
-            <p> <span className="soldunder">Pickup Time: {order.pickupTime}</span>
+            <Form.Group>
+                    <Form.Label id="pickL">Select a Pick-Up Time:</Form.Label>
+                    <Form.Control id="pickTime"
+                    name="pickUp"
+                    required
+                    as="select"
+                    value={order.pickupTime}
+                    onChange={handleChange}
+                    >
+                        {pickupTimes.map(times => (
+                            <option value={times.value}>{times.text}</option>
+                        ))}
+                    </Form.Control>
+                </Form.Group>
+            <p>
                 <br/>
                 <span className="sold">Total:</span> ${order.price}
                 <br/>
