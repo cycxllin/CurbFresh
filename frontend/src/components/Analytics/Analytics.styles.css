@@ -35,6 +35,7 @@ div.css-z3c6am-MuiFormControl-root-MuiTextField-root {
     border-radius: 40px;
     text-align: left;
     padding-left: 4%;
+    overflow-y: auto;
 }
 
 .analytics-grid h2 {
