@@ -1,7 +1,10 @@
 Form.Select {
     width: 100%;
     text-align: left;
-    display: unset;
+}
+
+.form-control#add-item-C {
+    appearance: auto;
 }
 
 

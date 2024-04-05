@@ -134,7 +134,7 @@ function AddItemPopup( { showAddModal, toggleAddModal, selectedManager }) {
             </Form.Group>
             <Form.Group>
                 <Form.Label>Item Category: </Form.Label>
-                <Form.Control 
+                <Form.Control  id="add-item-C"
                 as="select" 
                 required name="category"
                 value={formData.category}
