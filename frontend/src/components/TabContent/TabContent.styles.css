@@ -11,17 +11,14 @@
   body {
     height: 100%;
   }
+  
 .content {
     display: ruby;
-  /* max-width: 900px; */
-  margin: auto;
-  /* padding: 100px; */
-  height: 100%;
-  outline: none;
-  padding-bottom: 100px;
+    margin: auto;
+    height: 100%;
+    outline: none;
+    padding-bottom: 100px;
 }
-
-
 
 .mb-4 {
     width: 240px;

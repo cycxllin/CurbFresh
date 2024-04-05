@@ -15,7 +15,7 @@ function loginBtn ({name}) {
 
     return (
         <>
-            <Link className="Link" to={`${link}`}> <Button className="Login">{name} </Button> </Link>
+            <Link className="Link" to={`${link}`}> <Button className="Login" id="loginn">{name} </Button> </Link>
         </>
     );
 }

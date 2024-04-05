@@ -30,7 +30,7 @@
 }
 
 .card-container-order {
-    height: 30vw;
+    height: 20vw;
     width: 20vw;
     display: flex;
     flex-direction: column;
@@ -51,7 +51,7 @@
 }
 
 p {
-    font-size: 3vw;
+    font-size: 1vw;
     font-weight: bold;
 }
 
@@ -78,7 +78,7 @@ h2.add {
 }
 
 h2.restaurantName {
-    font-size: 3vw;
+    font-size: 2vw;
     font-weight: bolder;
 }
 

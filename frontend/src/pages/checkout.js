@@ -6,11 +6,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import CardList from '../components/itemList/cardList.component';
 import { useLocation, Link } from "react-router-dom";
+import "./checkout.styles.css";
 
 function Checkout() {
     const [validated, setValidated] = useState(false);
     const [pickupTimes, setPickupTimes] = useState([]);
     const [show, setShow] = useState(false);
+    const [resName, setResName] = useState("");
     const { state: { customer, cart } = {} } = useLocation();
     const [storedCart, setStoredCart] = useState(() => {
         // getting stored value
@@ -31,7 +33,7 @@ function Checkout() {
         pickupTime: 'ASAP',
         price: 0,
         active: true,
-        notes: "none",
+        notes: "",
         //created: "",
     }
     );
@@ -41,6 +43,7 @@ function Checkout() {
           const response = await axios.get(`http://localhost:65500/restaurants/${cart.rest_id}`);
           const restaurant = response.data.data;
           const hours = restaurant[0].hours;
+          setResName(restaurant[0].name);
           let temp = [{value: "ASAP", text: "ASAP"}];
           console.log(hours);
           for (var i = Number(hours.substring(0,2)); i < hours.substring(5,7); i++){
@@ -125,15 +128,22 @@ function Checkout() {
                 alert("Error placing order: " + response.statusText);
             }
         } catch (error) {
-            // Network error or other exception occurred
-            console.error("Error placing order:", error.message);
-            // Show error alert
-            alert("Error placing order: " + error.message);
+            if (error.response.status === 409) {//409 Item exists already
+                const responseMsg = error.response.data;
+                //console.log(existItem);
+                console.error(`Cannot order, restaurant closed!`);
+                alert(`Cannot order, restaurant closed! Please order again within business hours.`);
+              }else {
+                // Network error or other exception occurred
+                console.error("Error adding item:", error.message);
+                // Show error alert
+                alert("Error adding item: " + error.message);
+              }
         }
     }
 
     return (
-        <div>
+        <div className="checkout-content">
             <div
                 className="modal show"
                 style={{ display: 'block', position: 'initial' }}
@@ -153,14 +163,29 @@ function Checkout() {
                     </Modal.Footer>
                 </Modal.Dialog>
                 </Modal>
-                </div>
-            <h2>Here are your items for ordering</h2>
+            </div>
+            <h2 id="orderTitle">{resName} Order Review</h2>
+            <hr />
             <CardList type = {"checkout"} items = {cart.cust_items}/>
+            <hr />
             <Form noValidate validated={validated}>
                 <Form.Group>
-                    <Form.Label>Select a Pick-Up Time:</Form.Label>
-                    <Form.Control
+                    <Form.Label id="noteL">Leave an extra note with your order:</Form.Label>
+                    <Form.Control id="notes"
+                        name='notes'
+                        as="textarea"
+                        placeholder="Add any order notes!"
+                        value={formData.notes}
+                        autoFocus
+                        onChange={handleChange}
+                        />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label id="pickL">Select a Pick-Up Time:</Form.Label>
+                    <Form.Control id="pickTime"
+                    required
                     as="select"
+                    value={formData.pickupTime}
                     onChange={handleChange}
                     >
                         {pickupTimes.map(times => (
@@ -168,20 +193,9 @@ function Checkout() {
                         ))}
                     </Form.Control>
                 </Form.Group>
-                <Form.Group>
-                    <Form.Label>Leave an extra note with your order:</Form.Label>
-                    <Form.Control
-                            name='notes'
-                            required
-                            type="text"
-                            placeholder="Add any order notes!"
-                            value=""
-                            autoFocus
-                            onChange={handleChange}
-                        />
-                </Form.Group>
+                
             </Form>
-            <Button variant="primary" onClick={placeOrder}>Place Order</Button>
+            <Button variant="primary" className="placeO" onClick={placeOrder}>Place Order</Button>
         </div>
     )
 }

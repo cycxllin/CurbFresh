@@ -20,6 +20,7 @@ function Restaurant() {
     const [customers, setCustomers] = useState([]);
     const [filterI, setFilterI] = useState(""); //Search filtering menu states 
     const [filteredItems, setFilteredItems] = useState([]); //Search filtering states
+    const [filterCat, setFilterCat] = useState("none"); //Search filtering
     const [categories, setCategories] = useState([]); //
     const [cart, setCart] = useState(() => {
       // getting stored cart
@@ -44,7 +45,7 @@ function Restaurant() {
         const allItems = response.data.data;
         let placeholderItems =[];
         for (var value of allItems) {
-          if (value.soldOut !== true || value.soldOut !== false) {
+          if (value.soldOut !== true) {
             placeholderItems.push(value);
           }
         }
@@ -64,7 +65,7 @@ function Restaurant() {
         for (const category of set) {
           temp.push({value: category, text: category});
         }
-        console.log(temp);
+        //console.log(temp);
         setCategories(temp);
       };
   
@@ -86,31 +87,25 @@ function Restaurant() {
       setSearchInput(e.target.value);
     }
 
-    //Search menu items
-    let filteredI = []; //Used in searchbar and filters
     //useEffect for searchbar
     useEffect(() => {
-        if (searchInput === ""){
-            filteredI = items;
-        } else {
-            filteredI = items.filter(item =>
+        let filteredI = items; //Used in searchbar and filters
+        if (searchInput.trim() !== ""){
+              filteredI = items.filter(item =>
                 item.name.toLowerCase().includes(searchInput.toLowerCase()
                 ));
+        } 
+
+        if (filterCat !== "none"){
+          filteredI = filteredI.filter(item =>
+            item.category.includes(filterCat));
         }
         setFilteredItems(filteredI); 
-    }, [items, searchInput]);
+    }, [items, searchInput, filterCat]);
 
     //Handle select filter searching
     const handleChange = (event) => {
-      const filterCategory = event.target.value;
-      if (filterCategory !== "none") {
-          filteredI = items.filter(item => 
-              item.category.includes(filterCategory));
-      } else {
-          filteredI = items;
-      }
-      setFilteredItems(filteredI); 
-      setFilterI(filterCategory);
+      setFilterCat(event.target.value);
   }
 
     useEffect(() => {
@@ -168,7 +163,7 @@ function Restaurant() {
       <QueryClientProvider client={queryClient}>
 
         <div class="Restaurant">
-          <head>
+            <head>
                 <title>ROPMS Customer Screen</title>
             </head>
 
@@ -188,19 +183,19 @@ function Restaurant() {
             <body>
               <center>
               <h2>Welcome to {restaurant.name}!</h2>
-              <h3>Our Business hours are {restaurant.hours}</h3>
+              <h3 className="bus">Our Business hours are {restaurant.hours}</h3>
 
-              <SearchBar
+              <SearchBar id="resMenu"
                     placeholder="Search Item Name"
                     handleInput={handleInput}
                 />
-
+              
               <Form.Group className="mb-4">
                     <Form.Label>Item Filter: </Form.Label>
                     <Form.Control 
                     as="select" 
                     name="category"
-                    value={filterI}
+                    value={filterCat}
                     onChange={handleChange}
                     >
                       <option value="none" selected={true}>All</option>
@@ -210,7 +205,7 @@ function Restaurant() {
                     </Form.Control>
                     <Form.Control.Feedback type="invalid">Select a category</Form.Control.Feedback>
                 </Form.Group>
-              </center>
+                </center>
 
               <MyCartContext.Provider value={{ cart, setCart }}>
               <CardList

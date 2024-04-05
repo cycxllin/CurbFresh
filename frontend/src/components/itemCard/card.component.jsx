@@ -38,13 +38,13 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
 
   if (type === "default"){
     return (
-    <div className='card-container'>
+      <div className='card-container'>
       <img src={item.image} />
       <hr></hr>
       <div class="row">
         <div class="col-5">
           <h2 className="itemName">{name}</h2>
-        <p>{price}</p>
+        <p>${price}</p>
         <p>{item.desc}</p>
         </div>
         <div class="col-7">
@@ -59,27 +59,11 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
               <Button variant="primary" className="plus" onClick={plusButtonClick}>+</Button>
             </div>
             </div>
-            <Button variant="primary" onClick={() => handleClick(item, quantity, restName, "add")}>Add to Cart</Button>
+            <Button variant="primary" className="addToCart" onClick={() => handleClick(item, quantity, restName, "add")}>Add to Cart</Button>
         </div>
       </div>
-
-      {/* <BootStrapCard style={{ width: '18rem' }}>
-        <BootStrapCard.Img variant="top" src={item.image} />
-        <BootStrapCard.Body>
-          <BootStrapCard.Title>{name}</BootStrapCard.Title>
-          <BootStrapCard.Text>
-            Price: {price}
-          </BootStrapCard.Text>
-            <div class="row">
-            <Button variant="primary" onClick={minusButtonClick}>-</Button>
-            <input type="text" id={id} value="1" min="1"></input>
-            <Button variant="primary" onClick={plusButtonClick}>+</Button>
-            </div>
-            <Button variant="primary" onClick={() => handleClick(item, quantity, restName, "add")}>Add to Cart</Button>
-        </BootStrapCard.Body>
-      </BootStrapCard> */}
-    </div>
-    );
+      </div>
+    )
   } else if (type === "cart") {
     return (
       <BootStrapCard style={{ width: '18rem' }}>
@@ -87,33 +71,36 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
         <BootStrapCard.Body>
           <BootStrapCard.Title>{name}</BootStrapCard.Title>
           <BootStrapCard.Text>
-            Price: {price}
+            Price: {price} (${price * item_count})
           </BootStrapCard.Text>
           <div class="row">
-            <Button variant="primary" className="minus" onClick={minusButtonClick}>-</Button>
-            <input type="text" id={id + "cart"} value={count} min="1"></input>
-            <Button variant="primary" className="plus" onClick={plusButtonClick}>+</Button>
+            <Button variant="primary" className="minus-cart" onClick={minusButtonClick}>-</Button>
+            <input className="quantity" type="text" id={id + "cart"} value={count} min="1"></input>
+            <Button variant="primary" className="plus-cart" onClick={plusButtonClick}>+</Button>
             </div>
 
-            <Button variant="primary" className="delete" onClick={() => handleClick(item, count, restName, "delete")}>Delete</Button>
             <Button variant="primary" className="update" onClick={() => handleClick(item, count, restName, "update")}>Update</Button>
+            <Button variant="primary" className="delete-c" onClick={() => handleClick(item, count, restName, "delete")}>Delete</Button>
         </BootStrapCard.Body>
       </BootStrapCard>
     );
   } else if (type === "checkout"){
     return (
-      <BootStrapCard style={{ width: '18rem' }}>
-        <BootStrapCard.Img variant="top" src={item.image} />
-        <BootStrapCard.Body>
-          <BootStrapCard.Title>{name}</BootStrapCard.Title>
-          <BootStrapCard.Text>
-            Price: {price}
-          </BootStrapCard.Text>
-          <div class="row">
-            <input type="text" id={id} value={count} min="1"></input>
-            </div>
-        </BootStrapCard.Body>
-      </BootStrapCard>
+      <div className='card-container-check'>
+      <img src={item.image} />
+      <hr></hr>
+      <div class="row">
+        <div class="col-5">
+          <h2 className="itemName">{name}</h2>
+        <p>${price} (ea.)</p>
+        
+        </div>
+        <div class="col-7">
+          <p>Amount: {item_count} (${price * item_count})</p>
+          <br />
+        </div>
+      </div>
+      </div>
     );
   }
 }

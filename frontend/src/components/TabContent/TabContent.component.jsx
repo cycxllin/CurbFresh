@@ -138,6 +138,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setSearchInput("");
         setFilterM("");
         setFilterO("");
+        setFilterR("");
     }, [selectedManager, menuItems, resOrders, custOrders]);
 
     //Searchbar input
@@ -145,11 +146,11 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setSearchInput(e.target.value);
     }
 
-    console.log(filteredRestaurants);
     //Filter search orders and menu items searching and dropdown
     useEffect(() => {
         let filteredO = orders;
         let filteredI = menu;
+        let filteredR = restaurants; //list for searchbar restaurants
 
         // Filter by search input
         if (searchInput.trim() !== "") {
@@ -157,6 +158,9 @@ function TabContent ( {type, resInfo, selectedManager}) {
                 order._id.toLowerCase().includes(searchInput.toLowerCase()));
             filteredI = menu.filter(item => 
                 item.name.toLowerCase().includes(searchInput.toLowerCase()));
+            filteredR = restaurants.filter(restaurant =>
+                restaurant.name.toLowerCase().includes(searchInput.toLowerCase()
+                ));
         }
 
         // Filter by selected category
@@ -170,7 +174,8 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setFilteredMenu(filteredI); 
         setFilterO(filterCategory);
         setFilterM(filterCategory);
-    }, [orders, menu, searchInput, filterCategory]);
+        setFilteredRestaurants(filteredR);
+    }, [orders, menu, restaurants, searchInput, filterCategory]);
 
     //Handle select filter searching
     const handleChange = (event) => {
@@ -190,16 +195,12 @@ function TabContent ( {type, resInfo, selectedManager}) {
     if (type === "Menu Items"){
         return (
             <div className="content">
-                <div class="container-fluid">
-                    <div class="container">
-                        <div class="row">
-                        <SearchBar
+                <SearchBar
                     placeholder="Search Item Name"
                     handleInput={handleInput}
                 />
-                        </div>
-                        <div class="row">
-                        <Form.Group className="mb-4">
+
+                <Form.Group className="mb-4">
                     <Form.Label>Item Filter: </Form.Label>
                     <Form.Control 
                     as="select" 
@@ -223,11 +224,6 @@ function TabContent ( {type, resInfo, selectedManager}) {
                 </Form.Group>
 
                 <CardList key={`${menu}-CardList`} type={type} items={filteredMenu} selectedManager={selectedManager}/>
-                        </div>
-                    </div>
-                </div>
-
-                
             </div>
         )
     }else if (type === "Orders"){
@@ -265,7 +261,8 @@ function TabContent ( {type, resInfo, selectedManager}) {
     }else if (type==="Restaurants"){
         return(
             <div className = "restaurant-content">
-
+                <div class="container-fluid">
+                    <div class="container">
                         <div class="row">
                             <center>
                             <SearchBar
@@ -277,10 +274,12 @@ function TabContent ( {type, resInfo, selectedManager}) {
                         </div>
                         <div class="row">
                         <RestaurantList
-                        restaurants = {restaurants}
+                        restaurants = {filteredRestaurants}
                         customer = {selectedManager}
                         />
                         </div>
+                    </div>
+                </div>
 
             </div>
         )
@@ -292,7 +291,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
                         <div class="row">
                             <center>
                             <SearchBar
-                    placeholder="Search for a Restaurant!"
+                    placeholder="Search Order ID"
                     handleInput={handleInput}
                 />
 
