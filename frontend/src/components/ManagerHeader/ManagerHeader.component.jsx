@@ -51,7 +51,15 @@ function ManagerHeader ( { selectedUser, setResInfo} ) {
 
     return (
         <header className="mHeader" >
-            <h2>CurbFresh &emsp; {resName}&emsp; Business Hours: {resStartHours}-{resEndHours}</h2> 
+            
+            <h2>
+                <a href='http://localhost:3000'>
+                    <span> CurbFresh</span>
+                </a>
+                &emsp;{resName}&emsp; Business Hours: {resStartHours}-{resEndHours}
+            </h2>
+            
+            
         </header>
     )
 }
