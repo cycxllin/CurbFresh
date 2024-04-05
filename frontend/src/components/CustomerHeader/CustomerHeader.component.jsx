@@ -22,7 +22,9 @@ function CustomerHeader ({selectedCustomer}) {
                     <div class="container">
                     <div className="row sm-md">
                             <div className="col-6 sm-md">
-                                <h2>CurbFresh</h2>
+                                <a href='http://localhost:3000'>
+                                    <h2>CurbFresh</h2>
+                                </a>
                             </div>
                             <div className="col-6 sm-md">
                                 <h2 id="CART"onClick={toggleCartModal}><svg xmlns="http://www.w3.org/2000/svg" width="3vw" height="3vw" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
@@ -48,7 +50,9 @@ function CustomerHeader ({selectedCustomer}) {
             <header className="cHeader" >
                 <div className="row sm-md">
                             <div className="col sm-md">
-                                <h2>CurbFresh</h2>
+                            <a href='http://localhost:3000'>
+                                    <h2>CurbFresh</h2>
+                                </a>
                             </div>
                             <div className="col sm-md">
                                 <h2 onClick={toggleCartModal}><svg xmlns="http://www.w3.org/2000/svg" width="3vw" height="3vw" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
