@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import CartPopup from "../components/CartPopup/CartPopup.component";
 import CustomerHeader from "../components/CustomerHeader/CustomerHeader.component";
 import { MyCartContext } from "../Context/MyCartContext";
-import "./customer.styles.css";
+//import "./customer.styles.css";
 
 const queryClient = new QueryClient();
 
@@ -68,13 +68,10 @@ function Customer() {
                         <CustomerDropdown setSelectedUser={setSelectedCustomer}/>
                         </div>
                     </div>
-                    
-                    
                 </header>
                 <body>
                     <div className="row">
                         <CustomerTabs selectedCustomer={selectedCustomer}/>
-                        
                     </div>
                 </body>
             </div>

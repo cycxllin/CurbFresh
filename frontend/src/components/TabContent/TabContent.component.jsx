@@ -145,6 +145,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
         setSearchInput(e.target.value);
     }
 
+    console.log(filteredRestaurants);
     //Filter search orders and menu items searching and dropdown
     useEffect(() => {
         let filteredO = orders;
@@ -189,12 +190,16 @@ function TabContent ( {type, resInfo, selectedManager}) {
     if (type === "Menu Items"){
         return (
             <div className="content">
-                <SearchBar
+                <div class="container-fluid">
+                    <div class="container">
+                        <div class="row">
+                        <SearchBar
                     placeholder="Search Item Name"
                     handleInput={handleInput}
                 />
-
-                <Form.Group className="mb-4">
+                        </div>
+                        <div class="row">
+                        <Form.Group className="mb-4">
                     <Form.Label>Item Filter: </Form.Label>
                     <Form.Control 
                     as="select" 
@@ -218,6 +223,11 @@ function TabContent ( {type, resInfo, selectedManager}) {
                 </Form.Group>
 
                 <CardList key={`${menu}-CardList`} type={type} items={filteredMenu} selectedManager={selectedManager}/>
+                        </div>
+                    </div>
+                </div>
+
+                
             </div>
         )
     }else if (type === "Orders"){
@@ -255,8 +265,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
     }else if (type==="Restaurants"){
         return(
             <div className = "restaurant-content">
-                <div class="container-fluid">
-                    <div class="container">
+
                         <div class="row">
                             <center>
                             <SearchBar
@@ -268,24 +277,54 @@ function TabContent ( {type, resInfo, selectedManager}) {
                         </div>
                         <div class="row">
                         <RestaurantList
-                        restaurants = {filteredRestaurants}
+                        restaurants = {restaurants}
                         customer = {selectedManager}
                         />
                         </div>
-                    </div>
-                </div>
 
             </div>
         )
     }else if (type === "CustOrders"){
         return (
-            <div className="content">
-                <SearchBar
-                    placeholder="Search Order ID"
+            <div className = "custOrders-content">
+                <div class="container-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <center>
+                            <SearchBar
+                    placeholder="Search for a Restaurant!"
                     handleInput={handleInput}
                 />
 
-                <CardList key={`${orders}-CardList`} type={type} items={filteredOrders} selectedManager={selectedManager}/>
+<Form.Group className="mb-4">
+                    <Form.Label>Order Status Filter: </Form.Label>
+                    <Form.Control 
+                    as="select" 
+                    name="category"
+                    value={filterO}
+                    onChange={handleChange}
+                    >
+                    <option value="none" selected={true}>All</option>
+                    <option value="placed">Ordered</option>
+                    <option value="in progress">In Progress</option>
+                    <option value="awaiting pickup">Awaiting Pickup</option>
+                    <option value="completed">Completed</option>
+                    <option value="canceled">Canceled</option>
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">Select a category</Form.Control.Feedback>
+                </Form.Group>
+                            </center>
+                        
+                        </div>
+                        <div class="row">
+                        
+                        </div>
+                        <div class="row">
+                        <CardList key={`${orders}-CardList`} type={type} items={filteredOrders} selectedManager={selectedManager}/>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         )
     }

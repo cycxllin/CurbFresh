@@ -38,8 +38,32 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
 
   if (type === "default"){
     return (
-    <div class=".card-container">
-      <BootStrapCard style={{ width: '18rem' }}>
+    <div className='card-container'>
+      <img src={item.image} />
+      <hr></hr>
+      <div class="row">
+        <div class="col-5">
+          <h2 className="itemName">{name}</h2>
+        <p>{price}</p>
+        <p>{item.desc}</p>
+        </div>
+        <div class="col-7">
+          <div class="row" className="quantity">
+            <div class="col-3">
+              <Button variant="primary" className="minus" onClick={minusButtonClick}>-</Button>
+            </div>
+            <div class="col-4">
+              <input type="text" id={id} value="1" min="1"></input>
+            </div>
+            <div class="col-3">
+              <Button variant="primary" className="plus" onClick={plusButtonClick}>+</Button>
+            </div>
+            </div>
+            <Button variant="primary" onClick={() => handleClick(item, quantity, restName, "add")}>Add to Cart</Button>
+        </div>
+      </div>
+
+      {/* <BootStrapCard style={{ width: '18rem' }}>
         <BootStrapCard.Img variant="top" src={item.image} />
         <BootStrapCard.Body>
           <BootStrapCard.Title>{name}</BootStrapCard.Title>
@@ -53,7 +77,7 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
             </div>
             <Button variant="primary" onClick={() => handleClick(item, quantity, restName, "add")}>Add to Cart</Button>
         </BootStrapCard.Body>
-      </BootStrapCard>
+      </BootStrapCard> */}
     </div>
     );
   } else if (type === "cart") {
@@ -66,13 +90,13 @@ const Card = ({ type, item, handleClick, item_count, restName}) => {
             Price: {price}
           </BootStrapCard.Text>
           <div class="row">
-            <Button variant="primary" onClick={minusButtonClick}>-</Button>
+            <Button variant="primary" className="minus" onClick={minusButtonClick}>-</Button>
             <input type="text" id={id + "cart"} value={count} min="1"></input>
-            <Button variant="primary" onClick={plusButtonClick}>+</Button>
+            <Button variant="primary" className="plus" onClick={plusButtonClick}>+</Button>
             </div>
 
-            <Button variant="primary" onClick={() => handleClick(item, count, restName, "update")}>Update</Button>
-            <Button variant="primary" onClick={() => handleClick(item, count, restName, "delete")}>Delete</Button>
+            <Button variant="primary" className="delete" onClick={() => handleClick(item, count, restName, "delete")}>Delete</Button>
+            <Button variant="primary" className="update" onClick={() => handleClick(item, count, restName, "update")}>Update</Button>
         </BootStrapCard.Body>
       </BootStrapCard>
     );

@@ -128,7 +128,7 @@ Button.delete {
     justify-content: center;
 }
 
-Button.edit {
+Button.update {
     border: none;
     background-color: #5A3E23;
     color: #FFFFFF;
@@ -136,6 +136,36 @@ Button.edit {
     bottom: 8%;
     right: 8%;
     width: 32%;
+    justify-content: center;
+}
+
+.card-container input{
+    position: relative;
+    left: 2.5em;
+    width:100%;
+    bottom: 3em;
+    justify-content: center;
+}
+
+Button.plus {
+    position: relative;
+    margin-top: 1%;
+    border: none;
+    left: 300%;
+    bottom: 2.3em;
+    background-color: #5A3E23;
+    color: #FFFFFF;
+    width: 100%;
+    justify-content: center;
+}
+
+Button.minus {
+    position: relative;
+    margin-top: 1%;
+    border: none;
+    background-color: #5A3E23;
+    color: #FFFFFF;
+    width: 100%;
     justify-content: center;
 }
 

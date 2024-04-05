@@ -1,8 +1,8 @@
 import {React, useContext} from "react";
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
-import BootStrapCard from 'react-bootstrap/Card';
 import { MyCartContext } from "../../Context/MyCartContext";
+import './card.styles.css'
 
 const Card = ({ restaurant, handleClick, customer}) => {
   let link = "/restaurant";
@@ -14,6 +14,13 @@ const Card = ({ restaurant, handleClick, customer}) => {
       <img src={image} />
       <hr></hr>
       <h2 className="restaurantName">{name}</h2>
+      <p>Phone No.: {phone}</p>
+      <p>Business Hours: {restaurant.hours}</p>
+      <div className="Btns">
+      <MyCartContext.Provider value={{ cart, setCart }}>
+           <Link className="Link" to={`${link}`} state={{ restaurant, customer }}><Button variant="primary" className="shop">Shop</Button></Link>
+      </MyCartContext.Provider>
+      </div>
       
     </div>
     // <BootStrapCard style={{ width: '18rem' }}>
