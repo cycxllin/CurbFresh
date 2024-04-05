@@ -92,8 +92,8 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
           <div className='card-container-order-m'>
             <h2><span className="sold">Order ID:</span> {order._id} <span className="sold">Customer:</span> {order.custID}</h2>
             <Form.Group>
-                    <Form.Label id="pickL">Select a Pick-Up Time:</Form.Label>
-                    <Form.Control id="pickTime"
+                    <Form.Label id="pickL-M">Select a Pick-Up Time:</Form.Label>
+                    <Form.Control id="pickTime-M"
                     name="pickUp"
                     required
                     as="select"
