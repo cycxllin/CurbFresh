@@ -37,10 +37,6 @@ const CardOrder = ( { order, selectedManager, resInfo } ) => {
           }));
 
       const all = mergeById(order.items, response.data.data)
-      console.log("order length: ", order.items.length);
-      console.log("from be length: ", response.data.data.length);
-      
-      console.log(all[0]);
 
       setorderItems(all);
   }
