@@ -3,7 +3,7 @@ import Card from '../card/card.component';
 import CardOrder from '../card/cardOrder.component';
 import "./cardList.styles.css";
 
-function CardList ({ type, items, selectedManager }) {
+function CardList ({ type, items, selectedManager, resInfo }) {
 
 
     if (type === "Menu Items"){
@@ -19,7 +19,7 @@ function CardList ({ type, items, selectedManager }) {
         return (
             <div className="cardlist-MAN">
             {items.map(item => (
-                <CardOrder key={item._id} order={item} selectedManager={selectedManager}/>
+                <CardOrder key={item._id} order={item} selectedManager={selectedManager} resInfo={resInfo}/>
             ))}
         </div>
         )

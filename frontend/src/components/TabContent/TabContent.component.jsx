@@ -252,7 +252,7 @@ function TabContent ( {type, resInfo, selectedManager}) {
                     <Form.Control.Feedback type="invalid">Select a category</Form.Control.Feedback>
                 </Form.Group>
 
-                <CardList key={`${orders}-CardList`} type={type} items={filteredOrders} selectedManager={selectedManager}/>
+                <CardList key={`${orders}-CardList`} type={type} items={filteredOrders} resInfo={resInfo} selectedManager={selectedManager}/>
             </div>
         )
     }else if (type === "Analytics"){
