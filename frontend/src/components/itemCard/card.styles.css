@@ -117,26 +117,98 @@ h2.itemName {
     margin-top: 1%;
 }
 
-Button.delete {
+Button.addToCart{
+    background-color: #5A3E23;
+    position: absolute;
+    right: 12%;
+    border: none;
+}
+
+Button.delete-c {
+    font-size: 0.8vw;
     border: none;
     background-color: #B90000;
     color: #FFFFFF;
-    position: fixed;
-    bottom: 8%;
-    left: 8%;
+    position: absolute;
+    top: 4%;
+    left: 75%;
+    height: fit-content;
+    width: fit-content;
+}
+
+Button.update {
+    border: none;
+    background-color: #5A3E23;
+    color: #FFFFFF;
+    position: absolute;
+    bottom: 4%;
+    right: 6%;
     width: 32%;
     justify-content: center;
 }
 
-Button.edit {
+.card-container input{
+    position: relative;
+    left: 2.9em;
+    width:100%;
+    bottom: 0.2em;
+    justify-content: center;
+}
+
+Button.plus {
+    position: relative;
+    margin-top: 1%;
+    border: none;
+    left: 300%;
+    bottom: 2.3em;
+    background-color: #5A3E23;
+    color: #FFFFFF;
+    width: 100%;
+    justify-content: center;
+}
+
+Button.minus {
+    position: relative;
+    margin-top: 1%;
+    border: none;
+    top: 1.8em;
+    background-color: #5A3E23;
+    color: #FFFFFF;
+    width: 100%;
+    justify-content: center;
+}
+
+Button.plus-cart {
+    position: absolute;
+    bottom: 2%;
+    left: 38%;
     border: none;
     background-color: #5A3E23;
     color: #FFFFFF;
-    position: fixed;
-    bottom: 8%;
-    right: 8%;
-    width: 32%;
+    border-radius: 30%;
+    width: 3em;
+    height: 3em;
+    text-align: center;
+}
+
+Button.minus-cart {
+    position: absolute;
+    bottom: 2%;
+    left: 6%;
+    border: none;
+    background-color: #5A3E23;
+    color: #FFFFFF;
+    width: 3em;
+    height: 3em;
+    border-radius: 30%;
     justify-content: center;
+}
+
+.card-body input {
+    width: 40%;
+    border: none;
+    text-align: center;
+    margin-left: 9%;
 }
 
 .btn-primary {

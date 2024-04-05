@@ -36,7 +36,7 @@ function CustomerDropdown ({ type, setSelectedUser}) {
 
     }
 
-    const event = new CustomEvent('test');
+    //const event = new CustomEvent('test');
 
     return (
         <Form.Select className="form-select" onChange={handleChangeUser}>

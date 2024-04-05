@@ -38,7 +38,7 @@ const CardOrder = ( { order, selectedManager } ) => {
             }
         }
 
-        console.log(data);
+        //console.log(data);
         //Send to backend
         try {
             const url = `http://localhost:65500/orders/${order._id}`;

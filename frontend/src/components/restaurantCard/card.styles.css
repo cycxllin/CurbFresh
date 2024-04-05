@@ -18,29 +18,6 @@
     transform: scale(1.05);
 }
 
-.card-container-add {
-    height: 8vw;
-    width: 8vw;
-    display: flex;
-    flex-direction: column;
-    background-color: #5A3E23;
-    border-radius: 100%;
-    padding: 16px;
-    cursor: pointer;
-    -moz-osx-font-smoothing: grayscale;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-    transition: transform 0.25s ease-out;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    margin-top: 48%;
-    margin-left: 28%;
-}
-
-.card-container-add:hover {
-    transform: scale(1.05);
-}
-
 .card-container img {
     min-width: 240px; /* Set the maximum width to your desired size */
     min-height: 160px; /* Set the maximum height to your desired size */
@@ -53,7 +30,7 @@
 }
 
 .card-container-order {
-    height: 30vw;
+    height: 20vw;
     width: 20vw;
     display: flex;
     flex-direction: column;
@@ -75,6 +52,7 @@
 
 p {
     font-size: 1vw;
+    font-weight: bold;
 }
 
 p.desc {
@@ -99,8 +77,8 @@ h2.add {
     left: 25%;
 }
 
-h2.itemName {
-    font-size: 1.5vw;
+h2.restaurantName {
+    font-size: 2vw;
     font-weight: bolder;
 }
 
@@ -137,6 +115,19 @@ Button.edit {
     right: 8%;
     width: 32%;
     justify-content: center;
+}
+
+Button.shop {
+    border: none;
+    background-color: #5A3E23;
+    color: #FFFFFF;
+    position: fixed;
+    bottom: 8%;
+    right: 8%;
+    width: 32%;
+    height: 15%;
+    justify-content: center;
+    font-size:2vw;
 }
 
 .btn-primary {

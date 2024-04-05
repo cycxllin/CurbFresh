@@ -8,7 +8,7 @@ function CardList ({ type, items, selectedManager }) {
 
     if (type === "Menu Items"){
         return (
-        <div className="cardlist">
+        <div className="cardlist-MAN">
             <Card key={0} item={{"name": "Add Item"}} selectedManager={selectedManager}/>
             {items.map(item => (
                 <Card key={item._id} item={item} selectedManager={selectedManager}/>
@@ -17,7 +17,7 @@ function CardList ({ type, items, selectedManager }) {
         )
     }else if (type === "Orders") {
         return (
-            <div className="cardlist">
+            <div className="cardlist-MAN">
             {items.map(item => (
                 <CardOrder key={item._id} order={item} selectedManager={selectedManager}/>
             ))}

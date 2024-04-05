@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import CartPopup from "../components/CartPopup/CartPopup.component";
 import CustomerHeader from "../components/CustomerHeader/CustomerHeader.component";
 import { MyCartContext } from "../Context/MyCartContext";
-import "./customer.styles.css";
+//import "./customer.styles.css";
 
 const queryClient = new QueryClient();
 

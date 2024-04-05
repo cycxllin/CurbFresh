@@ -1,7 +1,8 @@
-.container{
+.container#SEARCH{
     position: absolute;
-    top: 28%;
-    left: 10%;
+    top: 27%;
+    left: 8%;
+    width: fit-content;
 }
 .search-container {
     overflow: hidden;

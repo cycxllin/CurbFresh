@@ -17,14 +17,14 @@ const CardList = ({ type, items, handleClick, checkoutData, restName}) => {
 
     if (type === "default"){
         return(
-            <div className="cardlist">
+            <div className="cardlist-CusResI">
                 {items.map(item => (
                 <Card type = {"default"} handleClick={handleClick} key={item._id} item={item} restName={restName}/>))}
             </div>
         );   
     }else if (type === "checkout"){
         return (
-            <div className="cardlist">
+            <div className="cardlist-out">
                 {items.map(item => (
                 <Card type = {"checkout"} handleClick={handleClick} key={item.item._id} item={item.item} item_count={item.quantity}/>))}
             </div>
@@ -40,7 +40,7 @@ const CardList = ({ type, items, handleClick, checkoutData, restName}) => {
                         <Accordion defaultActiveKey="0">
                         <Accordion.Header>{item.restName}</Accordion.Header>
                         <Accordion.Body>
-                        <div className="cardlist">
+                        <div className="cardlist-cart">
                             {item.cust_items.map(it => (
                             <Card type = {"cart"} handleClick={handleClick} key={it.item._id} item={it.item} item_count={it.quantity}/>))}
                         </div>
