@@ -73,6 +73,16 @@
     transform: scale(1.05);
 }
 
+.card .card-img-top {
+    min-width: 288px; /* Set the maximum width to your desired size */
+    min-height: 160px; /* Set the maximum height to your desired size */
+    max-width: 290px;
+    max-height: 160px;
+    object-fit: cover;
+    /* border-radius: 10px; */
+    align-self: center;
+}
+
 p {
     font-size: 1vw;
 }
