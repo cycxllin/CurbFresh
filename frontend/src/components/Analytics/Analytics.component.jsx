@@ -136,7 +136,7 @@ function Analytics ( { selectedManager, resInfo }){
                 }
             },
             data: [{
-                type: "area",
+                type: "column",
                 xValueFormatString: "DD MMM",
                 yValueFormatString: "$##0.00",
                 dataPoints: chartData,
